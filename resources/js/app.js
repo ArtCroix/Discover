@@ -5,8 +5,9 @@
  */
 
 require("./bootstrap");
-
+import PortalVue from "portal-vue";
 window.Vue = require("vue");
+Vue.use(PortalVue);
 import store from "./store";
 import { mapState } from "vuex";
 /**

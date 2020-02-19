@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.answer);
+    // console.log(this.answer);
     /*             console.log(this.value);
                         console.log(this.old_input_value); */
   }

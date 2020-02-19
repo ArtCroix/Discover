@@ -31,9 +31,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function my_index()
+    public function myHome()
     {
-
         return view('myhome');
     }
 
@@ -59,8 +58,4 @@ class HomeController extends Controller
         return view('home.event_info')->with(['applicationDataForUser' => $applicationDataForUser]);
     }
 
-    public function myHome()
-    {
-        return view('home.home');
-    }
 }

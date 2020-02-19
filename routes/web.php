@@ -35,7 +35,7 @@ Route::get('/home/{locale?}', 'HomeController@index')->where('locale', 'en|ru|cn
 Route::get('/myhome/{locale?}', 'HomeController@my_index')->where('locale', 'en|ru|cn')->name('myhome');
 Route::get('/home/event/{event_name}/status/{locale?}', 'HomeController@event_status')->where('locale', 'en|ru|cn');
 Route::get('/home/event/{event_name}/app/{app_id}/{locale?}', 'HomeController@getEventApp')->where('locale', 'en|ru|cn')->middleware('verified')->name('home_event_app');
-Route::get('/my_home', 'HomeController@myHome')->middleware('verified')->name('my_home');
+Route::get('/my_home/{locale?}', 'HomeController@myHome')->middleware('verified')->where('locale', 'en|ru|cn')->name('my_home');
 Route::get('/profile/{locale?}', 'HomeController@profile_status');
 
 Route::post('/add_app_inst/{application_id}', 'ApplicationController@doCreateApplicationSubmit')->name('add_app_inst');

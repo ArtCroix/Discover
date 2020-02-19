@@ -91,13 +91,14 @@ return response()->json(['errors' => $validator->errors()->all()], 422);
             value_en,
             created_docs,
             presentation,
+            slot_name,
             presentation_en,
             rule
 
             FROM A right join questions on questions.id = A.temp_qid
             INNER JOIN applications on applications.id=questions.application_id
             INNER JOIN events on events.id=applications.event_id
-            WHERE questions.application_id=:application_id2 and questions.type <> "info" order by position',
+            WHERE questions.application_id=:application_id2 order by position',
             ['user_id' => $user_id, 'application_id1' => $application_id, 'application_id2' => $application_id]);
 
         // $application = collect($application)->map(function ($x) {return (array) $x;})->toArray();
