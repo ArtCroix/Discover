@@ -7,6 +7,7 @@ use App\Application\Submit;
 use App\Src\FileHandler;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MaxNumOfFiles implements Rule
 {
@@ -36,10 +37,12 @@ class MaxNumOfFiles implements Rule
     {
         // dd($value[0]->additional_meta_data['question_id']);
 
-        $currentlyUploadedFiles = Submit::where('user_id', $value[0]->additional_meta_data['user_id'])->where('application_id', $value[0]->additional_meta_data['application_id'])->first()->answers()->where('question_id', $value[0]->additional_meta_data['question_id'])->first() ?: new Answer;
-
-        $currentlyUploadedFilesArray = json_decode($currentlyUploadedFiles->value) ?: [];
-
+        try {
+            $currentlyUploadedFiles = Submit::where('user_id', $value[0]->additional_meta_data['user_id'])->where('application_id', $value[0]->additional_meta_data['application_id'])->firstOrFail()->answers()->where('question_id', $value[0]->additional_meta_data['question_id'])->firstOrFail();
+            $currentlyUploadedFilesArray = json_decode($currentlyUploadedFiles->value);
+        } catch (ModelNotFoundException $er) {
+            $currentlyUploadedFilesArray = [];
+        }
         return count($value) + count($currentlyUploadedFilesArray) <= $parameters[0];
     }
 

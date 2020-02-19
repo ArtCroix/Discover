@@ -40,7 +40,7 @@ class ApplicationController extends Controller
     {
         // dd($request->all());
 
-        $validator = ValidationHandler::validateAppData($this->application_id, $this->request_all, $this->request_files);
+        $validator = ValidationHandler::validateAppData($this->application_id, $this->request_post, $this->request_files);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -67,7 +67,7 @@ class ApplicationController extends Controller
     public function getStrategies()
     {
         $applicationTypes = explode(",", $this->application->type);
-// dd($applicationTypes);
+        // dd($applicationTypes);
         return ApplicationStrategyFactory::createApplicationStrategy($applicationTypes);
     }
 
@@ -75,10 +75,9 @@ class ApplicationController extends Controller
     {
         SubmitHandler::deleteFileFromApplicationSubmit();
     }
-/*
+    /*
 public static function doGetListOfUploadedFiles($question_id, $submit_id)
 {
 return response(['uploaded_files' => json_encode(FileHandler::getListOfUploadedFiles($question_id, $submit_id))]);
 } */
-
 }

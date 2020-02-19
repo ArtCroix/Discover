@@ -11,7 +11,7 @@ class Question extends Model
     public function answers()
     {
         return
-        $this->hasMany('App\Application\Answer');
+            $this->hasMany('App\Application\Answer');
     }
 
     public function application()

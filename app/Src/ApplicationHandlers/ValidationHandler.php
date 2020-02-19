@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Validator;
 class ValidationHandler
 {
     public static $application_id;
-    public static $request_all;
+    public static $request_post;
     public static $request_files;
 
-    public static function validateAppData(int $application_id, array $request_all, array $request_files = [])
+    public static function validateAppData(int $application_id, array $request_post, array $request_files = [])
     {
         self::$application_id = $application_id;
-        self::$request_all = $request_all;
+        self::$request_post = $request_post;
         self::$request_files = $request_files;
 
         $arrayForValidation = self::prepareRequestForValidation();
@@ -27,18 +27,23 @@ class ValidationHandler
 
     public static function prepareRequestForValidation()
     {
-        self::$request_files = self::addMetaDataToFileObjects(self::$request_files,
+        $arrayForValidation = [];
+
+        self::$request_files = self::addMetaDataToFileObjects(
+            self::$request_files,
             [
                 'application_id' => self::$application_id,
                 'user_id' => Auth::user()->id,
-            ]);
-
-        $arrayForValidation = [];
-
-        foreach (self::$request_all as $key => $value) {
+            ]
+        );
+        // dd(self::$request_files);
+        // $arrayForValidation[] = [...self::$request_files];
+        $rquest_all = self::$request_post + self::$request_files;
+        foreach ($rquest_all as $key => $value) {
             $arrayForValidation[substr(strstr($key, '#'), 1)] = $value;
         }
-
+        // $arrayForValidation = self::$request_post + self::$request_files;
+        // dd($arrayForValidation);
         return $arrayForValidation;
     }
 
