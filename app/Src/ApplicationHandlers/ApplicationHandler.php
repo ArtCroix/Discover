@@ -5,7 +5,6 @@ namespace App\Src\ApplicationHandlers;
 use App\Src\ApplicationHandlers\AnswerHandler;
 use App\Src\ApplicationHandlers\FileHandler;
 use App\Src\ApplicationHandlers\SubmitHandler;
-use App\Src\ApplicationHandlers\ValidationHandler;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\Request;
@@ -34,14 +33,6 @@ class ApplicationHandler
 
     public function createApplicationSubmit()
     {
-        // dd($this->request_all);
-
-/*         $validator = ValidationHandler::validateAppData($this->application_id, $this->request_all, $this->request_files);
-
-if ($validator->fails()) {
-return response()->json(['errors' => $validator->errors()->all()], 422);
-} */
-
         $submit = SubmitHandler::addSubmit($this->application_id, $this->user);
 
         $files_pathes = FileHandler::uploadFiles("events/{$this->event->event_dir_name}/applications/{$this->application_id}/users_data/{$this->user->id}/uploaded", $submit->id, $this->request_files);
@@ -57,13 +48,14 @@ return response()->json(['errors' => $validator->errors()->all()], 422);
 
     public static function getApplicationDataForUser(int $application_id, int $user_id): array
     {
-        $application = \DB::select('
+        $application = \DB::select(
+            '
 
             with A as (SELECT
 
             answers.`value` as answer,
             submit_id,
-          created_docs,
+        submits.additional_data,
             user_id,
             question_id as temp_qid
 
@@ -74,10 +66,11 @@ return response()->json(['errors' => $validator->errors()->all()], 422);
 
             SELECT
 
-            ifnull(answer,""),
+            ifnull(answer,"") answer,
             submit_id,
             questions.id as question_id,
             application_id,
+            ifnull(additional_data,"[]") additional_data,
             label,
             label_en,
             user_id,
@@ -89,17 +82,17 @@ return response()->json(['errors' => $validator->errors()->all()], 422);
             position,
             `value`,
             value_en,
-            created_docs,
             presentation,
             slot_name,
             presentation_en,
-            rule
-
+            rule,
+            layout
             FROM A right join questions on questions.id = A.temp_qid
             INNER JOIN applications on applications.id=questions.application_id
             INNER JOIN events on events.id=applications.event_id
             WHERE questions.application_id=:application_id2 order by position',
-            ['user_id' => $user_id, 'application_id1' => $application_id, 'application_id2' => $application_id]);
+            ['user_id' => $user_id, 'application_id1' => $application_id, 'application_id2' => $application_id]
+        );
 
         // $application = collect($application)->map(function ($x) {return (array) $x;})->toArray();
 

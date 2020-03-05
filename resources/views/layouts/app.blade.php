@@ -28,12 +28,12 @@
                 {{--   <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
                 </a>   --}}
-                <a class="nav-link" href="{{ url('http://discover.it-edu.com/' . (app()->getLocale() == 'ru' ? '' : app()->getLocale())) }}" title="{{ __('Link_site_title') }}">
-                    {{ __('Site') }}
+                <a class="nav-link" href="{{ url('http://discover.it-edu.com/' . (app()->getLocale() == 'ru' ? '' : app()->getLocale())) }}" title="{{ __('Перейти на сайт') }}">
+                    {{ __('Сайт') }}
                 </a>
                 &emsp;
-                <a class="nav-link" href="{{ url('/home/' . app()->getLocale()) }}" title="{{ __('Link_site_title') }}">
-                    {{ __('Home') }}
+                <a class="nav-link" href="{{ url('/home/' . app()->getLocale()) }}" title="{{ __('Перейти к начальной странице') }}">
+                    {{ __('Главная') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -52,11 +52,11 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">{{ __('Войти') }}</a>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Зарегистрироваться') }}</a>
                         </li>
                         @endif
                         @else
@@ -68,12 +68,12 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url('/profile/' . app()->getLocale()) }}">
-                                    {{ __('Profile') }}
+                                    {{ __('Профиль') }}
                                 </a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    {{ __('Выйти') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"

@@ -4,25 +4,26 @@
             <li class="nav-item">
                 <a class="nav-link"
                     href="{{ url('http://discover.it-edu.com/' . (app()->getLocale() == 'ru' ? '' : app()->getLocale())) }}"
-                    title="{{ __('Link_site_title') }}">
-                    {{ __('Site') }}
+                    title="{{ __('Перейти на сайт') }}">
+                    {{ __('Сайт') }}
                 </a>
                 &emsp;
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/home/' . app()->getLocale()) }}" title="{{ __('Link_site_title') }}">
-                    {{ __('Home') }}
+                <a class="nav-link" href="{{ url('/home/' . app()->getLocale()) }}"
+                    title="{{ __('Перейти к начальной странице') }}">
+                    {{ __('Главная') }}
                 </a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             @guest
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                <a class="nav-link" href="{{ route('login',app()->getLocale()) }}">{{ __('Вход') }}</a>
             </li>
             @if (Route::has('register'))
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                <a class="nav-link" href="{{ route('register',app()->getLocale()) }}">{{ __('Регистрация') }}</a>
             </li>
             @endif
             @else
@@ -33,12 +34,12 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url('/profile/' . app()->getLocale()) }}">
-                        {{ __('Profile') }}
+                        {{ __('Профиль') }}
                     </a>
 
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
+                        {{ __('Выход') }}
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

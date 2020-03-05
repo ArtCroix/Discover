@@ -1,22 +1,29 @@
 <script>
-import InputText from "./Text";
-import Email from "./Email";
-import Radio from "./Radio";
-import TextArea from "./TextArea";
-import CheckBox from "./CheckBox";
-import FileUpload from "./FileUpload";
-import FormInfo from "./FormInfo";
-import FormPortal from "./FormPortal";
-// import form_components from "./FormComponents/MixinFormComponents";
-import show_created_docs from "../ShowCreatedDocs";
+import input_text from "./FormElements/Text";
+import email from "./FormElements/Email";
+import radio from "./FormElements/Radio";
+import long_text from "./FormElements/TextArea";
+import check from "./FormElements/CheckBox";
+import file_upload from "./FormElements/FileUpload";
+import info from "./FormElements/FormInfo";
+import created_docs from "./AdditionalComponentsForForm/CreatedDocs";
+
 export default {
   data() {
     return {
       files: {},
       application_data: JSON.parse(this.application_data_for_user),
-      created_docs: JSON.parse(
-        JSON.parse(this.application_data_for_user)[0].created_docs
-      ),
+      created_docs: (() => {
+        let submit_additional_data =
+          JSON.parse(
+            JSON.parse(this.application_data_for_user)[0].additional_data
+          ) || {};
+        if ("created_docs" in submit_additional_data) {
+          return submit_additional_data.created_docs;
+        } else {
+          return [];
+        }
+      })(),
       errors: {}
     };
   },
@@ -24,17 +31,15 @@ export default {
   props: {
     application_data_for_user: ""
   },
-
   computed: {
+    layoutComponent() {
+      return () => import(`./Layouts/${this.application_data[0].layout}`);
+    },
+
     application_id() {
       return this.application_data[0].application_id;
     },
-    computed_created_docs() {
-      // console.log("ff", JSON.parse(this.application_data[0].created_docs));
-      return JSON.parse(
-        JSON.parse(this.application_data_for_user)[0].created_docs
-      );
-    },
+
     csrf_token() {
       return document
         .getElementsByTagName("meta")
@@ -89,22 +94,17 @@ export default {
     }
   },
 
-  mounted() {
-    // console.log(this.application_data);
-    // console.log("ff", this.computed_created_docs);
-    /*             console.log(this.questions);
-                          console.log(this.old_inputs); */
-  },
+  mounted() {},
+
   components: {
-    input_text: InputText,
-    radio: Radio,
-    long_text: TextArea,
-    email: Email,
-    check: CheckBox,
-    file_upload: FileUpload,
-    info: FormInfo,
-    portal: FormPortal,
-    show_created_docs
+    input_text,
+    radio,
+    long_text,
+    email,
+    check,
+    file_upload,
+    info,
+    created_docs
   }
 };
 </script>

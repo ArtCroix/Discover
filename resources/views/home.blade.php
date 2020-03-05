@@ -1,15 +1,15 @@
 @extends('layouts.custom_app')
 @section('header')
-@include('./components/nav')
+    @include('./components/nav')
 @endsection
 @section('main')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h4 align="center">{{ __('Personal Area') }}</h4>
+            <h4 align="center">{{ __('Личный кабинет') }}</h4>
             <!-- Список актуальных мероприятий -->
             <div class="card">
-                <div class="card-header">{{ __('Open events') }}</div>
+                <div class="card-header">{{ __('Открытые мероприятия') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -20,14 +20,14 @@
 
                     <div class="panel panel-default">
                         <div>
-                            {{ __('This list displays the current events and the names of the teams in which you are registered. Select an event name to view participation details or register for a new event...') }}
+                            {{ __("В этом списке отображаются текущие мероприятия и названия команд, в которых вы зарегистрированы. Выберите название мероприятия для просмотра сведений об участии или зарегистрируйтесь на новое мероприятие...") }}
                         </div>
 
                         <div class="panel-body">
                             <table class="table table-striped task-table">
                                 <thead>
-                                    <th>{{ __('Event') }}</th>
-                                    <th>{{ __('Registration / Team') }}</th>
+                                    <th>{{ __('Мероприятие') }}</th>
+                                    <th>{{ __('Регистрация / Команда') }}</th>
                                 </thead>
 
                                 <tbody>
@@ -36,7 +36,7 @@
                                         <td class="table-text">
                                             @if (!empty($event->teams->first()))
                                             <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
-                                                    title="{{ __('Go to event page') }}">
+                                                    title="{{ __('Перейти к мероприятию') }}">
                                                     {{ json_decode($event->title, true)[app()->getLocale()] }}
                                                 </a></div>
                                             @else
@@ -50,10 +50,10 @@
                                                 @else
                                                 @forelse ($event->applications as $app)
                                                 <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
-                                                        title="{{ __('Go to event registration ') }}">{{ $app->type }}</a>
+                                                        title="{{ __('Зарегистрироваться на мероприятие') }}">{{ $app->type }}</a>
                                                 </div>
                                                 @empty
-                                                <div>{{ __('registration not available') }}</div>
+                                                <div>{{ __('регистрация недоступна') }}</div>
                                                 @endforelse
                                                 @endif
                                             </div>
@@ -62,7 +62,7 @@
                                     @empty
                                     <tr>
                                         <td class="table-text" colspan="2">
-                                            <div>{{ __('no events') }}</div>
+                                            <div>{{ __('мероприятий не найдено') }}</div>
                                         </td>
                                     </tr>
                                     @endforelse
@@ -77,7 +77,7 @@
 
             <!-- Список прошедших мероприятий -->
             <div class="card">
-                <div class="card-header">{{ __('Completed events') }}</div>
+                <div class="card-header">{{ __('Завершённые мероприятия') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -88,14 +88,14 @@
 
                     <div class="panel panel-default">
                         <div>
-                            {{ __('This list shows the past events and the names of the teams you participated in in reverse chronological order. Select an event name to view participation details...') }}
+                            {{ __('В этом списке в обратном хронологическом порядке отображаются прошедщие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии...') }}
                         </div>
 
                         <div class="panel-body">
                             <table class="table table-striped task-table">
                                 <thead>
-                                    <th>{{ __('Event') }}</th>
-                                    <th>{{ __('Team') }}</th>
+                                    <th>{{ __('Мероприятие') }}</th>
+                                    <th>{{ __('Команда') }}</th>
                                 </thead>
 
                                 <tbody>
@@ -103,7 +103,7 @@
                                     <tr>
                                         <td class="table-text">
                                             <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
-                                                    title="{{ __('Go to event page') }}">
+                                                    title="{{ __('Перейти к мероприятию') }}">
                                                     {{ json_decode($event->title, true)[app()->getLocale()] }}
                                                 </a></div>
                                         </td>
@@ -114,7 +114,7 @@
                                     @empty
                                     <tr>
                                         <td class="table-text" colspan="2">
-                                            <div>{{ __('no events') }}</div>
+                                            <div>{{ __('мероприятий не найдено') }}</div>
                                         </td>
                                     </tr>
                                     @endforelse

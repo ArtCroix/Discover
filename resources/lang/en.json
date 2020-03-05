@@ -1,0 +1,111 @@
+{
+	"Сайт" :
+		"Site",
+	"Перейти на сайт" :
+		"Go to site",
+	"Главная" :
+		"Home",
+	"Перейти к начальной странице" :
+		"Go to home page",
+		
+	"Вход" :
+		"Login",
+	"Регистрация" :
+		"Register",
+	"Профиль" :
+		"Profile",
+	"Выход" :
+		"Logout",
+		
+	"Личный кабинет" : 
+		"Personal Area",
+	"Открытые мероприятия" : 
+		"Open events",
+	"В этом списке отображаются текущие мероприятия и названия команд, в которых вы зарегистрированы. Выберите название мероприятия для просмотра сведений об участии или зарегистрируйтесь на новое мероприятие..." : 
+		"This list displays the current events and the names of the teams in which you are registered. Select an event name to view participation details or register for a new event...",
+	"Мероприятие" : 
+		"Event",
+	"Команда" : 
+		"Team",
+	"Регистрация / Команда" : 
+		"Registration / Team",
+	"Завершённые мероприятия" : 
+		"Completed events",
+	"В этом списке в обратном хронологическом порядке отображаются прошедщие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии..." : 
+		"This list shows the past events and the names of the teams you participated in in reverse chronological order. Select an event name to view participation details...",
+	"регистрация недоступна" :
+		"registration not available",
+	"мероприятий не найдено" :
+		"no events",
+	"Перейти к мероприятию" :
+		"Go to event page",
+	"Go to event registration" :
+		"Зарегистрироваться на мероприятие",
+		
+	"Профиль пользователя" :
+		"User profile",
+	"Регистрационные данные" :
+		"Registration data",
+	"Сканы паспортов" :
+		"Passport scans",
+	"не загружены" :
+		"not loaded",
+		
+	"Начало" :
+		"Start",
+	"Анкета" :
+		"Anketa",
+	"Приглашение" :
+		"Invite",
+	"Паспорт" :
+		"Passport",
+	"Информация" :
+		"Information",
+		
+	"Здесь вы найдете информацию о событии, приглашения для университетов и визовые приглашения, данные о сборах, форму обратной связи, сертификаты участников и т.д." :
+		"Here you will find information about this event, invitations for universities and visa invitations, data on fees, feedback form, participant certificates, etc.",
+	"Состав команды" :
+		"Team details",
+	"нет данных" :
+		"no data",
+	"Название" :
+		"Name",
+	"Состав" :
+		"Members",
+	"Детали платежа" :
+		"Payment details",
+	"Стоимость участия" :
+		"Cost of participation",
+	"срок оплаты истёк" :
+		"event deadline",
+		
+	"Адрес e-mail" :
+		"E-Mail Address",
+	"Пароль" :
+		"Password",
+	"Запомнить меня" :
+		"Remember Me",
+	"Забыли пароль?" :
+		"Forgot Your Password?",
+	"Имя" :
+		"Name",
+	"Подтверждение пароля" :
+		"Confirm Password",
+	"Подтвердите ваш e-mail адрес" :
+		"Verify Your Email Address",
+	"На ваш e-mail адрес отправлено повторное письмо с подтверждением" :
+		"A fresh verification link has been sent to your email address.",
+	"Перед продолжением работы подтвердите ваш e-mail по ссылке из письма" :
+		"Before proceeding, please check your email for a verification link.",
+	"Если вы не получили e-mail" :
+		"If you did not receive the email",
+	"кликните для повторной отправки письма" :
+		"click here to request another",
+	"Сброс пароля" :
+		"Reset Password",
+	"Отправить ссылку для сброса пароля" :
+		"Send Password Reset Link",
+	"Для продолжения, пожалуйста, подтвердите пароль." :
+		"Please confirm your password before continuing."
+		
+}

@@ -75,9 +75,5 @@ class ApplicationController extends Controller
     {
         SubmitHandler::deleteFileFromApplicationSubmit();
     }
-    /*
-public static function doGetListOfUploadedFiles($question_id, $submit_id)
-{
-return response(['uploaded_files' => json_encode(FileHandler::getListOfUploadedFiles($question_id, $submit_id))]);
-} */
+
 }

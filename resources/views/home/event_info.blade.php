@@ -9,8 +9,8 @@
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
         @endforeach
-        <team-registration-form application_data_for_user='{!!json_encode($applicationDataForUser)!!}'>
-        </team-registration-form>
+        <application-form application_data_for_user='{!!json_encode($applicationDataForUser)!!}'>
+        </application-form>
     </div>
 </main>
 @endsection

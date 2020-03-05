@@ -4,10 +4,10 @@ namespace App\Src\ApplicationHandlers;
 
 use App\Application\Submit;
 use Illuminate\Support\Facades\Storage;
+use stdClass;
 
 class DocHandler
 {
-
     protected $applicationDataForUser;
     protected $application_id;
     protected $event_dir_name;
@@ -55,7 +55,11 @@ class DocHandler
 
             $this->createdFilesList[] = $this->resultsDirectory . '/' . basename($templateName, ".rtf") . ".pdf";
         }
-        Submit::find($this->submit_id)->update(['created_docs' => $this->createdFilesList]);
+
+        $submit = Submit::find($this->submit_id);
+        $submit_additional_data = json_decode($submit->additional_data) ?: (object) ['created_docs' => ''];
+        $submit_additional_data->created_docs = $this->createdFilesList;
+        $submit->update(['additional_data' => json_encode($submit_additional_data)]);
         return $this->createdFilesList;
     }
 
@@ -80,9 +84,12 @@ class DocHandler
 
     public function getReplaceAndSearchData(): void
     {
+        $tab = array("\r");
+        $par = "\par";
+
         foreach ($this->applicationDataForUser as $value) {
             $this->searchArray[] = $value->name;
-            $this->replaceArray[] = $value->answer;
+            $this->replaceArray[] = mb_convert_encoding(str_replace($tab, $par, $value->answer), 'Windows-1251', 'utf-8');
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="cotainer-fluid w-75 mx-auto">
     <form name="app_form" method="POST" enctype="multipart/form-data">
-      <component is="layout_form">
+      <component :is="layoutComponent">
         <template v-for="(slot) in slots" v-slot:[slot]>
           <component
             v-for="(question_item, index) in application_data"
@@ -17,19 +17,15 @@
       <input type="hidden" name="_token" :value="csrf_token" />
       <button type="submit" @click.prevent="submit()" class="btn btn-primary">Sign in</button>
     </form>
-    <show_created_docs :created_docs="created_docs"></show_created_docs>
+    <created_docs :created_docs="created_docs"></created_docs>
   </div>
 </template>
 
 <script>
-import form_components from "./FormComponents/MixinFormComponents";
-import layout_form from "./TemplateForm";
+import MixinApplication from "./ApplicationComponents/MixinApplication";
 
 export default {
-  components: {
-    layout_form
-  },
-  mixins: [form_components],
+  mixins: [MixinApplication],
   computed: {
     slots() {
       return new Set(this.application_data.map(val => val.slot_name));
@@ -37,8 +33,6 @@ export default {
   },
   mounted() {
     console.log(this.application_data);
-    console.log(this.slots);
-    // console.log(this.application_data.map(val => val.slot_name));
   }
 };
 </script>

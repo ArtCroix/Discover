@@ -9,6 +9,8 @@ class TeamRegistrationStrategy implements InterfaceStrategy
 {
     public static function execute(array $applicationDataForUser)
     {
+        // dd($applicationDataForUser);
+
         return (new SendEmailToTeamMembers($applicationDataForUser))->sendEmails();
     }
 }

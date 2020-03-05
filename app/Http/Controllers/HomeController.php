@@ -53,7 +53,7 @@ class HomeController extends Controller
     {
         // dd(Auth::user()->id);
         $applicationDataForUser = ApplicationHandler::getApplicationDataForUser($application_id, Auth::user()->id);
-        // dd($application);
+        // dd($applicationDataForUser);
 
         return view('home.event_info')->with(['applicationDataForUser' => $applicationDataForUser]);
     }
