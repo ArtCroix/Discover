@@ -2271,6 +2271,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2291,9 +2292,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   props: {
-    question_item: ""
+    question_item: "",
+    errors: {
+      "default": function _default() {
+        return {};
+      }
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["locales"]), {
+    current_error: function current_error() {
+      var error = this.errors[this.name] || [];
+      return error[0];
+    },
     answer: function answer() {
       return this.question_item.answer || JSON.stringify([]);
     },
@@ -38424,6 +38434,10 @@ var render = function() {
         ],
         1
       )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "invalid_form error", class: _vm.name }, [
+      _vm._v(_vm._s(_vm.current_error))
     ])
   ])
 }

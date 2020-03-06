@@ -58,6 +58,7 @@
         </file-upload>
       </div>
     </div>
+    <div class="invalid_form error" :class="name">{{current_error}}</div>
   </div>
 </template>
 <script>
@@ -83,11 +84,20 @@ export default {
   },
 
   props: {
-    question_item: ""
+    question_item: "",
+    errors: {
+      default() {
+        return {};
+      }
+    }
   },
 
   computed: {
     ...mapState(["locales"]),
+    current_error() {
+      let error = this.errors[this.name] || [];
+      return error[0];
+    },
     answer() {
       return this.question_item.answer || JSON.stringify([]);
     },

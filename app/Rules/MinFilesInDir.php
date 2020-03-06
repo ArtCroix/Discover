@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Application\Answer;
+use App\Models\Application\Answer;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 

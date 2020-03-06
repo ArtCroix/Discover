@@ -1,8 +1,8 @@
 <?php
-use App\Application\Answer;
-use App\Application\Application;
-use App\Application\Question;
 use App\Http\Resources\Answer as AnswerResource;
+use App\Models\Application\Answer;
+use App\Models\Application\Application;
+use App\Models\Application\Question;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 

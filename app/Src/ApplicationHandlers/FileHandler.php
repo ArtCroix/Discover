@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationHandlers;
 
-use App\Application\Answer;
+use App\Models\Application\Answer;
 use Illuminate\Support\Facades\Storage;
 
 class FileHandler

@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationHandlers;
 
-use App\Application\Submit;
+use App\Models\Application\Submit;
 use Illuminate\Support\Facades\Storage;
 
 class DocHandler
