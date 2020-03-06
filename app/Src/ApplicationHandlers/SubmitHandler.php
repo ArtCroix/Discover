@@ -1,8 +1,8 @@
 <?php
 namespace App\Src\ApplicationHandlers;
 
-use App\Application\Answer;
-use App\Application\Submit;
+use App\Models\Application\Answer;
+use App\Models\Application\Submit;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 

@@ -4,7 +4,6 @@ namespace App\Src\ApplicationHandlers;
 
 use App\Application\Submit;
 use Illuminate\Support\Facades\Storage;
-use stdClass;
 
 class DocHandler
 {
@@ -26,7 +25,9 @@ class DocHandler
         $this->application_id = $this->applicationDataForUser[0]->application_id;
         $this->event_dir_name = $this->applicationDataForUser[0]->event_dir_name;
         $this->user_id = $this->applicationDataForUser[0]->user_id;
-        $this->submit_id = $this->applicationDataForUser[0]->submit_id;
+        $this->submit_id = $applicationDataForUser[0]->submit_id;
+        $this->submit = Submit::find($this->submit_id);
+        $this->submitAdditionalData = $this->getSubmitAdditionalData(['created_docs' => '']);
         $this->templatesDirectory = "events/{$this->event_dir_name}/applications/{$this->application_id}/templates";
         $this->resultsDirectory = "events/{$this->event_dir_name}/applications/{$this->application_id}/users_data/{$this->user_id}/created_files";
         $this->resultsDirectoryFullPath = public_path() . "/storage/events/{$this->event_dir_name}/applications/{$this->application_id}/users_data/{$this->user_id}/created_files";
@@ -56,10 +57,8 @@ class DocHandler
             $this->createdFilesList[] = $this->resultsDirectory . '/' . basename($templateName, ".rtf") . ".pdf";
         }
 
-        $submit = Submit::find($this->submit_id);
-        $submit_additional_data = json_decode($submit->additional_data) ?: (object) ['created_docs' => ''];
-        $submit_additional_data->created_docs = $this->createdFilesList;
-        $submit->update(['additional_data' => json_encode($submit_additional_data)]);
+        $this->submitAdditionalData->created_docs = $this->createdFilesList;
+        $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
         return $this->createdFilesList;
     }
 
@@ -73,6 +72,11 @@ class DocHandler
         $rus = array('А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я');
         $lat = array('A', 'B', 'V', 'G', 'D', 'E', 'E', 'Zh', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', 'H', 'C', 'Ch', 'Sh', 'Sch', 'Y', 'Y', 'Y', 'E', 'Yu', 'Ya', 'a', 'b', 'v', 'g', 'd', 'e', 'e', 'zh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'sch', 'y', 'y', 'y', 'e', 'yu', 'ya');
         return str_replace($rus, $lat, $str);
+    }
+
+    public function getSubmitAdditionalData(array $additionalFields)
+    {
+        return json_decode($this->submit->additional_data) ?: (object) $additionalFields;
     }
 
     public function readTemplates()

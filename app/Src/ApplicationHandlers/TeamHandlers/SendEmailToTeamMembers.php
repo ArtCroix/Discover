@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Src\TeamHandlers;
+namespace App\Src\ApplicationHandlers\TeamHandlers;
 
 use App\Application\Submit;
 use App\Mail\TeamRegistered;
 use Illuminate\Support\Facades\Mail;
-use stdClass;
 
 class SendEmailToTeamMembers
 {
@@ -26,12 +25,10 @@ class SendEmailToTeamMembers
 
     public function sendEmails()
     {
-
         $this->addTeamMembersEmailsToProcessed();
         if (count($this->emailsForSending) > 0) {
             Mail::to($this->emailsForSending)->send(new TeamRegistered());
         }
-
     }
 
     public function addTeamMembersEmailsToProcessed()

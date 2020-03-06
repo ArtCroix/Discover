@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application;
+namespace App\Models\Application;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,12 +9,12 @@ class Application extends Model
 
     public function questions()
     {
-        return $this->hasMany('App\Application\Question', 'application_id');
+        return $this->hasMany('App\Models\Application\Question', 'application_id');
     }
 
     public function submits()
     {
-        return $this->hasMany('App\Application\Submit', 'application_id');
+        return $this->hasMany('App\Models\Application\Submit', 'application_id');
     }
 
     public function event()

@@ -1,6 +1,6 @@
 @extends('layouts.custom_app')
 @section('header')
-    @include('./components/nav')
+@include('./components/nav')
 @endsection
 @section('main')
 <div class="container">
@@ -99,7 +99,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @forelse (App\Event::has('teams')->get()->where('active', 0) as $event)
+                                    @forelse (App\Models\Event::has('teams')->get()->where('active', 0) as $event)
                                     <tr>
                                         <td class="table-text">
                                             <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"

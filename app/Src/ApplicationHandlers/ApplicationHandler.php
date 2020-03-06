@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class ApplicationHandler
 {
-
     protected $application_id;
     protected $event_id;
     protected $request;
@@ -78,7 +77,6 @@ class ApplicationHandler
             event_dir_name,
             questions.type,
             applications.type as app_type,
-            applications.extra_params,
             position,
             `value`,
             value_en,

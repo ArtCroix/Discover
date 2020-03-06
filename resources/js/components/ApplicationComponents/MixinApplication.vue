@@ -79,17 +79,14 @@ export default {
           }
         })
         .then(data => {
-          console.log(data.data);
           this.application_data = data.data.applicationDataForUser;
           this.created_docs = data.data.doc_creating;
+          this.clearErrorsObject();
           alert("Данные отправлены");
-          console.log("SUCCESS!!");
         })
         .catch(errors => {
           this.errors = errors.response.data.errors;
-          console.log(this.errors);
           alert("Не верно заполнены поля");
-          console.log("FAILURE!!");
         });
     }
   },

@@ -2,7 +2,7 @@
   <div class="mt-4">
     <p class="mb-1">{{label}}</p>
     <input hidden :checked="!answer" type="radio" :name="question_id+'#'+name" value />
-    <div class="form-check" v-for="(presentation, value) in presentations_values" :key="value">
+    <div class="form-check" v-for="(value, presentation) in presentations_values" :key="value">
       <input
         class="form-check-input"
         :checked="answer === value"

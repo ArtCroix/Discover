@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Application\Application;
+use App\Models\Application\Application;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use App\Src\ApplicationHandlers\SubmitHandler;
 use App\Src\ApplicationHandlers\ValidationHandler;
@@ -38,7 +38,6 @@ class ApplicationController extends Controller
 
     public function doCreateApplicationSubmit(int $application_id, Request $request)
     {
-        // dd($request->all());
 
         $validator = ValidationHandler::validateAppData($this->application_id, $this->request_post, $this->request_files);
 
@@ -46,21 +45,14 @@ class ApplicationController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // $applicationStrategies = $this->getStrategies();
-        // dd($applicationStrategies);
         $appHandler = new ApplicationHandler($application_id, $request, Auth::user(), $this->event);
 
         $applicationDataForUser = $appHandler->createApplicationSubmit();
-
-        // dd($applicationDataForUser);
-        //  print_r($applicationDataForUser);
-        // dd($applicationDataForUser);
 
         foreach ($this->applicationStrategies as $key => $strategy) {
             $this->additionalDataForResponse[$key] = $strategy::execute($applicationDataForUser);
         }
 
-        // dd($applicationStrategies);
         return response()->json(['status' => 'OK', 'applicationDataForUser' => $applicationDataForUser] + $this->additionalDataForResponse, 200);
     }
 

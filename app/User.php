@@ -39,17 +39,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function submits()
     {
-        return $this->hasMany('App\Application\Submit');
+        return $this->hasMany('App\Models\Application\Submit');
     }
 
     public function answers()
     {
-        return $this->hasManyThrough('App\Application\Answer', 'App\Application\Submit');
+        return $this->hasManyThrough('App\Models\Application\Answer', 'App\Models\Application\Submit');
     }
 
     public function teams()
     {
-        return $this->hasMany('App\Team');
+        return $this->hasMany('App\Models\Team');
     }
 
 /*     public function questions()

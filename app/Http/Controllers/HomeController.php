@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
+use App\Models\Event;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +26,8 @@ class HomeController extends Controller
     public function index()
     {
         $events = Event::orderBy('created_at', 'desc')->get();
+
+        // dd($events);
         return view('home', [
             'events' => $events,
         ]);
@@ -38,6 +40,7 @@ class HomeController extends Controller
 
     public function event_status()
     {
+
         return view('event', [
             'event' => Event::where('event_name', request()->event_name)->first(),
         ]);

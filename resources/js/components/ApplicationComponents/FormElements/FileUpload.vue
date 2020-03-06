@@ -1,5 +1,8 @@
 <template>
-  <div class="example-simple py-3">
+  <div class="py-3">
+    <label v-if="locales.ru" :for="question_id">{{label}}</label>
+    <label v-if="locales.en" :for="question_id">{{label_en}}</label>
+    <label v-if="locales.cn" :for="question_id">{{label_en}}</label>
     <div class="uploaded_files" v-if="uploaded_files.length">
       <p class="mb-1">
         <strong>Загруженные файлы</strong>
@@ -29,10 +32,11 @@
           <span v-else-if="file.active">active</span>
           <span v-else-if="file.active">active</span>
           <span v-else></span>
-          <button @click.prevent="$refs.upload.remove(file)" type="button" class="btn btn-warning">
-            Отменить
-            загрузку
-          </button>
+          <button
+            @click.prevent="$refs.upload.remove(file)"
+            type="button"
+            class="btn btn-warning"
+          >Отменить загрузку</button>
         </li>
       </ul>
       <div class="example-btn">
@@ -58,7 +62,7 @@
 </template>
 <script>
 import VueUploadComponent from "vue-upload-component";
-
+import { mapState } from "vuex";
 export default {
   components: {
     fileUpload: VueUploadComponent
@@ -83,6 +87,7 @@ export default {
   },
 
   computed: {
+    ...mapState(["locales"]),
     answer() {
       return this.question_item.answer || JSON.stringify([]);
     },
@@ -136,7 +141,6 @@ export default {
       this.$emit("addedfile", {
         files: files
       });
-      // console.log(this.question_id + '#' + this.name);
     },
 
     deleteFileFromAppSubmit(file_path, index) {

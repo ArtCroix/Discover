@@ -2,8 +2,8 @@
 use App\Application\Answer;
 use App\Application\Application;
 use App\Application\Question;
-use App\Event;
 use App\Http\Resources\Answer as AnswerResource;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -33,7 +33,7 @@ Auth::routes(['verify' => true]);
 Route::get('login/{locale?}', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('register/{locale?}', 'Auth\RegisterController@showRegistrationForm')->name('register');
 
-Route::get('/home/{locale?}', 'HomeController@index')->where('locale', 'en|ru|cn')->name('home');
+Route::get('/home/{locale?}', 'HomeController@index')->where('locale', 'en|ru|cn')->middleware('verified')->name('home');
 Route::get('/myhome/{locale?}', 'HomeController@my_index')->where('locale', 'en|ru|cn')->name('myhome');
 Route::get('/home/event/{event_name}/status/{locale?}', 'HomeController@event_status')->where('locale', 'en|ru|cn')->name('home_event_status');
 Route::get('/home/event/{event_name}/app/{app_id}/{locale?}', 'HomeController@getEventApp')->where('locale', 'en|ru|cn')->middleware('verified')->name('home_event_app');

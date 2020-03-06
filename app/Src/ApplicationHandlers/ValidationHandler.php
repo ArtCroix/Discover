@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationHandlers;
 
-use App\Application\Question;
+use App\Models\Application\Question;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,14 +36,10 @@ class ValidationHandler
                 'user_id' => Auth::user()->id,
             ]
         );
-        // dd(self::$request_files);
-        // $arrayForValidation[] = [...self::$request_files];
         $rquest_all = self::$request_post + self::$request_files;
         foreach ($rquest_all as $key => $value) {
             $arrayForValidation[substr(strstr($key, '#'), 1)] = $value;
         }
-        // $arrayForValidation = self::$request_post + self::$request_files;
-        // dd($arrayForValidation);
         return $arrayForValidation;
     }
 

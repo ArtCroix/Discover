@@ -2194,6 +2194,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_upload_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-upload-component */ "./node_modules/vue-upload-component/dist/vue-upload-component.js");
 /* harmony import */ var vue_upload_component__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_upload_component__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -2201,6 +2202,10 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2262,6 +2267,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2283,7 +2293,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: {
     question_item: ""
   },
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(["locales"]), {
     answer: function answer() {
       return this.question_item.answer || JSON.stringify([]);
     },
@@ -2291,7 +2301,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.files = [];
       return JSON.parse(this.answer);
     }
-  },
+  }),
   methods: {
     inputFilter: function inputFilter(newFile, oldFile, prevent) {
       if (newFile && !oldFile) {
@@ -2332,7 +2342,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.$emit("addedfile", {
         files: files
-      }); // console.log(this.question_id + '#' + this.name);
+      });
     },
     deleteFileFromAppSubmit: function deleteFileFromAppSubmit(file_path, index) {
       var _this2 = this;
@@ -2687,16 +2697,15 @@ __webpack_require__.r(__webpack_exports__);
           "X-CSRF-TOKEN": this.csrf_token
         }
       }).then(function (data) {
-        console.log(data.data);
         _this4.application_data = data.data.applicationDataForUser;
         _this4.created_docs = data.data.doc_creating;
+
+        _this4.clearErrorsObject();
+
         alert("Данные отправлены");
-        console.log("SUCCESS!!");
       })["catch"](function (errors) {
         _this4.errors = errors.response.data.errors;
-        console.log(_this4.errors);
         alert("Не верно заполнены поля");
-        console.log("FAILURE!!");
       });
     }
   },
@@ -38287,7 +38296,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "example-simple py-3" }, [
+  return _c("div", { staticClass: "py-3" }, [
+    _vm.locales.ru
+      ? _c("label", { attrs: { for: _vm.question_id } }, [
+          _vm._v(_vm._s(_vm.label))
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.locales.en
+      ? _c("label", { attrs: { for: _vm.question_id } }, [
+          _vm._v(_vm._s(_vm.label_en))
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.locales.cn
+      ? _c("label", { attrs: { for: _vm.question_id } }, [
+          _vm._v(_vm._s(_vm.label_en))
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _vm.uploaded_files.length
       ? _c("div", { staticClass: "uploaded_files" }, [
           _vm._m(0),
@@ -38353,7 +38380,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("\n          Отменить\n          загрузку\n        ")]
+              [_vm._v("Отменить загрузку")]
             )
           ])
         }),
@@ -38483,7 +38510,7 @@ var render = function() {
         domProps: { checked: !_vm.answer }
       }),
       _vm._v(" "),
-      _vm._l(_vm.presentations_values, function(presentation, value) {
+      _vm._l(_vm.presentations_values, function(value, presentation) {
         return _c("div", { key: value, staticClass: "form-check" }, [
           _c("input", {
             staticClass: "form-check-input",

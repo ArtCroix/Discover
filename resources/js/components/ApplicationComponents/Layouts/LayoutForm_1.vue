@@ -5,7 +5,6 @@
         <slot name="team"></slot>
       </div>
     </div>
-    <hr />
     <div class="row">
       <div class="col-sm-4 col-12 mt-4">
         <slot name="user_1"></slot>
@@ -17,7 +16,6 @@
         <slot name="user_3"></slot>
       </div>
     </div>
-    <hr />
     <div class="row justify-content-between">
       <div class="col-sm-4 col-12 mt-4">
         <slot name="coach"></slot>
@@ -26,7 +24,6 @@
         <slot name="coach_aside"></slot>
       </div>
     </div>
-    <hr />
     <div class="row">
       <div class="col-12 mt-4">
         <slot name="common_info"></slot>
@@ -34,7 +31,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
