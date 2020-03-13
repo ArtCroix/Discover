@@ -1,4 +1,5 @@
 <script>
+import { mapState } from "vuex";
 import input_text from "./FormElements/Text";
 import email from "./FormElements/Email";
 import radio from "./FormElements/Radio";
@@ -13,11 +14,20 @@ export default {
     return {
       files: {},
       application_data: JSON.parse(this.application_data_for_user),
+
       created_docs: (() => {
-        let submit_additional_data =
-          JSON.parse(
-            JSON.parse(this.application_data_for_user)[0].additional_data
-          ) || {};
+        let submit_additional_data = {};
+        JSON.parse(this.application_data_for_user).some(value => {
+          if (
+            Object.prototype.toString.call(
+              JSON.parse(value.additional_data)
+            ) === "[object Object]"
+          ) {
+            submit_additional_data = JSON.parse(value.additional_data);
+            return true;
+          }
+        });
+
         if ("created_docs" in submit_additional_data) {
           return submit_additional_data.created_docs;
         } else {
@@ -32,6 +42,10 @@ export default {
     application_data_for_user: ""
   },
   computed: {
+    ...mapState(["locales", "current_locale"]),
+    slots() {
+      return new Set(this.application_data.map(val => val.slot_name));
+    },
     layoutComponent() {
       return () => import(`./Layouts/${this.application_data[0].layout}`);
     },
@@ -72,21 +86,35 @@ export default {
 
     submit() {
       axios
-        .post("/add_app_inst/" + this.application_id, this.createFormData(), {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "X-CSRF-TOKEN": this.csrf_token
+        .post(
+          `/add_app_inst/${this.application_id}/${this.current_locale}`,
+          this.createFormData(),
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              "X-CSRF-TOKEN": this.csrf_token
+            }
           }
-        })
+        )
         .then(data => {
           this.application_data = data.data.applicationDataForUser;
-          this.created_docs = data.data.doc_creating;
+          this.created_docs = data.data.created_docs;
           this.clearErrorsObject();
-          alert("Данные отправлены");
+          var message_arr = new Map([
+            ["en", "Data sent"],
+            ["ru", "Данные отправлены"],
+            ["cn", "数据发送"]
+          ]);
+          alert(message_arr.get(this.current_locale));
         })
         .catch(errors => {
           this.errors = errors.response.data.errors;
-          alert("Не верно заполнены поля");
+          var error_arr = new Map([
+            ["en", "Invalid fields"],
+            ["ru", "Неверно заполнены поля"],
+            ["cn", "无效的栏位"]
+          ]);
+          alert(error_arr.get(this.current_locale));
         });
     }
   },

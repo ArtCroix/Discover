@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\TeamHandlers;
+namespace App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers;
 
 use App\Mail\TeamRegistered;
-use App\Models\Application\Submit;
+use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
-class SendEmailToTeamMembers
+class SendEmailToTeamMembers extends AbstractPostSubmitHandler
 {
     protected $teamMembersEmails = [];
-    protected $applicationDataForUser;
-    protected $submitAdditionalData;
 
     public function __construct(array $applicationDataForUser)
     {
-        $this->submit_id = $applicationDataForUser[0]->submit_id;
-        $this->submit = Submit::find($this->submit_id);
-        $this->applicationDataForUser = $applicationDataForUser;
+        parent::__construct($applicationDataForUser);
         $this->teamMembersEmails = $this->getTeamMembersEmails();
         $this->submitAdditionalData = $this->getSubmitAdditionalData(['processed_emails' => []]);
         $this->alreadyProcessedEmails = $this->submitAdditionalData->processed_emails;
@@ -27,7 +24,11 @@ class SendEmailToTeamMembers
     {
         $this->addTeamMembersEmailsToProcessed();
         if (count($this->emailsForSending) > 0) {
-            Mail::to($this->emailsForSending)->send(new TeamRegistered());
+
+            foreach ($this->emailsForSending as $emailForSending) {
+                $add_team_member_url = URL::signedRoute('add_team_member', ['submit_id' => $this->submit->id, 'email' => $emailForSending]);
+                Mail::to($emailForSending)->send(new TeamRegistered($add_team_member_url));
+            }
         }
     }
 
@@ -35,11 +36,6 @@ class SendEmailToTeamMembers
     {
         $this->submitAdditionalData->processed_emails = $this->teamMembersEmails;
         $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
-    }
-
-    public function getSubmitAdditionalData(array $additionalFields)
-    {
-        return json_decode($this->submit->additional_data) ?: (object) $additionalFields;
     }
 
     public function getAlreadyProcessedEmails()

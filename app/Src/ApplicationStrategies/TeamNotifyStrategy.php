@@ -2,10 +2,10 @@
 
 namespace App\Src\ApplicationStrategies;
 
-use App\Src\ApplicationHandlers\TeamHandlers\SendEmailToTeamMembers;
+use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\SendEmailToTeamMembers;
 use App\Src\ApplicationStrategies\InterfaceStrategy;
 
-class TeamRegistrationStrategy implements InterfaceStrategy
+class TeamNotifyStrategy implements InterfaceStrategy
 {
     public static function execute(array $applicationDataForUser)
     {

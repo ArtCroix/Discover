@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -36,6 +38,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["locales"]),
     current_error() {
       let error = this.errors[this.name] || [];
       return error[0];

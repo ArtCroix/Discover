@@ -15,7 +15,7 @@
         </template>
       </component>
       <input type="hidden" name="_token" :value="csrf_token" />
-      <button type="submit" @click.prevent="submit()" class="btn btn-primary">Sign in</button>
+      <button type="submit" @click.prevent="submit()" class="btn btn-primary">OK</button>
     </form>
     <created_docs :created_docs="created_docs"></created_docs>
   </div>
@@ -26,13 +26,7 @@ import MixinApplication from "./ApplicationComponents/MixinApplication";
 
 export default {
   mixins: [MixinApplication],
-  computed: {
-    slots() {
-      return new Set(this.application_data.map(val => val.slot_name));
-    }
-  },
-  mounted() {
-    console.log(this.application_data);
-  }
+
+  mounted() {}
 };
 </script>

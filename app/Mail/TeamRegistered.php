@@ -16,9 +16,11 @@ class TeamRegistered extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $add_team_member_url;
+
+    public function __construct($add_team_member_url)
     {
-        //
+        $this->add_team_member_url = $add_team_member_url;
     }
 
     /**

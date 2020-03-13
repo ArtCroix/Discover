@@ -8,9 +8,9 @@ class Team extends Model
 {
     protected $guarded = [];
 
-    public function applications()
+    public function application()
     {
-        return $this->hasMany('App\Models\Application');
+        return $this->belongsTo('App\Models\Application');
     }
 
     public function questions()
@@ -21,5 +21,9 @@ class Team extends Model
     public function events()
     {
         return $this->belongsToMany('App\Models\Event')->withTimestamps();
+    }
+    public function users()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 }

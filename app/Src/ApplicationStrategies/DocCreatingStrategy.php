@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationStrategies;
 
-use App\Src\ApplicationHandlers\DocHandler;
+use App\Src\ApplicationHandlers\PostSubmitHandlers\DocHandler;
 use App\Src\ApplicationStrategies\InterfaceStrategy;
 
 class DocCreatingStrategy implements InterfaceStrategy

@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Resources\Answer as AnswerResource;
 use App\Models\Application\Answer;
 use App\Models\Application\Application;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
  */
+
 if (env('APP_DEBUG')) {
     Artisan::call('view:clear');
 }
@@ -29,6 +31,8 @@ Route::get('/test/{p1}/{locale?}', function () {
     // return view('welcome');
 });
 
+Route::get('add_team_member/{submit_id}', 'ApplicationController@doCopySubmit')->middleware('signed')->name('add_team_member');
+
 Auth::routes(['verify' => true]);
 Route::get('login/{locale?}', 'Auth\LoginController@showLoginForm')->name('login');
 Route::get('register/{locale?}', 'Auth\RegisterController@showRegistrationForm')->name('register');
@@ -40,7 +44,7 @@ Route::get('/home/event/{event_name}/app/{app_id}/{locale?}', 'HomeController@ge
 Route::get('/my_home/{locale?}', 'HomeController@myHome')->middleware('verified')->where('locale', 'en|ru|cn')->name('my_home');
 Route::get('/profile/{locale?}', 'HomeController@profile_status')->where('locale', 'en|ru|cn')->name('profile');
 
-Route::post('/add_app_inst/{application_id}', 'ApplicationController@doCreateApplicationSubmit')->name('add_app_inst');
+Route::post('/add_app_inst/{application_id}/{locale}', 'ApplicationController@doCreateApplicationSubmit')->where('locale', 'en|ru|cn')->middleware('verified')->name('add_app_inst');
 Route::post('/create_doc/{application_id}', 'ApplicationController@doCreateDocs')->name('create_doc');
 Route::delete('/delete_file_from_app_submit/{application_id}', 'ApplicationController@doDeleteFileFromApplicationSubmit')->name('add_app_inst');
 Route::post('/get_files_for_submit/{question_id}/{submit_id}', 'ApplicationController@doGetListOfUploadedFiles')->name('get_files_for_submit');

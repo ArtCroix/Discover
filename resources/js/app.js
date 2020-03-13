@@ -52,6 +52,17 @@ const app = new Vue({
   },
 
   created() {
-    this.$store.dispatch("chnageLocale", document.documentElement.lang);
+    this.$store.dispatch("changeLocale", document.documentElement.lang);
   }
+});
+
+/* selected tab highlight */
+$(function() {
+  $(".nav-link").click(function() {
+    $(this)
+      .parent()
+      .children(".active")
+      .removeClass("active");
+    $(this).addClass("active");
+  });
 });

@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserRegistered' => [
             'App\Listeners\SendEmailVerificationNotification',
         ],
+        'App\Events\AutoUserRegistered' => [
+            'App\Listeners\SendEmailForAutoReg',
+        ],
     ];
 
     /**

@@ -11,14 +11,14 @@ const store = new Vuex.Store({
     current_locale: "ru"
   },
   mutations: {
-    chnageLocale({ locales }, current_locale) {
+    changeLocale({ locales }, current_locale) {
       locales[current_locale] = true;
       this.state.current_locale = current_locale;
     }
   },
   actions: {
-    chnageLocale({ commit }, current_locale) {
-      commit("chnageLocale", current_locale);
+    changeLocale({ commit }, current_locale) {
+      commit("changeLocale", current_locale);
     }
   }
 });

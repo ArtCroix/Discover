@@ -17,6 +17,11 @@ class Application extends Model
         return $this->hasMany('App\Models\Application\Submit', 'application_id');
     }
 
+    public function teams()
+    {
+        return $this->hasMany('App\Models\Team', 'application_id');
+    }
+
     public function event()
     {
         return $this->belongsTo('App\Models\Event');

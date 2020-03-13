@@ -16,11 +16,8 @@ class SetDefaultLocaleForUrls
      */
     public function handle($request, Closure $next)
     {
-        // URL::defaults(['locale' => 'en']);
         $locale = \Route::current()->parameters['locale'] ?? str_replace('_', '-', app()->getLocale());
         \App::setLocale($locale);
-        /*         if (!session()->has('vr2019_locale')) { }
-        session(['vr2019_locale' => $locale]); */
 
         return $next($request);
     }

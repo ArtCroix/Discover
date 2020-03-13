@@ -106,6 +106,14 @@
 	"Отправить ссылку для сброса пароля" :
 		"Send Password Reset Link",
 	"Для продолжения, пожалуйста, подтвердите пароль." :
-		"Please confirm your password before continuing."
-		
+		"Please confirm your password before continuing.",
+	"Ваша команда зарегистрирована" :
+		"Your team is registered",
+	"Вы успешно зарегистрированы" :
+		"You are successfully registered",
+	"Подтвердить e-mail" :
+		"Confirm e-mail"
+
+
+
 }

@@ -31,10 +31,6 @@ export default {
 
   methods: {},
 
-  mounted() {
-    console.log(this.created_docs);
-    /*             console.log(this.questions);
-                          console.log(this.old_inputs); */
-  }
+  mounted() {}
 };
 </script>

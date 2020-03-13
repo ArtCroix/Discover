@@ -73,6 +73,7 @@ class ApplicationHandler
             label,
             label_en,
             user_id,
+            event_id,
             `name`,
             event_dir_name,
             questions.type,
