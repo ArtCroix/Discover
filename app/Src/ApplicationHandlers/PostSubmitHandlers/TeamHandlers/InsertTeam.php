@@ -42,7 +42,6 @@ class InsertTeam extends AbstractPostSubmitHandler
 
     public function addTeam()
     {
-        // dd($this->submitAdditionalData);
         $team = Team::updateOrCreate(
             ['id' => $this->submitAdditionalData->bound_to_team],
             [
@@ -57,15 +56,6 @@ class InsertTeam extends AbstractPostSubmitHandler
             $this->submitAdditionalData->bound_to_team = $team->id;
             $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
         }
-        /*         $team = Team::updateOrCreate(
-                ['application_id' => $this->submit->application_id],
-                [
-                    'team_name' => $this->team_name,
-                    'country' => $this->country,
-                    'city' => $this->city,
-                    'university' => $this->university,
-                ]
-            ); */
         User::find($this->submit->user_id)->events()->syncWithoutDetaching([$this->event_id => ["team_id" => $team->id]]);
     }
 

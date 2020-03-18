@@ -41,7 +41,6 @@ class HomeController extends Controller
 
     public function event_status()
     {
-
         return view('event', [
             'event' => Event::where('event_name', request()->event_name)->first(),
             'app_submits' => Submit::where("user_id", Auth::user()->id)->get('application_id'),
@@ -50,17 +49,12 @@ class HomeController extends Controller
 
     public function profile_status()
     {
-        return view('profile', [
-        ]);
+        return view('profile', []);
     }
 
     public function getEventApp(string $event_name, int $application_id)
     {
-        // dd(Auth::user()->id);
         $applicationDataForUser = ApplicationHandler::getApplicationDataForUser($application_id, Auth::user()->id);
-        // dd($applicationDataForUser);
-
         return view('home.event_info')->with(['applicationDataForUser' => $applicationDataForUser]);
     }
-
 }

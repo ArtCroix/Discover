@@ -61,7 +61,6 @@ class ApplicationController extends Controller
     public function getStrategies()
     {
         $applicationTypes = explode(",", $this->application->type);
-        // dd($applicationTypes);
         return ApplicationStrategyFactory::createApplicationStrategy($applicationTypes);
     }
 

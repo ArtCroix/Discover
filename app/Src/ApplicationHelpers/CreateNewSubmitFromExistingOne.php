@@ -33,6 +33,12 @@ class CreateNewSubmitFromExistingOne
 
     protected static function loginUser($email)
     {
+        $user = \Auth::user();
+
+        if ($user) {
+            return $user;
+        }
+
         $user = User::where("email", $email)->first();
 
         if (!isset($user)) {
@@ -46,13 +52,15 @@ class CreateNewSubmitFromExistingOne
     public static function copySubmit($submit_id, $email)
     {
         $user = self::loginUser($email);
-
+        // dd($user);
         $submit = Submit::with(['application.event', 'answers'])->where('id', $submit_id)->where("user_id", "<>", $user->id)->first();
 
         if (isset($submit)) {
+
             $submit = $submit->replicate();
             $submit->user_id = $user->id;
             $answers_array = [];
+
             try {
                 \DB::transaction(function () use (&$answers_array, $submit) {
 
@@ -64,6 +72,8 @@ class CreateNewSubmitFromExistingOne
                             "additional_data" => $submit->additional_data,
                         ]
                     );
+                    /*            dd($submit);
+                    dd($new_submit); */
                     if (count($new_submit->answers) === 0) {
                         foreach ($submit->answers as $answer) {
                             $answer_copy = $answer->replicate();
@@ -74,6 +84,7 @@ class CreateNewSubmitFromExistingOne
                         $applicationDataForUser = ApplicationHandler::getApplicationDataForUser($submit->application_id, $submit->user_id);
                         $insertTeam = new InsertTeam($applicationDataForUser);
                         $insertTeam->addTeam();
+
                         return $submit;
                     }
                 });
@@ -83,6 +94,7 @@ class CreateNewSubmitFromExistingOne
         }
 
         $submit = Submit::with(['application.event', 'answers'])->where('id', $submit_id)->first();
+
         return $submit;
     }
 }
