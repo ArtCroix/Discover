@@ -1,5 +1,6 @@
 <template>
   <div class="cotainer-fluid w-75 mx-auto">
+    <div v-html="application_data[0].description"></div>
     <form name="app_form" method="POST" enctype="multipart/form-data">
       <component :is="layoutComponent">
         <template v-for="(slot) in slots" v-slot:[slot]>
@@ -27,6 +28,8 @@ import MixinApplication from "./ApplicationComponents/MixinApplication";
 export default {
   mixins: [MixinApplication],
 
-  mounted() {}
+  mounted() {
+    console.log(this.application_data);
+  }
 };
 </script>

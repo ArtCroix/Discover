@@ -26,7 +26,6 @@ abstract class AbstractPostSubmitHandler
 
     public function getSubmitAdditionalData(array $additionalFields)
     {
-
         return json_decode($this->submit->additional_data) ?: (object) $additionalFields;
     }
 }

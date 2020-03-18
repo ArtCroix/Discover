@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +44,7 @@ class HomeController extends Controller
 
         return view('event', [
             'event' => Event::where('event_name', request()->event_name)->first(),
+            'app_submits' => Submit::where("user_id", Auth::user()->id)->get('application_id'),
         ]);
     }
 

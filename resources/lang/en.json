@@ -7,7 +7,7 @@
 		"Home",
 	"Перейти к начальной странице" :
 		"Go to home page",
-		
+
 	"Вход" :
 		"Login",
 	"Регистрация" :
@@ -16,22 +16,22 @@
 		"Profile",
 	"Выход" :
 		"Logout",
-		
-	"Личный кабинет" : 
+
+	"Личный кабинет" :
 		"Personal Area",
-	"Открытые мероприятия" : 
+	"Открытые мероприятия" :
 		"Open events",
-	"В этом списке отображаются текущие мероприятия и названия команд, в которых вы зарегистрированы. Выберите название мероприятия для просмотра сведений об участии или зарегистрируйтесь на новое мероприятие..." : 
+	"В этом списке отображаются текущие мероприятия и названия команд, в которых вы зарегистрированы. Выберите название мероприятия для просмотра сведений об участии или зарегистрируйтесь на новое мероприятие..." :
 		"This list displays the current events and the names of the teams in which you are registered. Select an event name to view participation details or register for a new event...",
-	"Мероприятие" : 
+	"Мероприятие" :
 		"Event",
-	"Команда" : 
+	"Команда" :
 		"Team",
-	"Регистрация / Команда" : 
-		"Registration / Team",
-	"Завершённые мероприятия" : 
+	"Команда / Регистрация" :
+		"Team / Registration",
+	"Завершённые мероприятия" :
 		"Completed events",
-	"В этом списке в обратном хронологическом порядке отображаются прошедщие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии..." : 
+	"В этом списке в обратном хронологическом порядке отображаются прошедшие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии..." :
 		"This list shows the past events and the names of the teams you participated in in reverse chronological order. Select an event name to view participation details...",
 	"регистрация недоступна" :
 		"registration not available",
@@ -41,7 +41,7 @@
 		"Go to event page",
 	"Go to event registration" :
 		"Зарегистрироваться на мероприятие",
-		
+
 	"Профиль пользователя" :
 		"User profile",
 	"Регистрационные данные" :
@@ -50,7 +50,7 @@
 		"Passport scans",
 	"не загружены" :
 		"not loaded",
-		
+
 	"Начало" :
 		"Start",
 	"Анкета" :
@@ -61,7 +61,7 @@
 		"Passport",
 	"Информация" :
 		"Information",
-		
+
 	"Здесь вы найдете информацию о событии, приглашения для университетов и визовые приглашения, данные о сборах, форму обратной связи, сертификаты участников и т.д." :
 		"Here you will find information about this event, invitations for universities and visa invitations, data on fees, feedback form, participant certificates, etc.",
 	"Состав команды" :
@@ -78,7 +78,7 @@
 		"Cost of participation",
 	"срок оплаты истёк" :
 		"event deadline",
-		
+
 	"Адрес e-mail" :
 		"E-Mail Address",
 	"Пароль" :
@@ -112,8 +112,9 @@
 	"Вы успешно зарегистрированы" :
 		"You are successfully registered",
 	"Подтвердить e-mail" :
-		"Confirm e-mail"
-
+		"Confirm e-mail",
+    "Перед заполнением этой формы необходимо заполнить форму " :
+        "Before filling out this form, you must fill out form "
 
 
 }

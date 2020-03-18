@@ -27,7 +27,7 @@
                             <table class="table table-striped task-table">
                                 <thead>
                                     <th>{{ __('Мероприятие') }}</th>
-                                    <th>{{ __('Регистрация / Команда') }}</th>
+                                    <th>{{ __('Команда / Регистрация') }}</th>
                                 </thead>
 
                                 <tbody>
@@ -46,15 +46,16 @@
                                         <td class="table-text">
                                             <div>
                                                 @if (!empty($event->teams->first()))
-                                                "{{ $event->teams->first()->team_name }}"
+                                                    {{ $event->teams->first()->team_name }}
                                                 @else
-                                                @forelse ($event->applications as $app)
-                                                <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
-                                                        title="{{ __('Зарегистрироваться на мероприятие') }}">{{ $app->type }}</a>
-                                                </div>
-                                                @empty
-                                                <div>{{ __('регистрация недоступна') }}</div>
-                                                @endforelse
+                                                    @forelse ($event->applications as $app)
+                                                        @if ($app->depends_on == null)
+                                                            <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
+                                                                    title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ json_decode($app->type, true)[app()->getLocale()] }}</a></div>
+                                                        @endif
+                                                    @empty
+                                                    <div>{{ __('регистрация недоступна') }}</div>
+                                                    @endforelse
                                                 @endif
                                             </div>
                                         </td>
@@ -88,7 +89,7 @@
 
                     <div class="panel panel-default">
                         <div>
-                            {{ __('В этом списке в обратном хронологическом порядке отображаются прошедщие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии...') }}
+                            {{ __('В этом списке в обратном хронологическом порядке отображаются прошедшие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии...') }}
                         </div>
 
                         <div class="panel-body">

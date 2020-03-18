@@ -17,7 +17,8 @@ class InsertTeam extends AbstractPostSubmitHandler
     public function __construct(array $applicationDataForUser)
     {
         parent::__construct($applicationDataForUser);
-
+        $this->submitAdditionalData = $this->getSubmitAdditionalData(['bound_to_team' => 0]);
+        $this->submitAdditionalData->bound_to_team = $this->submitAdditionalData->bound_to_team ?? 0;
         $this->event_id = $applicationDataForUser[0]->event_id;
 
         foreach ($applicationDataForUser as $value) {
@@ -41,15 +42,34 @@ class InsertTeam extends AbstractPostSubmitHandler
 
     public function addTeam()
     {
+        // dd($this->submitAdditionalData);
         $team = Team::updateOrCreate(
-            ['application_id' => $this->submit->application_id],
+            ['id' => $this->submitAdditionalData->bound_to_team],
             [
+                'application_id' => $this->submit->application_id,
                 'team_name' => $this->team_name,
                 'country' => $this->country,
                 'city' => $this->city,
                 'university' => $this->university,
             ]
         );
+        if (!$this->submitAdditionalData->bound_to_team) {
+            $this->submitAdditionalData->bound_to_team = $team->id;
+            $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
+        }
+        /*         $team = Team::updateOrCreate(
+                ['application_id' => $this->submit->application_id],
+                [
+                    'team_name' => $this->team_name,
+                    'country' => $this->country,
+                    'city' => $this->city,
+                    'university' => $this->university,
+                ]
+            ); */
         User::find($this->submit->user_id)->events()->syncWithoutDetaching([$this->event_id => ["team_id" => $team->id]]);
+    }
+
+    public function addUserAndTeamToEvent()
+    {
     }
 }

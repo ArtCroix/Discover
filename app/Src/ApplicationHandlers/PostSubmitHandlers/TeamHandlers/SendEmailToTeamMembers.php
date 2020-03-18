@@ -16,6 +16,7 @@ class SendEmailToTeamMembers extends AbstractPostSubmitHandler
         parent::__construct($applicationDataForUser);
         $this->teamMembersEmails = $this->getTeamMembersEmails();
         $this->submitAdditionalData = $this->getSubmitAdditionalData(['processed_emails' => []]);
+        $this->submitAdditionalData->processed_emails = $this->submitAdditionalData->processed_emails ?? [];
         $this->alreadyProcessedEmails = $this->submitAdditionalData->processed_emails;
         $this->emailsForSending = array_diff($this->teamMembersEmails, $this->alreadyProcessedEmails);
     }

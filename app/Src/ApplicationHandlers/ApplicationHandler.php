@@ -69,6 +69,7 @@ class ApplicationHandler
             submit_id,
             questions.id as question_id,
             application_id,
+            description,
             ifnull(additional_data,"[]") additional_data,
             label,
             label_en,

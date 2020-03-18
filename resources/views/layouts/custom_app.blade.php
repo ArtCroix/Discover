@@ -20,9 +20,7 @@
 </head>
 
 <body>
-
     <div id="app">
-
         {{--      @if(!in_array(\Request::route()->getName(),['venue_home','venues_admin','test']))
         <venue-reg-modal></venue-reg-modal>
         @endif --}}
