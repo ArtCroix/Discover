@@ -65,8 +65,29 @@ Route::get('/my_home/{locale?}', 'HomeController@myHome')
     ->name('my_home');
 
 Route::get('/profile/{locale?}', 'HomeController@profile_status')
+    ->middleware('verified')
     ->where('locale', 'en|ru|cn')
     ->name('profile');
+
+Route::get('/edit_profile/{locale?}', 'HomeController@edit_profile')
+    ->middleware('verified')
+    ->where('locale', 'en|ru|cn')
+    ->name('edit_profile');
+
+Route::get('/edit_password/{locale?}', 'HomeController@edit_password')
+    ->middleware('verified')
+    ->where('locale', 'en|ru|cn')
+    ->name('edit_password');
+
+Route::post('/edit_profile/{locale?}', 'EditProfileController@edit_password')
+    ->middleware('verified')
+    ->where('locale', 'en|ru|cn')
+    ->name('post_edit_profile');
+
+Route::post('/edit_password/{locale?}', 'EditProfileController@edit_passowrd')
+    ->middleware('verified')
+    ->where('locale', 'en|ru|cn')
+    ->name('post_edit_password');
 
 Route::post('/add_app_inst/{application_id}/{locale}', 'ApplicationController@doCreateApplicationSubmit')
     ->where('locale', 'en|ru|cn')

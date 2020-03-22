@@ -51,7 +51,7 @@
                                                     @forelse ($event->applications as $app)
                                                         @if ($app->depends_on == null)
                                                             <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
-                                                                    title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ json_decode($app->type, true)[app()->getLocale()] }}</a></div>
+                                                                    title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ $app->type }}</a></div>
                                                         @endif
                                                     @empty
                                                     <div>{{ __('регистрация недоступна') }}</div>

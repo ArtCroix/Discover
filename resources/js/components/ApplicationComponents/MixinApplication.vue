@@ -100,7 +100,7 @@ export default {
           this.application_data = data.data.applicationDataForUser;
           this.created_docs = data.data.created_docs;
           this.clearErrorsObject();
-          var message_arr = new Map([
+          let message_arr = new Map([
             ["en", "Data sent"],
             ["ru", "Данные отправлены"],
             ["cn", "数据发送"]
@@ -109,7 +109,7 @@ export default {
         })
         .catch(errors => {
           this.errors = errors.response.data.errors;
-          var error_arr = new Map([
+          let error_arr = new Map([
             ["en", "Invalid fields"],
             ["ru", "Неверно заполнены поля"],
             ["cn", "无效的栏位"]

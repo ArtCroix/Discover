@@ -52,6 +52,18 @@ class HomeController extends Controller
         return view('profile', []);
     }
 
+    public function edit_profile()
+    {
+        $user = \Auth::user();
+        return view('edit_profile', ["user" => $user]);
+    }
+
+    public function edit_password()
+    {
+        $user = \Auth::user();
+        return view('edit_password', ["user" => $user]);
+    }
+
     public function getEventApp(string $event_name, int $application_id)
     {
         $applicationDataForUser = ApplicationHandler::getApplicationDataForUser($application_id, Auth::user()->id);

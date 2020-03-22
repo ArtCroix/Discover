@@ -4,7 +4,7 @@
     <label v-if="locales.en" :for="question_id">{{label_en}}</label>
     <label v-if="locales.cn" :for="question_id">{{label_en}}</label>
     <textarea
-      :value="answer"
+      v-model="answer"
       :name="question_id+'#'+name"
       class="form-control"
       :id="question_id"
