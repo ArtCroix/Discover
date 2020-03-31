@@ -35,7 +35,7 @@ class EditProfileController extends Controller
         ]);
     }
 
-    protected function edit(Request $request)
+    protected function edit_profile(Request $request)
     {
         $this->validator($request->all())->validate();
 
@@ -46,7 +46,6 @@ class EditProfileController extends Controller
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'middlename' => $request->middlename,
-            'password' => Hash::make($request->password),
         ]);
     }
 

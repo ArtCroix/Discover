@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-6 offset-md-4">
-    <button type="submit" class="btn btn-primary" @click.prevent="submit">Зарегистрироваться</button>
+    <button type="submit" class="btn btn-primary" @click.prevent="submit">{{ current_locale == 'ru' ? 'Зарегистрироваться' : current_locale == 'en' ? 'Register' : 'Register' }}</button>
   </div>
 </template>
 
@@ -50,11 +50,17 @@ export default {
           let message_arr = new Map([
             [
               "en",
-              "The email with registration's confirmation was sent to your email"
+              "Thank you for registering in your Discover account!\n" +
+              "\n" +
+              "A letter has been sent to the address indicated during registration with a link to confirm registration.\n" +
+              "For further work with your personal account, you need to confirm the email address using the link from the letter."
             ],
             [
               "ru",
-              "На почту отправлено письмо с ссылкой для подтверждения регистрации"
+              "Благодарим Вас за регистрацию в личном кабинете Discover! \n" +
+              "\n" +
+              "На адрес, указанный при регистрации отправлено письмо со ссылкой для подтверждения регистрации. \n" +
+              "Для дальнейшей работы с личным кабинетом Вам необходимо подтвердить адрес электронной почты по ссылке из письма."
             ],
             ["cn", "数据发送"]
           ]);

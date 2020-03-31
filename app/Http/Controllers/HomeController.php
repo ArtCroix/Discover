@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Team;
 use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class HomeController extends Controller
 {
@@ -26,8 +28,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $events = Event::orderBy('created_at', 'desc')->get();
 
+        $events = Event::orderBy('created_at', 'desc')->get();
+        // 
         // dd($events);
         return view('home', [
             'events' => $events,
@@ -39,11 +42,16 @@ class HomeController extends Controller
         return view('myhome');
     }
 
-    public function event_status()
+    public function event_status(string $event_name)
     {
-        return view('event', [
+        $user_id = \Auth::user()->id;
+        $team = ApplicationHandler::getTeamForEvent($event_name, $user_id);
+        $eventApplications = ApplicationHandler::getEventApplicationsForUser($event_name, Auth::user()->id);
+        return view('events.event', [
             'event' => Event::where('event_name', request()->event_name)->first(),
             'app_submits' => Submit::where("user_id", Auth::user()->id)->get('application_id'),
+            'eventApplications' => $eventApplications,
+            'team' => $team
         ]);
     }
 
@@ -62,11 +70,5 @@ class HomeController extends Controller
     {
         $user = \Auth::user();
         return view('edit_password', ["user" => $user]);
-    }
-
-    public function getEventApp(string $event_name, int $application_id)
-    {
-        $applicationDataForUser = ApplicationHandler::getApplicationDataForUser($application_id, Auth::user()->id);
-        return view('home.event_info')->with(['applicationDataForUser' => $applicationDataForUser]);
     }
 }

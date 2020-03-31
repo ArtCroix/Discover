@@ -1,120 +1,79 @@
 {
-	"Сайт" :
-		"Site",
-	"Перейти на сайт" :
-		"Go to site",
-	"Главная" :
-		"Home",
-	"Перейти к начальной странице" :
-		"Go to home page",
+    "Сайт": "Site",
+    "Перейти на сайт": "Go to site",
+    "Главная": "Home",
+    "Перейти к начальной странице": "Go to home page",
 
-	"Вход" :
-		"Login",
-	"Регистрация" :
-		"Register",
-	"Профиль" :
-		"Profile",
-	"Выход" :
-		"Logout",
+    "Вход": "Login",
+    "Регистрация": "Register",
+    "Профиль": "Profile",
+    "Выход": "Logout",
+    "поля, обязательные к заполнению": "required fields",
+    "Новый пароль": "New password",
+    "Логин": "Login",
+    "Согласие на обработку персональных данных": "Agreement to the processing of personal data",
 
-	"Личный кабинет" :
-		"Personal Area",
-	"Открытые мероприятия" :
-		"Open events",
-	"В этом списке отображаются текущие мероприятия и названия команд, в которых вы зарегистрированы. Выберите название мероприятия для просмотра сведений об участии или зарегистрируйтесь на новое мероприятие..." :
-		"This list displays the current events and the names of the teams in which you are registered. Select an event name to view participation details or register for a new event...",
-	"Мероприятие" :
-		"Event",
-	"Команда" :
-		"Team",
-	"Команда / Регистрация" :
-		"Team / Registration",
-	"Завершённые мероприятия" :
-		"Completed events",
-	"В этом списке в обратном хронологическом порядке отображаются прошедшие мероприятия и названия команд, в составе которых вы участвовали. Выберите название мероприятия для просмотра сведений об участии..." :
-		"This list shows the past events and the names of the teams you participated in in reverse chronological order. Select an event name to view participation details...",
-	"регистрация недоступна" :
-		"registration not available",
-	"мероприятий не найдено" :
-		"no events",
-	"Перейти к мероприятию" :
-		"Go to event page",
-	"Go to event registration" :
-		"Зарегистрироваться на мероприятие",
+    "Список мероприятий": "Events list",
+    "Открытые мероприятия": "Open events",
+    "Личный кабинет": "Home page",
+    "В данном разделе отображается список мероприятий, доступных для регистрации с общей информацией по датам проведения.": "This section displays a list of events available for registration with general information on dates.",
+    "Вы можете пройти регистрацию Вашей команды на выбранные мероприятия, а также увидеть, в каких командах вы зарегистрированы.": "You can register your team for selected events, as well as see which teams you are registered with.",
+    "Выберите название мероприятия для просмотра сведений об участии или зарегистрируйтесь на новое мероприятие.": "Select an event name to view participation details or register for a new event.",
+    "Мероприятие": "Event",
+    "Команда": "Team",
+    "Команда / Регистрация": "Team / Registration",
+    "Прошедшие мероприятия": "Past events",
+    "В данном разделе в обратном хронологическом порядке отображаются прошедшие мероприятия и названия команд, в составе которых вы участвовали.": "In this section, past events and the names of the teams in which you participated are displayed in reverse chronological order.",
+    "Вы можете выбрать мероприятие для просмотра информации о нем.": "You can select an event to view information about it.",
+    "регистрация недоступна": "registration not available",
+    "мероприятий не найдено": "no events",
+    "Перейти к мероприятию": "Go to event page",
+    "Go to event registration": "Зарегистрироваться на мероприятие",
 
-	"Профиль пользователя" :
-		"User profile",
-	"Регистрационные данные" :
-		"Registration data",
-	"Сканы паспортов" :
-		"Passport scans",
-	"не загружены" :
-		"not loaded",
+    "Профиль пользователя": "User profile",
+    "Регистрационные данные": "Registration data",
+    "Редактировать личные данные": "Edit personal data",
+    "Изменить пароль": "Change password",
+    "Сканы паспортов": "Passport scans",
+    "не загружены": "not loaded",
 
-	"Начало" :
-		"Start",
-	"Анкета" :
-		"Anketa",
-	"Приглашение" :
-		"Invite",
-	"Паспорт" :
-		"Passport",
-	"Информация" :
-		"Information",
+    "Начало": "Start",
+    "Анкета": "Anketa",
+    "Приглашение": "Invite",
+    "Паспорт": "Passport",
+    "Информация": "Information",
 
-	"Здесь вы найдете информацию о событии, приглашения для университетов и визовые приглашения, данные о сборах, форму обратной связи, сертификаты участников и т.д." :
-		"Here you will find information about this event, invitations for universities and visa invitations, data on fees, feedback form, participant certificates, etc.",
-	"Состав команды" :
-		"Team details",
-	"нет данных" :
-		"no data",
-	"Название" :
-		"Name",
-	"Состав" :
-		"Members",
-	"Детали платежа" :
-		"Payment details",
-	"Стоимость участия" :
-		"Cost of participation",
-	"срок оплаты истёк" :
-		"event deadline",
+    "Общая информация по мероприятию": "Event general information",
+    "Здесь вы найдете информацию о событии, приглашения для университетов и визовые приглашения, данные о сборах, форму обратной связи, сертификаты участников и т.д.": "Here you will find information about this event, invitations for universities and visa invitations, data on fees, feedback form, participant certificates, etc.",
+    "Состав команды": "Team details",
+    "нет данных": "no data",
+    "Название": "Name",
+    "Состав": "Members",
+    "Детали платежа": "Payment details",
+    "Стоимость участия": "Cost of participation",
+    "срок оплаты истёк": "event deadline",
+    "Вы не приписаны ни к одной из команд": "You are not assigned to any of the teams",
 
-	"Адрес e-mail" :
-		"E-Mail Address",
-	"Пароль" :
-		"Password",
-	"Запомнить меня" :
-		"Remember Me",
-	"Забыли пароль?" :
-		"Forgot Your Password?",
-	"Имя" :
-		"Name",
-	"Подтверждение пароля" :
-		"Confirm Password",
-	"Подтвердите ваш e-mail адрес" :
-		"Verify Your Email Address",
-	"На ваш e-mail адрес отправлено повторное письмо с подтверждением" :
-		"A fresh verification link has been sent to your email address.",
-	"Перед продолжением работы подтвердите ваш e-mail по ссылке из письма" :
-		"Before proceeding, please check your email for a verification link.",
-	"Если вы не получили e-mail" :
-		"If you did not receive the email",
-	"кликните для повторной отправки письма" :
-		"click here to request another",
-	"Сброс пароля" :
-		"Reset Password",
-	"Отправить ссылку для сброса пароля" :
-		"Send Password Reset Link",
-	"Для продолжения, пожалуйста, подтвердите пароль." :
-		"Please confirm your password before continuing.",
-	"Ваша команда зарегистрирована" :
-		"Your team is registered",
-	"Вы успешно зарегистрированы" :
-		"You are successfully registered",
-	"Подтвердить e-mail" :
-		"Confirm e-mail",
-    "Перед заполнением этой формы необходимо заполнить форму " :
-        "Before filling out this form, you must fill out form "
+    "Адрес e-mail": "E-Mail address",
+    "Пароль": "Password",
+    "Запомнить меня": "Remember me",
+    "Забыли пароль?": "Forgot your password?",
+    "Имя": "First name",
+    "Фамилия": "Surname",
+    "Отчество": "Middle name",
+    "Подтверждение пароля": "Confirm password",
+    "Подтвердите ваш e-mail адрес": "Verify your email address",
+    "На ваш e-mail адрес отправлено повторное письмо с подтверждением": "A fresh verification link has been sent to your email address.",
+    "Перед продолжением работы подтвердите ваш e-mail по ссылке из письма": "Before proceeding, please check your email for a verification link.",
+    "Если вы не получили e-mail": "If you did not receive the email",
+    "кликните для повторной отправки письма": "click here to request another",
+    "Сброс пароля": "Reset Password",
+    "Отправить ссылку для сброса пароля": "Send Password Reset Link",
+    "Для продолжения, пожалуйста, подтвердите пароль.": "Please confirm your password before continuing.",
+    "Ваша команда зарегистрирована": "Your team is registered",
+    "Вы успешно зарегистрированы": "You are successfully registered",
+    "Подтвердить e-mail": "Confirm e-mail",
+    "Перед заполнением этой формы необходимо заполнить форму ": "Before filling out this form, you must fill out form "
 
 
 }

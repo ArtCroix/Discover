@@ -5,7 +5,11 @@
     <p class="mb-1" v-if="locales.en" :for="question_id">{{label_en}}</p>
     <p class="mb-1" v-if="locales.cn" :for="question_id">{{label_en}}</p>
     <input hidden :checked="!answer" type="radio" :name="question_id+'#'+name" value />
-    <div class="form-check" v-for="(value, presentation) in presentations_values" :key="value">
+    <div
+      class="form-check"
+      v-for="(value, presentation) in presentations_values[current_locale]"
+      :key="value"
+    >
       <input
         class="form-check-input"
         :checked="answer === value"
@@ -28,6 +32,7 @@ export default {
     return {
       question_id: this.question_item.question_id,
       question_value: this.question_item.value,
+      question_value_en: this.question_item.value_en,
       label: this.question_item.label,
       label_en: this.question_item.label_en,
       name: this.question_item.name,
@@ -44,13 +49,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(["locales"]),
+    ...mapState(["locales", "current_locale"]),
     current_error() {
       let error = this.errors[this.name] || [];
       return error[0];
     },
     presentations_values() {
+      let question_data = { en: {}, ru: {} };
+
       let question_values = this.question_item.value
+        .split("\n")
+        .map(value => value.trim());
+
+      let question_values_en = this.question_item.value_en
         .split("\n")
         .map(value => value.trim());
 
@@ -58,6 +69,25 @@ export default {
         .split("\n")
         .map(value => value.trim());
 
+      let question_presentations_en = this.question_item.presentation_en
+        .split("\n")
+        .map(value => value.trim());
+
+      question_data.ru = Object.fromEntries(
+        question_presentations.map((_, i) => [
+          question_presentations[i],
+          question_values[i]
+        ])
+      );
+
+      question_data.en = Object.fromEntries(
+        question_presentations_en.map((_, i) => [
+          question_presentations_en[i],
+          question_values_en[i]
+        ])
+      );
+
+      return question_data;
       return Object.fromEntries(
         question_presentations.map((_, i) => [
           question_presentations[i],

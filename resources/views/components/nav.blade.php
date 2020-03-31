@@ -58,10 +58,6 @@
                     {{-- <img class="w-25" src="{{asset('images/icons/english.svg')}}" alt=""> --}}
                     English
                 </span>
-                <span v-if="locales.cn">
-                    {{-- <img class="w-25" src="{{asset('images/icons/chinese.svg')}}" alt=""> --}}
-                    Chinese
-                </span>
             </a>
             <div class="dropdown-menu justify-content-center  row no-gutters" aria-labelledby="navbarDropdownLanguage">
                 <div class="col-8 mx-auto">
@@ -74,12 +70,6 @@
                     <a class="px-0 d-flex justify-content-between align-items-center" v-if="!locales.en"
                         href="{{ route(\Request::route()->getName(), array_merge(Request::route()->parameters(), ['locale' => 'en'])) }}">
                         <span class="mx-auto">English</span>
-                    </a>
-                </div>
-                <div class="col-8 mx-auto">
-                    <a class="px-0 d-flex justify-content-between align-items-center" v-if="!locales.cn"
-                        href="{{ route(\Request::route()->getName(), array_merge(Request::route()->parameters(), ['locale' => 'cn'])) }}">
-                        <span class="mx-auto">Chinese</span>
                     </a>
                 </div>
             </div>

@@ -23,13 +23,13 @@
     </div>
     <div class="row justify-content-between">
       <div class="col-sm-4 col-12 mt-4">
+        <slot name="coach"></slot>
+      </div>
+      <div class="col-sm-4 col-12 mt-4">
         <slot name="chief"></slot>
       </div>
       <div class="col-sm-4 col-12 mt-4">
         <slot name="chief_aside"></slot>
-      </div>
-      <div class="col-sm-4 col-12 mt-4">
-        <slot name="chief_aside_2"></slot>
       </div>
     </div>
   </div>

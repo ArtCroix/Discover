@@ -19,10 +19,9 @@ class DocHandler extends AbstractPostSubmitHandler
     {
         parent::__construct($applicationDataForUser);
         $event_dir_name = $this->applicationDataForUser[0]->event_dir_name;
-        $templatesDirectory = "events/{$event_dir_name}/applications/{$this->submit->application_id}/templates";
+        $templatesDirectory = "events/{$event_dir_name}/applications/{$this->submit->application_id}/templates/{$this->locale}";
         $this->submitAdditionalData = $this->getSubmitAdditionalData(['created_docs' => []]);
         $this->submitAdditionalData->created_docs = $this->submitAdditionalData->created_docs ?? [];
-
 
         $this->resultsDirectory = "events/{$event_dir_name}/applications/{$this->submit->application_id}/users_data/{$this->submit->user_id}/created_files";
         $this->resultsDirectoryFullPath = public_path() . "/storage/events/{$event_dir_name}/applications/{$this->submit->application_id}/users_data/{$this->submit->user_id}/created_files";

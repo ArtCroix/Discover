@@ -1,6 +1,6 @@
 <template>
   <div class="cotainer-fluid w-75 mx-auto">
-    <div v-html="application_data[0].description"></div>
+    <div v-html="JSON.parse(application_data[0].description)[current_locale]"></div>
     <form name="app_form" method="POST" enctype="multipart/form-data">
       <component :is="layoutComponent">
         <template v-for="(slot) in slots" v-slot:[slot]>
@@ -16,7 +16,11 @@
         </template>
       </component>
       <input type="hidden" name="_token" :value="csrf_token" />
-      <button type="submit" @click.prevent="submit()" class="btn btn-primary">OK</button>
+      <button
+        type="submit"
+        @click.prevent="submit()"
+        class="btn btn-primary"
+      >{{ JSON.parse(application_data[0].settings)['submit_button'][current_locale] }}</button>
     </form>
     <created_docs :created_docs="created_docs"></created_docs>
   </div>
@@ -29,7 +33,9 @@ export default {
   mixins: [MixinApplication],
 
   mounted() {
-    console.log(this.application_data);
+    /* console.log(this.application_data);
+      console.log(this.additional_data_for_form);
+      console.log(this.strategies); */
   }
 };
 </script>

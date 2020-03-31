@@ -33,19 +33,14 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row justify-content-between" }, [
+      _c("div", { staticClass: "col-sm-4 col-12 mt-4" }, [_vm._t("coach")], 2),
+      _vm._v(" "),
       _c("div", { staticClass: "col-sm-4 col-12 mt-4" }, [_vm._t("chief")], 2),
       _vm._v(" "),
       _c(
         "div",
         { staticClass: "col-sm-4 col-12 mt-4" },
         [_vm._t("chief_aside")],
-        2
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "col-sm-4 col-12 mt-4" },
-        [_vm._t("chief_aside_2")],
         2
       )
     ])

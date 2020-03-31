@@ -20,10 +20,10 @@ class Team extends Model
 
     public function events()
     {
-        return $this->belongsToMany('App\Models\Event')->withTimestamps();
+        return $this->belongsToMany('App\Models\Event', 'event_team')->withTimestamps();
     }
     public function users()
     {
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->belongsToMany('App\User', 'event_team')->withTimestamps();
     }
 }

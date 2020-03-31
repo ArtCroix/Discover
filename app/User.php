@@ -49,7 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function teams()
     {
-        return $this->hasMany('App\Models\Team');
+        return $this->hasMany('App\Models\Team', 'event_team');
     }
 
     public function events()

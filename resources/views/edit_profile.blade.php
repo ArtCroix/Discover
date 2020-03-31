@@ -10,9 +10,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Регистрация') }}
-                    <p>Поля, помеченные <span class="text-danger">*</span>, обязателны к заполнению</p>
                 </div>
                 <div class="card-body">
+					<p><span class="text-danger">*</span> - {{ __('поля, обязательные к заполнению') }}</p>
                     <form method="POST" name="user_reg" action="{{ route('register') }}">
                         @csrf
                         <div class="form-group row">

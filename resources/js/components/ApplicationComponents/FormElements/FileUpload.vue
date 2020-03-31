@@ -2,10 +2,12 @@
   <div class="py-3">
     <label v-if="locales.ru" :for="question_id">{{label}}</label>
     <label v-if="locales.en" :for="question_id">{{label_en}}</label>
-    <label v-if="locales.cn" :for="question_id">{{label_en}}</label>
+    <label v-if="locales.cn" :for="question_id">{{label_cn}}</label>
     <div class="uploaded_files" v-if="uploaded_files.length">
       <p class="mb-1">
-        <strong>Загруженные файлы</strong>
+        <strong>
+		{{ locales.ru ? "Загруженные файлы" : locales.en ? "Uploaded files" : "Uploaded files" }}
+		</strong>
       </p>
       <table>
         <tbody>
@@ -16,7 +18,9 @@
                 type="button"
                 @click="deleteFileFromAppSubmit(file_path, index)"
                 class="btn btn-danger"
-              >Удалить</button>
+              >
+			{{ locales.ru ? "Удалить" : locales.en ? "Delete" : "Delete" }}
+   		      </button>
             </td>
           </tr>
         </tbody>
@@ -36,7 +40,9 @@
             @click.prevent="$refs.upload.remove(file)"
             type="button"
             class="btn btn-warning"
-          >Отменить загрузку</button>
+          >
+			{{ locales.ru ? "Отменить загрузку" : locales.en ? "Cancel load" : "Cancel load" }}
+		   </button>
         </li>
       </ul>
       <div class="example-btn">
@@ -47,15 +53,16 @@
           :name="question_id+'#'+name"
           :multiple="true"
           :size="1024 * 1024 * 10"
-          :inputId="question_id"
           v-model="files"
           @input-filter="inputFilter"
           @input-file="inputFile"
           ref="upload"
         >
           <i class="fa fa-plus"></i>
-          Select files
+		    {{ locales.ru ? "Выбрать файлы" : locales.en ? "Select files" : "Select files" }}
         </file-upload>
+		<br/>
+		{{ locales.ru ? "Ограничения по количеству загружаемых файлов - 5, ограничение по размеру одного загружаемого файла - 2 МБ, доступные форматы загружаемых файлов: JPG, JPEG, BMP, PNG" : locales.en ? "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" : "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" }}
       </div>
     </div>
     <div class="invalid_form error" :class="name">{{current_error}}</div>
@@ -77,8 +84,10 @@ export default {
       submit_id: this.question_item.submit_id,
       application_id: this.question_item.application_id,
       question_value: this.question_item.value,
+      name: this.question_item.name,
       label: this.question_item.label,
-      name: this.question_item.name
+	  label_en: this.question_item.label_en,
+	  label_cn: this.question_item.label_cn
       //   answer: this.question_item.answer
     };
   },

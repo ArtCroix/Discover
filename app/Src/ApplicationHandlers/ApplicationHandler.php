@@ -48,16 +48,12 @@ class ApplicationHandler
     public static function getApplicationDataForUser(int $application_id, int $user_id): array
     {
         $application = \DB::select(
-            '
-
-            with A as (SELECT
-
+            'with A as (SELECT
             answers.`value` as answer,
             submit_id,
-        submits.additional_data,
+            submits.additional_data,
             user_id,
             question_id as temp_qid
-
             FROM
             submits
             INNER JOIN answers ON answers.submit_id = submits.id
@@ -77,9 +73,13 @@ class ApplicationHandler
             event_id,
             `name`,
             event_dir_name,
+            event_name,
             questions.type,
-            applications.type as app_type,
-            position,
+            applications.type as application_type,
+            applications.before_strategies,
+            applications.after_strategies,
+			applications.settings,
+            questions.position,
             `value`,
             value_en,
             presentation,
@@ -90,7 +90,7 @@ class ApplicationHandler
             FROM A right join questions on questions.id = A.temp_qid
             INNER JOIN applications on applications.id=questions.application_id
             INNER JOIN events on events.id=applications.event_id
-            WHERE questions.application_id=:application_id2 order by position',
+            WHERE questions.application_id=:application_id2 order by questions.position',
             ['user_id' => $user_id, 'application_id1' => $application_id, 'application_id2' => $application_id]
         );
 
@@ -99,5 +99,57 @@ class ApplicationHandler
         // dd($application);
         return $application;
         // return collect($application)->map(function ($x) {return (array) $x;})->toArray();
+    }
+
+    public static function getEventApplicationsForUser(string $event_name, int $user_id): array
+    {
+        $applications = \DB::select(
+            'with A as (
+                SELECT
+                    id,
+                    user_id,
+                    submits.application_id
+                    FROM
+                    submits
+                    WHERE
+                    submits.user_id = :user_id
+            )
+             SELECT  A.id, event_id, event_name, tab_title, A.application_id as submitted_application, user_id, applications.title, applications.settings, depends_on, applications.id as application_id from applications LEFT JOIN A on applications.id=A.application_id
+             INNER JOIN `events` on applications.event_id=`events`.id where event_name=:event_name order by position',
+            ['user_id' => $user_id, 'event_name' => $event_name]
+        );
+        return $applications;
+    }
+
+    public static function getTeamForEvent(string $event_name, int $user_id): array
+    {
+        $team = \DB::select(
+            'with A as (SELECT
+            event_team.team_id,
+            team_name
+            FROM
+            users
+            INNER JOIN event_team ON event_team.user_id = users.id
+            INNER JOIN teams ON event_team.team_id = teams.id
+            INNER JOIN `events` ON event_team.event_id = `events`.id
+            WHERE
+            events.event_name= :event_name AND
+            event_team.user_id = :user_id
+            )
+            SELECT
+            team_name,
+            users.login,
+            users.firstname,
+            users.lastname,
+            users.middlename,
+            event_team.user_id,
+            event_team.team_id
+            FROM
+            users
+            INNER JOIN event_team ON event_team.user_id = users.id
+            Inner JOIN A on event_team.team_id=A.team_id',
+            ['user_id' => $user_id, 'event_name' => $event_name]
+        );
+        return $team;
     }
 }

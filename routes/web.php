@@ -25,13 +25,10 @@ if (env('APP_DEBUG')) {
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/test/{p1}/{locale?}', function () {
-    // dd(array_merge(Request::route()->parameters(), ['locale' => 'cn']));
-    //    dd(\Request::route()->getName());
-    // return view('welcome');
-});
 
-Route::get('add_team_member/{submit_id}', 'ApplicationController@doCopySubmit')
+Route::get('/test/{event_name}',  'HomeController@event_info');
+
+Route::get('add_team_member/{submit_id}', 'SubmitController@doCopySubmit')
     ->middleware('signed')
     ->name('add_team_member');
 
@@ -53,7 +50,7 @@ Route::get('/home/event/{event_name}/status/{locale?}', 'HomeController@event_st
     ->where('locale', 'en|ru|cn')
     ->name('home_event_status');
 
-Route::get('/home/event/{event_name}/app/{app_id}/{locale?}', 'HomeController@getEventApp')
+Route::get('/home/event/{event_name}/app/{app_id}/{locale?}', 'ApplicationController@showApplicationForm')
     ->where('locale', 'en|ru|cn')
     ->middleware('verified')
     ->middleware('check_prev_submit')
@@ -79,12 +76,12 @@ Route::get('/edit_password/{locale?}', 'HomeController@edit_password')
     ->where('locale', 'en|ru|cn')
     ->name('edit_password');
 
-Route::post('/edit_profile/{locale?}', 'EditProfileController@edit_password')
+Route::post('/edit_profile/{locale?}', 'EditProfileController@edit_profile')
     ->middleware('verified')
     ->where('locale', 'en|ru|cn')
     ->name('post_edit_profile');
 
-Route::post('/edit_password/{locale?}', 'EditProfileController@edit_passowrd')
+Route::post('/edit_password/{locale?}', 'EditProfileController@edit_password')
     ->middleware('verified')
     ->where('locale', 'en|ru|cn')
     ->name('post_edit_password');

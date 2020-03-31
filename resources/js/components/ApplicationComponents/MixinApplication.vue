@@ -3,13 +3,15 @@ import { mapState } from "vuex";
 import input_text from "./FormElements/Text";
 import email from "./FormElements/Email";
 import radio from "./FormElements/Radio";
+import radio_dynamic_price from "./FormElements/RadioDynamicPrice";
 import long_text from "./FormElements/TextArea";
 import check from "./FormElements/CheckBox";
 import file_upload from "./FormElements/FileUpload";
 import info from "./FormElements/FormInfo";
 import created_docs from "./AdditionalComponentsForForm/CreatedDocs";
-
+import MixinStrategies from "./MixinStrategies";
 export default {
+  mixins: [MixinStrategies],
   data() {
     return {
       files: {},
@@ -39,7 +41,12 @@ export default {
   },
 
   props: {
-    application_data_for_user: ""
+    application_data_for_user: "",
+    additional_data_for_form: "",
+    strategies: "",
+    is_submitted: {
+      default: false
+    }
   },
   computed: {
     ...mapState(["locales", "current_locale"]),
@@ -100,21 +107,21 @@ export default {
           this.application_data = data.data.applicationDataForUser;
           this.created_docs = data.data.created_docs;
           this.clearErrorsObject();
-          let message_arr = new Map([
-            ["en", "Data sent"],
-            ["ru", "Данные отправлены"],
-            ["cn", "数据发送"]
-          ]);
-          alert(message_arr.get(this.current_locale));
+          jAlert(
+            JSON.parse(this.application_data[0].settings)["confirm"][
+              this.current_locale
+            ],
+            ""
+          );
         })
         .catch(errors => {
           this.errors = errors.response.data.errors;
-          let error_arr = new Map([
-            ["en", "Invalid fields"],
-            ["ru", "Неверно заполнены поля"],
-            ["cn", "无效的栏位"]
-          ]);
-          alert(error_arr.get(this.current_locale));
+          jAlert(
+            JSON.parse(this.application_data[0].settings)["error"][
+              this.current_locale
+            ],
+            ""
+          );
         });
     }
   },
@@ -129,6 +136,7 @@ export default {
     check,
     file_upload,
     info,
+    radio_dynamic_price,
     created_docs
   }
 };

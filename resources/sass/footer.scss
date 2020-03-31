@@ -1,0 +1,12 @@
+.footer {
+    background-color: #3490dc;
+
+    &__container {
+        max-width: 1380px;
+    }
+
+    &__text {
+        font-size: 0.9rem;
+        line-height: 20px;
+    }
+}

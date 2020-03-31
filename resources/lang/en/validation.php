@@ -149,6 +149,26 @@ return [
     |
      */
 
-    'attributes' => [],
+    'attributes' => [
+        'venueEmail' => 'contact email',
+        'venueName' => 'venue name',
+        'venueCapacity' => 'venue capacity',
+        'startTime' => 'start time',
+        'venueAddress' => 'venue address',
+        'venueObjects' => 'venue objects',
+        'venueLogo' => 'venue logo',
+        'contactFIO' => 'contact FIO',
+        'country' => 'country',
+        'city' => 'city',
+        'password' => 'password',
+        'school' => 'school',
+        'lastname' => 'lastname',
+        'firstname' => 'firstname',
+        'thirdname' => 'thirdname',
+        'grade' => 'grade',
+        'birth_date' => 'birthdate',
+        'is_school_finished' => '«I have already finished school»',
+        'agreement' => '«consent to the processing of personal data»',
+    ],
 
 ];

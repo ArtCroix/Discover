@@ -20,7 +20,7 @@ class CreateNewSubmitFromExistingOne
         $user = User::updateOrCreate(
             ['email' => $email],
             [
-                'name' => $email,
+                'login' => $email,
                 'email' => $email,
                 'password' => Hash::make($password),
                 'email_verified_at' => now()
@@ -33,14 +33,13 @@ class CreateNewSubmitFromExistingOne
 
     protected static function loginUser($email)
     {
-        $user = \Auth::user();
+        /*  $user = \Auth::user();
 
         if ($user) {
             return $user;
-        }
-
+        } */
+        \Auth::guard()->logout();
         $user = User::where("email", $email)->first();
-
         if (!isset($user)) {
             $user = self::createUser($email);
         }

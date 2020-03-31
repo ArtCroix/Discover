@@ -9,6 +9,7 @@ abstract class AbstractPostSubmitHandler
     protected $applicationDataForUser;
     protected $submitAdditionalData;
     protected $submit;
+    protected $locale;
 
     public function __construct(array $applicationDataForUser)
     {
@@ -22,6 +23,8 @@ abstract class AbstractPostSubmitHandler
         }
 
         $this->submit = Submit::find($submit_id);
+
+        $this->locale = session('locale', 'ru');
     }
 
     public function getSubmitAdditionalData(array $additionalFields)
