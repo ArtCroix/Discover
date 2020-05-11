@@ -10,6 +10,6 @@ class GetTeamMembersForInvitationStrategy implements BeforeSubmitInterfaceStrate
 {
     public static function execute(array $applicationDataForUser)
     {
-        return (new GetSubmitForTeamRegApp($applicationDataForUser))->getTeamForEvent();
+        return (new GetSubmitForTeamRegApp($applicationDataForUser))->getSubmit();
     }
 }

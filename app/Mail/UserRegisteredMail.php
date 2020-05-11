@@ -31,6 +31,9 @@ class UserRegisteredMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.user_reg_verify');
+        return $this
+            ->from('workshops@it-edu.com', session('locale', 'ru') == 'ru' ? 'Команда Discover' : 'Discover Team')
+            ->subject(session('locale', 'ru') == 'ru' ? 'Команда Discover - подтверждение учетной записи' : 'Discover command - account confirmation')
+            ->view('emails.user_reg_verify');
     }
 }

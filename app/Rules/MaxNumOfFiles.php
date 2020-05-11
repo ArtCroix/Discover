@@ -38,7 +38,9 @@ class MaxNumOfFiles implements Rule
         // dd($value);
 
         try {
-            $currentlyUploadedFiles = Submit::where('user_id', $value[0]->additional_meta_data['user_id'])->where('application_id', $value[0]->additional_meta_data['application_id'])->firstOrFail()->answers()->where('question_id', $value[0]->additional_meta_data['question_id'])->firstOrFail();
+            $currentlyUploadedFiles = Submit::whereHas('users', function ($q) use ($value) {
+                $q->where('user_id', $value[0]->additional_meta_data['user_id']);
+            })->where('application_id', $value[0]->additional_meta_data['application_id'])->firstOrFail()->answers()->where('question_id', $value[0]->additional_meta_data['question_id'])->firstOrFail();
             $currentlyUploadedFilesArray = json_decode($currentlyUploadedFiles->value) ?: [];
         } catch (ModelNotFoundException $er) {
             $currentlyUploadedFilesArray = [];

@@ -22,8 +22,6 @@ export default {
     return {
       question_id: this.question_item.question_id,
       question_value: this.question_item.value,
-      label: this.question_item.label + (/^required(?=$|\|)/.test(this.question_item.rule) ? '<span class="text-danger">*</span>' : ''),
-      label_en: this.question_item.label_en + (/^required(?=$|\|)/.test(this.question_item.rule) ? '<span class="text-danger">*</span>' : ''),
       name: this.question_item.name,
       answer: this.question_item.answer || this.question_item.value
     };
@@ -39,6 +37,22 @@ export default {
   },
   computed: {
     ...mapState(["locales"]),
+    label() {
+      return (
+        this.question_item.label +
+        (/^required(?=$|\|)/.test(this.question_item.rule)
+          ? '<span class="text-danger">*</span>'
+          : "")
+      );
+    },
+    label_en() {
+      return (
+        this.question_item.label_en +
+        (/^required(?=$|\|)/.test(this.question_item.rule)
+          ? '<span class="text-danger">*</span>'
+          : "")
+      );
+    },
     current_error() {
       let error = this.errors[this.name] || [];
       return error[0];

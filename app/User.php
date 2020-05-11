@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\CustomResetPasswordNotification;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -16,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'login', 'agreement', 'firstname', 'lastname', 'middlename', 'email', 'password', 'email_verified_at'
+        'login', 'agreement', 'role', 'firstname', 'lastname', 'middlename', 'email', 'password', 'email_verified_at'
     ];
 
     /**
@@ -49,11 +51,24 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function teams()
     {
-        return $this->hasMany('App\Models\Team', 'event_team');
+        return $this->belongsToMany('App\Models\Team', 'user_team');
     }
+    /*     public function teams()
+    {
+        return $this->belongsToMany('App\Models\Team', 'event_team');
+    } */
 
     public function events()
     {
+        return $this->hasManyThrough('App\Models\Event', 'App\Models\Team');
+    }
+    /*  public function events()
+    {
         return $this->belongsToMany('App\Models\Event', 'event_team')->withTimestamps();
+    } */
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPasswordNotification($token));
     }
 }

@@ -11,18 +11,18 @@
         :href="`/home/event/${event_name}/status/${current_locale}`"
       >{{ current_locale == 'ru' ? 'Общая информация по мероприятию' : current_locale == 'en' ? 'Event general information' : 'Event general information' }}</a>
       <a
-        v-for="(tab, key) in event_applications_data"
+        v-for="(tab, key) in tabs_data"
         :key="key"
         v-if="ifPreviousAppIsSubmitted(tab.depends_on)"
         class="nav-link nav-item"
         :class="current_app_id==tab.application_id ? 'active':''"
         :href="`/home/event/${tab.event_name}/app/${tab.application_id}/${current_locale}`"
       >{{JSON.parse(tab.tab_title)[current_locale]}}</a>
-      <span class="nav-link nav-item" v-else>
-        {{ JSON.parse(tab.tab_title)[current_locale] }} ({{ JSON.parse(tab.settings)['tab_access_begin'][current_locale] }}
+      <span class="nav-link nav-item disabled" v-else>
+        {{ JSON.parse(tab.tab_title)[current_locale] }} {{ JSON.parse(tab.settings)['tab_access_begin'][current_locale] }}
         <a
           :href="`/home/event/${tab.event_name}/app/${getNeededApp(tab.depends_on)}/${current_locale}`"
-        >{{ JSON.parse(tab.settings)['tab_access_end'][current_locale] }}</a>)
+        >{{ JSON.parse(tab.settings)['tab_access_end'][current_locale] }}</a>
       </span>
     </div>
   </nav>
@@ -42,7 +42,7 @@ export default {
     current_app_id: ""
   },
   computed: {
-    ...mapState(["locales", "current_locale"]),
+    ...mapState(["locales", "current_locale", "tabs_data"]),
     csrf_token() {
       return document
         .getElementsByTagName("meta")
@@ -75,8 +75,9 @@ export default {
       return needed_app[0].application_id;
     }
   },
-  mounted() {
-    console.log(this.event_applications_data);
-  }
+  beforeMount() {
+    this.$store.dispatch("changeTabsData", this.event_applications_data);
+  },
+  mounted() {}
 };
 </script>

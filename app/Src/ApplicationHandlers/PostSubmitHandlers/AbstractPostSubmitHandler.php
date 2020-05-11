@@ -10,6 +10,7 @@ abstract class AbstractPostSubmitHandler
     protected $submitAdditionalData;
     protected $submit;
     protected $locale;
+    protected $user;
 
     public function __construct(array $applicationDataForUser)
     {
@@ -22,7 +23,9 @@ abstract class AbstractPostSubmitHandler
             }
         }
 
-        $this->submit = Submit::find($submit_id);
+        $this->user = \Auth::user();
+
+        $this->submit = Submit::find($submit_id)->load(['application.event.teams', 'answers']);
 
         $this->locale = session('locale', 'ru');
     }

@@ -1,6 +1,8 @@
 <template>
   <div class="col-md-6 offset-md-4">
-    <button type="submit" class="btn btn-primary" @click.prevent="submit">Редактировать</button>
+    <button type="submit" class="btn btn-primary" @click.prevent="submit">
+        {{ current_locale == 'ru' ? 'Сохранить' : current_locale == 'en' ? 'Save' : 'Save' }}
+    </button>
   </div>
 </template>
 
@@ -40,7 +42,7 @@ export default {
     submit() {
       this.clearErrorsObject();
       axios
-        .post(`/edit_profile`, this.createFormData(), {
+        .post(`/edit_profile/${this.current_locale}`, this.createFormData(), {
           headers: {
             "Content-Type": "multipart/form-data",
             "X-CSRF-TOKEN": this.csrf_token
@@ -52,7 +54,7 @@ export default {
             ["ru", "Данные успешно изменены"],
             ["cn", "数据发送"]
           ]);
-          alert(message_arr.get(this.current_locale));
+          jAlert(message_arr.get(this.current_locale), "");
         })
         .catch(errors => {
           this.errors = errors.response.data.errors;
@@ -69,7 +71,7 @@ export default {
             ["ru", "Неверно заполнены поля"],
             ["cn", "无效的栏位"]
           ]);
-          alert(error_arr.get(this.current_locale));
+          jAlert(error_arr.get(this.current_locale), "");
         });
     }
   }

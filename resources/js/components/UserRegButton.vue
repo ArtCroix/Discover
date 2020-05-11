@@ -1,6 +1,10 @@
 <template>
   <div class="col-md-6 offset-md-4">
-    <button type="submit" class="btn btn-primary" @click.prevent="submit">{{ current_locale == 'ru' ? 'Зарегистрироваться' : current_locale == 'en' ? 'Register' : 'Register' }}</button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      @click.prevent="submit"
+    >{{ current_locale == 'ru' ? 'Зарегистрироваться' : current_locale == 'en' ? 'Register' : 'Register' }}</button>
   </div>
 </template>
 
@@ -40,7 +44,7 @@ export default {
     submit() {
       this.clearErrorsObject();
       axios
-        .post(`/register`, this.createFormData(), {
+        .post(`/register/${this.current_locale}`, this.createFormData(), {
           headers: {
             "Content-Type": "multipart/form-data",
             "X-CSRF-TOKEN": this.csrf_token
@@ -51,20 +55,23 @@ export default {
             [
               "en",
               "Thank you for registering in your Discover account!\n" +
-              "\n" +
-              "A letter has been sent to the address indicated during registration with a link to confirm registration.\n" +
-              "For further work with your personal account, you need to confirm the email address using the link from the letter."
+                "\n" +
+                "A letter has been sent to the address indicated during registration with a link to confirm registration.\n" +
+                "For further work with your personal account, you need to confirm the email address using the link from the letter."
             ],
             [
               "ru",
               "Благодарим Вас за регистрацию в личном кабинете Discover! \n" +
-              "\n" +
-              "На адрес, указанный при регистрации отправлено письмо со ссылкой для подтверждения регистрации. \n" +
-              "Для дальнейшей работы с личным кабинетом Вам необходимо подтвердить адрес электронной почты по ссылке из письма."
+                "\n" +
+                "На адрес, указанный при регистрации отправлено письмо со ссылкой для подтверждения регистрации. \n" +
+                "Для дальнейшей работы с личным кабинетом Вам необходимо подтвердить адрес электронной почты по ссылке из письма."
             ],
             ["cn", "数据发送"]
           ]);
-          alert(message_arr.get(this.current_locale));
+          let cur_loc = this.current_locale;
+          jAlert(message_arr.get(cur_loc), "", function() {
+            location = "/login/" + cur_loc;
+          });
         })
         .catch(errors => {
           this.errors = errors.response.data.errors;
@@ -81,7 +88,7 @@ export default {
             ["ru", "Неверно заполнены поля"],
             ["cn", "无效的栏位"]
           ]);
-          alert(error_arr.get(this.current_locale));
+          jAlert(error_arr.get(this.current_locale), "");
         });
     }
   }

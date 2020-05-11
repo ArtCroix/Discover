@@ -22,8 +22,13 @@ class Team extends Model
     {
         return $this->belongsToMany('App\Models\Event', 'event_team')->withTimestamps();
     }
+
     public function users()
     {
-        return $this->belongsToMany('App\User', 'event_team')->withTimestamps();
+        return $this->belongsToMany('App\User', 'user_team')->withTimestamps();
     }
+    /*    public function users()
+    {
+        return $this->belongsToMany('App\User', 'event_team')->withTimestamps();
+    } */
 }

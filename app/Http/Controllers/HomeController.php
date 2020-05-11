@@ -28,18 +28,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $events = Event::orderBy('created_at', 'desc')->get();
+        $events = Event::with("teams.users")->orderBy('created_at', 'desc')->get();
         // 
-        // dd($events);
+        // dd($events->find(1)->users()->where("id", 83)->get());
+        /*   dd($events->find(1)->teams()->where("team_name", "Exhibition Team")->first()->users()->wherePivot("user_id", 83)->get()); */
+        // dd(($events->find(1)->user_team)->isEmpty());
         return view('home', [
             'events' => $events,
         ]);
-    }
-
-    public function myHome()
-    {
-        return view('myhome');
     }
 
     public function event_status(string $event_name)
@@ -47,28 +43,12 @@ class HomeController extends Controller
         $user_id = \Auth::user()->id;
         $team = ApplicationHandler::getTeamForEvent($event_name, $user_id);
         $eventApplications = ApplicationHandler::getEventApplicationsForUser($event_name, Auth::user()->id);
+        // dd($team);
         return view('events.event', [
             'event' => Event::where('event_name', request()->event_name)->first(),
             'app_submits' => Submit::where("user_id", Auth::user()->id)->get('application_id'),
             'eventApplications' => $eventApplications,
             'team' => $team
         ]);
-    }
-
-    public function profile_status()
-    {
-        return view('profile', []);
-    }
-
-    public function edit_profile()
-    {
-        $user = \Auth::user();
-        return view('edit_profile', ["user" => $user]);
-    }
-
-    public function edit_password()
-    {
-        $user = \Auth::user();
-        return view('edit_password', ["user" => $user]);
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class TeamRegistered extends Mailable
 {
@@ -17,10 +18,22 @@ class TeamRegistered extends Mailable
      * @return void
      */
     public $add_team_member_url;
+    public $team_name;
+    public $user_name;
+    public $user_emails;
+    public $event_name;
+    public $team_id;
+    public $currency;
 
-    public function __construct($add_team_member_url)
+    public function __construct($add_team_member_url, $team_name, $user_name, $user_emails, $event_name, $team_id, $currency)
     {
         $this->add_team_member_url = $add_team_member_url;
+        $this->team_name = $team_name;
+        $this->user_name = $user_name;
+        $this->user_emails = $user_emails;
+        $this->event_name = $event_name;
+        $this->team_id = $team_id;
+        $this->currency = $currency;
     }
 
     /**
@@ -30,7 +43,9 @@ class TeamRegistered extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.email_for_team_reg');
-
+        return $this
+            ->from('workshops@it-edu.com', session('locale', 'ru') == 'ru' ? 'Команда Discover' : 'Discover Team')
+            ->subject(session('locale', 'ru') == 'ru' ? 'Команда Discover - регистрация команды' : 'Discover command - team registration')
+            ->view('emails.email_for_team_reg');
     }
 }

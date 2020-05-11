@@ -3,7 +3,10 @@ import { mapState } from "vuex";
 import input_text from "./FormElements/Text";
 import email from "./FormElements/Email";
 import radio from "./FormElements/Radio";
-import radio_dynamic_price from "./FormElements/RadioDynamicPrice";
+import radio_coach from "./FormElements/RadioCoach";
+import is_coach_in from "./FormElements/CheckCoachParticipation";
+import text_coach from "./FormElements/TextCoach";
+import email_coach from "./FormElements/EmailCoach";
 import long_text from "./FormElements/TextArea";
 import check from "./FormElements/CheckBox";
 import file_upload from "./FormElements/FileUpload";
@@ -49,7 +52,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["locales", "current_locale"]),
+    ...mapState(["locales", "current_locale", "tabs_data"]),
     slots() {
       return new Set(this.application_data.map(val => val.slot_name));
     },
@@ -89,44 +92,15 @@ export default {
         });
       }
       return formData;
-    },
-
-    submit() {
-      axios
-        .post(
-          `/add_app_inst/${this.application_id}/${this.current_locale}`,
-          this.createFormData(),
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              "X-CSRF-TOKEN": this.csrf_token
-            }
-          }
-        )
-        .then(data => {
-          this.application_data = data.data.applicationDataForUser;
-          this.created_docs = data.data.created_docs;
-          this.clearErrorsObject();
-          jAlert(
-            JSON.parse(this.application_data[0].settings)["confirm"][
-              this.current_locale
-            ],
-            ""
-          );
-        })
-        .catch(errors => {
-          this.errors = errors.response.data.errors;
-          jAlert(
-            JSON.parse(this.application_data[0].settings)["error"][
-              this.current_locale
-            ],
-            ""
-          );
-        });
     }
   },
 
-  mounted() {},
+  mounted() {
+    console.log(JSON.parse(this.additional_data_for_form));
+    JSON.parse(this.strategies).forEach(strategy_action => {
+      this[strategy_action]();
+    });
+  },
 
   components: {
     input_text,
@@ -136,7 +110,10 @@ export default {
     check,
     file_upload,
     info,
-    radio_dynamic_price,
+    radio_coach,
+    is_coach_in,
+    email_coach,
+    text_coach,
     created_docs
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="question_item.display">
     <div v-html="value" class v-if="locales.ru"></div>
     <div v-html="value_en" class v-if="locales.en"></div>
     <div v-html="value_en" class v-if="locales.cn"></div>

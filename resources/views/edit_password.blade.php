@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Регистрация') }}
+                <div class="card-header">{{ __('Изменение пароля') }}
                 </div>
                 <div class="card-body">
                     <p><span class="text-danger">*</span> - {{ __('поля, обязательные к заполнению') }}</p>

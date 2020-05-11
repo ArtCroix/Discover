@@ -22,4 +22,9 @@ class Submit extends Model
     {
         return $this->hasManyThrough('App\Models\Application\Question', 'App\Models\Application\Answer', 'submit_id', 'id', 'id', 'question_id');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'submit_user')->withTimestamps()->withPivot('user_id');;
+    }
 }

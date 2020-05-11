@@ -69,7 +69,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.event_applications_data);
+    // console.log(this.event_applications_data);
   }
 };
 </script>

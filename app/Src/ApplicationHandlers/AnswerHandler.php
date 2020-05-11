@@ -11,7 +11,7 @@ class AnswerHandler
     public static function addAnswers(Submit $submit, array $request_post)
     {
         $answers = [];
-        // dd($request_post);
+
         foreach ($request_post as $key => $value) {
             if (strpos($key, '#')) {
                 $value = is_array($value) ? json_encode($value) : $value;

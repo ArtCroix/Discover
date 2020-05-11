@@ -1,9 +1,9 @@
 <template>
   <div class="mt-4">
     <!--    <p class="mb-1">{{label}}</p>-->
-    <p class="mb-1" v-if="locales.ru" :for="question_id">{{label}}</p>
-    <p class="mb-1" v-if="locales.en" :for="question_id">{{label_en}}</p>
-    <p class="mb-1" v-if="locales.cn" :for="question_id">{{label_en}}</p>
+    <p v-html="label" class="mb-1" v-if="locales.ru" :for="question_id"></p>
+    <p v-html="label_en" class="mb-1" v-if="locales.en" :for="question_id"></p>
+    <p v-html="label_en" class="mb-1" v-if="locales.cn" :for="question_id"></p>
     <input hidden :checked="!answer" type="radio" :name="question_id+'#'+name" value />
     <div
       class="form-check"
@@ -33,10 +33,9 @@ export default {
       question_id: this.question_item.question_id,
       question_value: this.question_item.value,
       question_value_en: this.question_item.value_en,
-      label: this.question_item.label,
-      label_en: this.question_item.label_en,
       name: this.question_item.name,
-      answer: this.question_item.answer
+      answer: this.question_item.answer,
+      rules: this.question_item.rule
     };
   },
   props: {
@@ -53,6 +52,22 @@ export default {
     current_error() {
       let error = this.errors[this.name] || [];
       return error[0];
+    },
+    label() {
+      return (
+        this.question_item.label +
+        (/^required(?=$|\|)/.test(this.question_item.rule)
+          ? '<span class="text-danger">*</span>'
+          : "")
+      );
+    },
+    label_en() {
+      return (
+        this.question_item.label_en +
+        (/^required(?=$|\|)/.test(this.question_item.rule)
+          ? '<span class="text-danger">*</span>'
+          : "")
+      );
     },
     presentations_values() {
       let question_data = { en: {}, ru: {} };
@@ -88,15 +103,10 @@ export default {
       );
 
       return question_data;
-      return Object.fromEntries(
-        question_presentations.map((_, i) => [
-          question_presentations[i],
-          question_values[i]
-        ])
-      );
     }
   },
   mounted() {
+    // console.log(this.rules);
     // console.log(this.answer);
     /*             console.log(this.value);
                         console.log(this.old_input_value); */

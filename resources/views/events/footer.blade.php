@@ -24,7 +24,7 @@
                 <a class="text-white" href="tel:+79299787555" target="_blank">+7(929)97-87-555</a>
             </p>
             <p class="my-0">
-                <a class="text-white" href="{{ url('/docs/agreement_' . app()->getLocale() . '.docx') }}">{{ __('Согласие на обработку персональных данных') }}</a>
+                <a class="text-white" href="{{ url('/docs/agreement_' . app()->getLocale() . '.pdf') }}">{{ __('Согласие на обработку персональных данных') }}</a>
             </p>
         </div>
     </div>

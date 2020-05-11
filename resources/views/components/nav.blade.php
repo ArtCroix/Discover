@@ -1,4 +1,11 @@
+@php
+$to_en = route(request()->route()->getName(), array_merge(request()->route()->parameters(), ['locale' =>
+'en'], request()->all())) ;
+$to_ru = route(request()->route()->getName(), array_merge(request()->route()->parameters(), ['locale' => 'ru'],
+request()->all()));
+@endphp
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -33,6 +40,11 @@
                     {{ Auth::user()->login }} <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    @if (Auth::user()->role==='admin')
+                    <a class="dropdown-item" href="{{ url('/admin/' . app()->getLocale()) }}">
+                        {{ __('Админка') }}
+                    </a>
+                    @endif
                     <a class="dropdown-item" href="{{ url('/profile/' . app()->getLocale()) }}">
                         {{ __('Профиль') }}
                     </a>
@@ -48,7 +60,7 @@
             @endguest
         </ul>
         <div class="navbar__login-button align-items-center col-6 col-sm-2">
-            <a class="nav-link dropdown-toggle px-0 " href="#" id="navbarDropdownMenuLink" role="button"
+            <a class="nav-link dropdown-toggle px-0 " href="" id="navbarDropdownMenuLink" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span v-if="locales.ru">
                     {{-- <img class="w-25" src="{{asset('images/icons/russian.svg')}}" alt=""> --}}
@@ -62,17 +74,29 @@
             <div class="dropdown-menu justify-content-center  row no-gutters" aria-labelledby="navbarDropdownLanguage">
                 <div class="col-8 mx-auto">
                     <a class="px-0 d-flex justify-content-between align-items-center" v-if="!locales.ru"
-                        href="{{ route(\Request::route()->getName(), array_merge(Request::route()->parameters(), ['locale' => 'ru'])) }}">
+                        href="{{$to_ru}}">
                         <span class="mx-auto">Русский</span>
                     </a>
                 </div>
                 <div class="col-8 mx-auto">
                     <a class="px-0 d-flex justify-content-between align-items-center" v-if="!locales.en"
-                        href="{{ route(\Request::route()->getName(), array_merge(Request::route()->parameters(), ['locale' => 'en'])) }}">
+                        href="{{$to_en}}">
                         <span class="mx-auto">English</span>
                     </a>
                 </div>
+                {{--     <div class="col-8 mx-auto">
+                    <a class="px-0 d-flex justify-content-between align-items-center" v-if="!locales.ru"
+                        href="{{ route(\Request::route()->getName(), array_merge(Request::route()->parameters(), ['locale' => 'ru'])) }}">
+                <span class="mx-auto">Русский</span>
+                </a>
             </div>
+            <div class="col-8 mx-auto">
+                <a class="px-0 d-flex justify-content-between align-items-center" v-if="!locales.en"
+                    href="{{ route(\Request::route()->getName(), array_merge(Request::route()->parameters(), ['locale' => 'en'])) }}">
+                    <span class="mx-auto">English</span>
+                </a>
+            </div> --}}
         </div>
+    </div>
     </div>
 </nav>

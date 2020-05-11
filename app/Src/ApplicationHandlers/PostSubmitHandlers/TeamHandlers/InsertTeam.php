@@ -5,6 +5,7 @@ namespace App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers;
 use App\Models\Team;
 use App\User;
 use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
+use App\Src\ApplicationHelpers\TeamHelper;
 
 class InsertTeam extends AbstractPostSubmitHandler
 {
@@ -22,7 +23,6 @@ class InsertTeam extends AbstractPostSubmitHandler
         $this->event_id = $applicationDataForUser[0]->event_id;
 
         foreach ($applicationDataForUser as $value) {
-
             switch ($value->name) {
                 case 'team_name':
                     $this->team_name = $value->answer;
@@ -46,7 +46,9 @@ class InsertTeam extends AbstractPostSubmitHandler
             ['id' => $this->submitAdditionalData->bound_to_team],
             [
                 'application_id' => $this->submit->application_id,
+                'submit_id' => $this->submit->id,
                 'team_name' => $this->team_name,
+                'event_id' =>  $this->event_id,
                 'country' => $this->country,
                 'city' => $this->city,
                 'university' => $this->university,
@@ -56,10 +58,7 @@ class InsertTeam extends AbstractPostSubmitHandler
             $this->submitAdditionalData->bound_to_team = $team->id;
             $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
         }
-        User::find($this->submit->user_id)->events()->syncWithoutDetaching([$this->event_id => ["team_id" => $team->id]]);
-    }
 
-    public function addUserAndTeamToEvent()
-    {
+        // TeamHelper::bindUserToTeam(\Auth::user()->id, $team->id);
     }
 }

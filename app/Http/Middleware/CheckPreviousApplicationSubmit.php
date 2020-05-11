@@ -21,9 +21,14 @@ class CheckPreviousApplicationSubmit
         $locale = app()->getLocale();
         $depends_on = explode(",", $application->depends_on);
         if (isset($application->depends_on)) {
-            $submits = Submit::where("user_id", \Auth::user()->id)->whereIn("application_id", $depends_on)->get();
+            // $submits = Submit::where("user_id", \Auth::user()->id)->whereIn("application_id", $depends_on)->get();
+            $submits =  Submit::with('users')->whereIn("application_id", $depends_on)->whereHas('users', function ($q) {
+                $q->where('user_id', \Auth::user()->id);
+            })->get();
+
             $submitted_applications = $submits->pluck('application_id')->toArray();
 
+            // dd($submits);
             // dd(array_diff($depends_on, $submitted_applications));
             if ($submits->isEmpty() || $submits->count() < count($depends_on)) {
                 $depends_on = array_diff($depends_on, $submitted_applications);

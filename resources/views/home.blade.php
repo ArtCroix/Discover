@@ -44,33 +44,40 @@
                                                     {{ json_decode($event->title, true)[app()->getLocale()] }}
                                                 </a></div>
                                         </td>
-                                        {{--                    <td class="table-text">
-                                            @if (!empty($event->teams->first()))
-                                            <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
-                                        title="{{ __('Перейти к мероприятию') }}">
-                                        {{ json_decode($event->title, true)[app()->getLocale()] }}
-                                        </a>
-                        </div>
-                        @else
-                        {{ json_decode($event->title, true)[app()->getLocale()] }}
-                        @endif
-                        </td> --}}
-                        <td class="table-text">
-                            <div>
-                                @if (!empty($event->teams->first()))
-                                {{ $event->teams->first()->team_name }}
-                                @else
-                                @forelse ($event->applications as $app)
-                                @if ($app->depends_on == null)
-                                <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
-                                        title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ $app->type }}</a>
-                                </div>
-                                @endif
-                                @empty
-                                <div>{{ __('регистрация недоступна') }}</div>
-                                @endforelse
-                                @endif
-                            </div>
+
+                                        <td class="table-text">
+                                            <div>
+                                                @if (!$event->user_team->isEmpty())
+                                                {{ $event->user_team->first()->team_name }}
+
+                                                @else
+                                                @forelse ($event->applications as $app)
+                                                @if ($app->type == "thematic")
+                                                <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
+                                                        title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ __('регистрация') }}</a>
+                                                </div>
+                                                @endif
+                                                @empty
+                                                <div>{{ __('регистрация не началась') }}</div>
+                                                @endforelse
+                                                @endif
+
+                                            </div>
+                                            {{--              <div>
+                                                @if (!empty($event->teams_auth_user->first()))
+                                                {{ $event->teams_auth_user->first()->team_name }}
+                                            @else
+                                            @forelse ($event->applications as $app)
+                                            @if ($app->type == "thematic")
+                                            <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
+                                                    title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ __('регистрация команды') }}</a>
+                                            </div>
+                                            @endif
+                                            @empty
+                                            <div>{{ __('регистрация не началась') }}</div>
+                                            @endforelse
+                                            @endif
+                        </div> --}}
                         </td>
                         </tr>
                         @empty
@@ -111,11 +118,11 @@
                         <table class="table table-striped task-table">
                             <thead>
                                 <th>{{ __('Мероприятие') }}</th>
-                                <th>{{ __('Команда') }}</th>
+                                <th>{{ __('Регистрация') }}</th>
                             </thead>
 
                             <tbody>
-                                @forelse (App\Models\Event::has('teams')->get()->where('active', 0) as $event)
+                                @forelse ($events->where('active', 0) as $event)
                                 <tr>
                                     <td class="table-text">
                                         <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
@@ -124,7 +131,7 @@
                                             </a></div>
                                     </td>
                                     <td class="table-text">
-                                        <div>{{ $event->teams->first()->team_name }}</div>
+                                        <div>регистрация завершена</div>
                                     </td>
                                 </tr>
                                 @empty
@@ -142,9 +149,9 @@
         </div>
     </div>
 </div>
-    <p><br /></p>
+<p><br /></p>
 </div>
 @endsection
 @section('footer')
-    @include('events.footer')
+@include('events.footer')
 @endsection

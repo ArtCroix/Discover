@@ -18,7 +18,10 @@
                     </div>
                     @endif
 
-                    {{ __('E-mail') }}: {{ Auth::user()->email }}
+                    <p>{{ __('Логин') }}: {{ Auth::user()->login }}</p>
+                    <p>{{ __('ФИО') }}: {{ Auth::user()->lastname }} {{ Auth::user()->firstname }}</p>
+                    <p>{{ Auth::user()->middlename }}</p>
+                    <p>{{ __('E-mail') }}: {{ Auth::user()->email }}</p>
                 </div>
             </div>
         </div>

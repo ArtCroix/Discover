@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application\Application;
 use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\ApplicationHandler;
-use App\Src\ApplicationHandlers\SubmitHandler;
 use App\Src\ApplicationHandlers\ValidationHandler;
-use App\Src\ApplicationHelpers\CreateNewSubmitFromExistingOne;
 use App\Src\ApplicationStrategies\ApplicationAfterSubmitStrategyFactory;
 use App\Src\ApplicationStrategies\ApplicationBeforeSubmitStrategyFactory;
 use Illuminate\Http\Request;
@@ -27,7 +25,6 @@ class ApplicationController extends Controller
 
     public function __construct(Request $request)
     {
-        // $this->middleware('auth');
         $this->middleware('auth', ['except' => ['doCopySubmit']]);
         $this->request = $request;
         $this->request_all = $request->all();
@@ -35,64 +32,42 @@ class ApplicationController extends Controller
         $this->request_files = $request->allFiles();
     }
 
+    public function doShowApplicationForm(string $event_name, int $application_id)
+    {
+        return ApplicationHandler::showApplicationForm($event_name, $application_id, \Auth::id());
+    }
+
     public function doCreateApplicationSubmit(int $application_id, Request $request)
     {
-        $this->application = Application::find($application_id)->load('event');
-
-        $this->event = $this->application->event;
-
-        session(['locale' => app()->getLocale()]);
-
-        $applicationAfterStrategies = $this->getAfterStrategies($this->application);
-
         $validator = ValidationHandler::validateAppData($application_id, $this->request_post, $this->request_files);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        session(['locale' => app()->getLocale()]);
+        $this->application = Application::find($application_id)->load('event');
+
+        $this->event = $this->application->event;
+        // dd(Auth::user());
         $appHandler = new ApplicationHandler($application_id, $request, Auth::user(), $this->event);
-
-        $applicationDataForUser = $appHandler->createApplicationSubmit();
-        // dd($applicationDataForUser);
-        foreach ($applicationAfterStrategies as $afterStrategies) {
-            foreach ($afterStrategies as $key => $afterStrategy) {
-                $this->additionalDataForResponse[$key] = $afterStrategy::execute($applicationDataForUser);
-            }
-        }
-        return response()->json(['status' => 'OK', 'applicationDataForUser' => $applicationDataForUser] + $this->additionalDataForResponse, 200);
+        return  $appHandler->createApplicationSubmit();
     }
 
-    public function getAfterStrategies(Application $application)
+    public function getTabsData(string $event_name)
     {
-        $applicationAfterStrategies = explode(",", $application->after_strategies);
-        return ApplicationAfterSubmitStrategyFactory::createApplicationStrategy($applicationAfterStrategies);
+        ApplicationHandler::getEventApplicationsForUser($event_name, \Auth::user()->id);
     }
 
-    public function getBeforeStrategies(array $applicationBeforeStrategies)
+    public function showAppAnswers(int $app_id)
     {
-        return ApplicationBeforeSubmitStrategyFactory::createApplicationStrategy($applicationBeforeStrategies);
+        return view('admin.app_answers');
+
+        // ApplicationHandler::getEventApplicationsForUser($event_name, \Auth::user()->id);
     }
 
-    public static function doDeleteFileFromApplicationSubmit()
+    public function getAppAnswers(string $event_name)
     {
-        SubmitHandler::deleteFileFromApplicationSubmit();
-    }
-
-    public function showApplicationForm(string $event_name, int $application_id)
-    {
-        $is_submitted = Submit::where('user_id', \Auth::user()->id)->where('application_id', $application_id)->exists();
-        $eventApplications = ApplicationHandler::getEventApplicationsForUser($event_name, Auth::user()->id);
-        $applicationDataForUser = ApplicationHandler::getApplicationDataForUser($application_id, Auth::user()->id);
-        $applicationBeforeStrategies = $this->getBeforeStrategies(explode(",", $applicationDataForUser[0]->before_strategies));
-        // dd($applicationBeforeStrategies);
-
-        foreach ($applicationBeforeStrategies as $beforeStrategies) {
-            foreach ($beforeStrategies as $key => $beforeStrategy) {
-                $additionalDataForForm[$key] = $beforeStrategy::execute($applicationDataForUser);
-            }
-        }
-
-        return view('events.form')->with(['applicationDataForUser' => $applicationDataForUser, 'eventApplications' => $eventApplications, 'application_id' => $application_id, 'strategies' => array_keys($applicationBeforeStrategies), 'additionalDataForForm' => $additionalDataForForm ?? [], 'is_submitted' => $is_submitted]);
+        // ApplicationHandler::getEventApplicationsForUser($event_name, \Auth::user()->id);
     }
 }

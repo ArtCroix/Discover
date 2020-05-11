@@ -1,7 +1,6 @@
 let strategies_action = {
   invitation() {
     if (this.is_submitted == "false") {
-      console.log("falsss");
       let answers_for_team_reg_app = JSON.parse(this.additional_data_for_form)[
         "answers_for_team_reg_app"
       ];

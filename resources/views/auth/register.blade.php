@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <p><span class="text-danger">*</span> - {{ __('поля, обязательные к заполнению') }}</p>
-                    <form method="POST" name="user_reg" action="{{ route('register') }}">
+                    <form method="POST" name="user_reg" action="{{ route('register', app()->getLocale()) }}">
                         @csrf
                         <div class="form-group row">
                             <label for="login" class="col-md-4 col-form-label text-md-right">{{ __('Логин') }}<span
@@ -97,8 +97,8 @@
                         <div class="form-group form-check text-center">
                             <input type="checkbox" value="1" name="agreement"
                                 class="form-check-input @error('agreement') is-invalid @enderror" id="agreement">
-                            <label class="form-check-label"
-                                   for="agreement"><a href="{{ url('/docs/agreement_' . app()->getLocale() . '.docx') }}">
+                            <label class="form-check-label" for="agreement"><a
+                                    href="{{ url('/docs/agreement_' . app()->getLocale() . '.pdf') }}" target="_blank">
                                     {{ __('Согласие на обработку персональных данных') }}</a><span
                                     class="text-danger">*</span></label>
 
