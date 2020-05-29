@@ -17,7 +17,7 @@ class CheckPreviousApplicationSubmit
      */
     public function handle($request, Closure $next)
     {
-        $application = Application::find($request->app_id)->load('event');
+        $application = Application::find($request->application_id)->load('event');
         $locale = app()->getLocale();
         $depends_on = explode(",", $application->depends_on);
         if (isset($application->depends_on)) {

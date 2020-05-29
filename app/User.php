@@ -41,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function submits()
     {
-        return $this->hasMany('App\Models\Application\Submit');
+        return $this->belongsToMany('App\Models\Application\Submit');
     }
 
     public function answers()

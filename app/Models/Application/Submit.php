@@ -25,6 +25,11 @@ class Submit extends Model
 
     public function users()
     {
-        return $this->belongsToMany('App\User', 'submit_user')->withTimestamps()->withPivot('user_id');;
+        return $this->belongsToMany('App\User', 'submit_user')->withTimestamps()->withPivot('user_id');
+    }
+
+    public function event()
+    {
+        return $this->hasOneThrough('App\Models\Event', 'App\Models\Application\Application');
     }
 }

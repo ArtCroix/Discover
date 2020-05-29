@@ -4,61 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Team;
+use App\Src\ApplicationHelpers\TeamHelper;
 use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Src\ApplicationHandlers\AnswerHandler;
+use App\Src\ApplicationHelpers\ApplicationHelper;
+use App\Src\ApplicationHelpers\PaymentHelper;
 
 class PaymentController extends Controller
 {
-    /*     public function __construct()
-    {
-       
-    }
- */
     public static function getPriceForUser(string $event_name, int $team_id)
     {
-        $prices_type = \DB::select(
-            'with A as(SELECT
-                teams.submit_id,
-                `events`.event_name
-                FROM
-                teams
-                INNER JOIN `events` ON teams.event_id = `events`.id
-                INNER JOIN submits ON teams.submit_id = submits.id
-                INNER JOIN applications ON submits.application_id = applications.id
-                WHERE
-                applications.type = "team_registration" AND
-                `events`.event_name = :event_name AND teams.id = :team_id
+        $answers = PaymentHelper::getAnswersForPriceCalculation($event_name, $team_id);
 
-                GROUP BY submit_id
-                )
-                SELECT answers.`value`, questions.`name` 
-
-                from answers JOIN questions on answers.question_id=questions.id
-                join A on answers.submit_id=A.submit_id
-                WHERE (questions.name like "%user_email%" or questions.name like "%price_type%" or questions.name like "%phone%") and answers.`value` is not null',
-            ['event_name' => $event_name, 'team_id' => $team_id]
-        );
-
-        $prices_type = collect($prices_type)->pluck('value', 'name')->toArray();
-        if (!empty($prices_type)) {
-            if ($prices_type['user_email_1'] == $_GET['email']) {
-                $email = $prices_type['user_email_1'];
-                $phone = $prices_type['user_phone_1'];
-                $price_type = $prices_type['price_type_1'];
-            } elseif ($prices_type['user_email_2'] == $_GET['email']) {
-                $email = $prices_type['user_email_2'];
-                $phone = $prices_type['user_phone_2'];
-                $price_type = $prices_type['price_type_2'];
-            } elseif ($prices_type['user_email_3'] == $_GET['email']) {
-                $email = $prices_type['user_email_3'];
-                $phone = $prices_type['user_phone_3'];
-                $price_type = $prices_type['price_type_3'];
-            } elseif ($prices_type['user_email_4'] == $_GET['email']) {
-                $email = $prices_type['user_email_4'];
-                $phone = $prices_type['user_phone_4'];
-                $price_type = $prices_type['price_type_4'];
+        if (!empty($answers)) {
+            if ($answers['user_email_1'] == $_GET['email']) {
+                $email = $answers['user_email_1'];
+                $phone = $answers['user_phone_1'];
+                $price_type = $answers['price_type_1'];
+            } elseif ($answers['user_email_2'] == $_GET['email']) {
+                $email = $answers['user_email_2'];
+                $phone = $answers['user_phone_2'];
+                $price_type = $answers['price_type_2'];
+            } elseif ($answers['user_email_3'] == $_GET['email']) {
+                $email = $answers['user_email_3'];
+                $phone = $answers['user_phone_3'];
+                $price_type = $answers['price_type_3'];
+            } elseif ($answers['user_email_4'] == $_GET['email']) {
+                $email = $answers['user_email_4'];
+                $phone = $answers['coach_phone'];
+                $price_type = $answers['coach_price_type'];
             } else {
                 $email = '';
                 $phone = '';
@@ -66,38 +43,53 @@ class PaymentController extends Controller
         } else {
             exit('Неверная ссылка');
         }
-        // dd($prices_type);
-        // dump($prices_type);
         return ["price_type" => $price_type, "phone" => $phone];
+    }
+
+    public function showPaymentLinks(string $event_name, string $locale = 'ru')
+    {
+        $team = TeamHelper::getTeamForEvent($event_name, \Auth::user()->id);
+
+        $answers = AnswerHandler::getAnswersForSubmit($team[0]->submit_id);
+        $submit = Submit::find($team[0]->submit_id);
+        $submitAdditionalData = json_decode($submit->additional_data) ?: (object) ['currency' => 'rub'];
+        foreach ($answers as $answer) {
+            if (strpos($answer->question['name'], 'user_email') === 0 && $answer->value)
+                $user_emails[] = $answer->value;
+        }
+
+        $eventApplications = ApplicationHelper::getEventApplicationsForUser($event_name, Auth::user()->id, $locale);
+
+        return view("events.payment_links")->with(["team_id" => $team[0]->team_id, "answers" => $answers, "event_name" => $event_name, "user_emails" => $user_emails, "currency" => $submitAdditionalData->currency, 'eventApplications' => $eventApplications]);
     }
 
     public function showPaymentPage(string $event_name, int $team_id)
     {
-        list("price_type" => $price_type, "phone" => $phone) = self::getPriceForUser($event_name, $team_id);
-        $event = Event::where("event_name", $event_name)->first();
-        $prices = json_decode($event->price, true)['rub'][$price_type];
-        $now = date('Y-m-d');
-        foreach ($prices as $date => $price)
-            if ($now <= $date) {
-                break;
-            }
-        return view("events.payment")->with(["price" => $price, "phone" => $phone, "event_name" => $event_name,  "email" => $_GET['email']]);
+        $data = self::collectDataForPaymentPage($event_name, $team_id, 'rub');
+        extract($data);
+        return view("events.payment")->with(["price" => $price, "phone" => $phone, "event_name" => $event_name,  "email" => $_GET['email'], "team" => $team]);
     }
 
     public function showUSDPaymentPage(string $event_name, int $team_id)
     {
+        $data = self::collectDataForPaymentPage($event_name, $team_id, 'usd');
+        extract($data);
+        return view("events.usd_payment")->with(["price" => $price, "phone" => $phone, "event_name" => $event_name,  "email" => $_GET['email'], "team" => $team]);
+    }
+
+    public static function collectDataForPaymentPage(string $event_name, int $team_id, string $currency)
+    {
         list("price_type" => $price_type, "phone" => $phone) = self::getPriceForUser($event_name, $team_id);
-        $event = Event::where("event_name", $event_name)->first();
-        $prices = json_decode($event->price, true)['usd'][$price_type];
+        $team = Team::find($team_id)->load('event');
+        $event = $team->event;
+        $prices = json_decode($event->price, true)[$currency][$price_type];
         $now = date('Y-m-d');
-        foreach ($prices as $date => $price)
+        foreach ($prices as $date => $price) {
             if ($now <= $date) {
                 break;
             }
-        return view("events.usd_payment")->with(["price" => $price, "phone" => $phone, "event_name" => $event_name,  "email" => $_GET['email']]);
-    }
+        }
 
-    public function toPay()
-    {
+        return ["price" => $price, "phone" => $phone, "event_name" => $event_name,  "email" => $_GET['email'], "team" => $team->team_name];
     }
 }

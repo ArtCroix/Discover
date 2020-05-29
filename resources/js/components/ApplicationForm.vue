@@ -2,7 +2,7 @@
   <div class="cotainer-fluid w-75 mx-auto">
     <div v-html="JSON.parse(application_data[0].description)[current_locale]"></div>
     <form name="app_form" method="POST" enctype="multipart/form-data">
-      <component :is="layoutComponent">
+      <component :is="layoutComponent" :app_files="app_files">
         <template v-for="(slot) in slots" v-slot:[slot]>
           <component
             v-for="(question_item, index) in application_data"
@@ -14,13 +14,15 @@
             :errors="errors"
           ></component>
         </template>
+        <input type="hidden" name="_token" :value="csrf_token" />
+        <template v-slot:submit_button>
+          <button
+            type="submit"
+            @click.prevent="submit()"
+            class="btn btn-primary"
+          >{{ JSON.parse(application_data[0].settings)['submit_button'][current_locale] }}</button>
+        </template>
       </component>
-      <input type="hidden" name="_token" :value="csrf_token" />
-      <button
-        type="submit"
-        @click.prevent="submit()"
-        class="btn btn-primary"
-      >{{ JSON.parse(application_data[0].settings)['submit_button'][current_locale] }}</button>
     </form>
     <created_docs :created_docs="created_docs"></created_docs>
   </div>
@@ -45,7 +47,6 @@ export default {
           }
         )
         .then(data => {
-          console.log(data);
           this.application_data = data.data.applicationDataForUser;
           this.created_docs = data.data.created_docs;
           this.clearErrorsObject();

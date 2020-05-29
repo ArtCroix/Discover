@@ -14,15 +14,15 @@
       <div class="user_1 col-sm-4 col-12 mt-4">
         <slot name="user_1"></slot>
       </div>
-      <div v-if="display_invitations.user_2" class="user_2 col-sm-4 col-12 mt-4">
+      <div v-show="display_invitations.user_2" class="user_2 col-sm-4 col-12 mt-4">
         <slot name="user_2"></slot>
       </div>
-      <div v-if="display_invitations.user_3" class="user_3 col-sm-4 col-12 mt-4">
+      <div v-show="display_invitations.user_3" class="user_3 col-sm-4 col-12 mt-4">
         <slot name="user_3"></slot>
       </div>
     </div>
     <div class="row justify-content-between">
-      <div v-if="display_invitations.coach" class="coach col-sm-4 col-12 mt-4">
+      <div v-show="display_invitations.coach" class="coach col-sm-4 col-12 mt-4">
         <slot name="coach"></slot>
       </div>
       <div class="col-sm-4 col-12 mt-4">

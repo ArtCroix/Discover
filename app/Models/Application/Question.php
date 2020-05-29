@@ -10,8 +10,7 @@ class Question extends Model
 
     public function answers()
     {
-        return
-        $this->hasMany('App\Models\Application\Answer');
+        return $this->hasMany('App\Models\Application\Answer');
     }
 
     public function application()

@@ -14,6 +14,7 @@ class ApplicationAfterSubmitStrategyFactory
         ],
         'doc_creating' => ['created_docs' => 'App\Src\ApplicationStrategies\AfterSubmitStrategies\DocCreatingStrategy'],
         'doc_creating_invitation' => ['created_docs' => 'App\Src\ApplicationStrategies\AfterSubmitStrategies\DocCreatingInvitationStrategy'],
+        'doc_creating_paid_contract' => ['created_docs' => 'App\Src\ApplicationStrategies\AfterSubmitStrategies\DocCreatingPaidContractStrategy'],
     ];
 
     public static function createApplicationStrategy(array $applicationTypes)

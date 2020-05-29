@@ -17,11 +17,11 @@
             <br>
             <br>
             <application-payment-form-usd price='{!!$price!!}' phone='{!!$phone!!}' email='{!!$email!!}'
-                event_name='{!!$event_name!!}'>
+                event_name='{!!$event_name!!}' team='{!!$team!!}'>
             </application-payment-form-usd>
 
             <p class="pt-5">{{ __('Если у вас есть какие-то вопросы, пожалуйста, свяжитесь с нами')}} <a
-                    href="mailto:workshops@it-edu.com">workshops@it-edu.com</a>.<br/>
+                    href="mailto:workshops@it-edu.com">workshops@it-edu.com</a>.<br />
                 {{ __('Спасибо')}}!
             </p>
         </div>

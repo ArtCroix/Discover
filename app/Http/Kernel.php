@@ -64,6 +64,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'check_prev_submit' => \App\Http\Middleware\CheckPreviousApplicationSubmit::class,
         'admin_only' => \App\Http\Middleware\AdminOnly::class,
+        'team_member_only' => \App\Http\Middleware\TeamMemberOnly::class,
+        'check_application_locale' => \App\Http\Middleware\CheckApplicationLocale::class,
     ];
 
     /**

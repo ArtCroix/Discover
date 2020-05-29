@@ -5,6 +5,7 @@ namespace App\Src\ApplicationHandlers;
 use App\Models\Application\Answer;
 use App\Models\Application\Submit;
 use App\User;
+use App\Src\UserHandler;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -60,8 +61,6 @@ class SubmitHandler
 
     public static function deleteFileFromApplicationSubmit(Request $request)
     {
-        // $submit = Submit::find(request()->submit_id)->where('user_id', auth()->user()->id);
-
         $files = FileHandler::getListOfUploadedFiles($request->question_id, $request->submit_id);
 
         $files = array_values(array_filter($files, function ($v) use ($request) {
@@ -72,5 +71,25 @@ class SubmitHandler
             ->update(['value' => $files]);
 
         Storage::delete($request->file_path);
+    }
+
+    public static function deleteSubmit($submit_id)
+    {
+        $submit = Submit::find($submit_id)->load("users");
+        foreach ($submit->users as $user) {
+            UserHandler::deleteUserDirs($user->id);
+        }
+        $submit->delete();
+        return $submit;
+    }
+
+    public static function unbindUserFromSubmit($user_id, $submit_id)
+    {
+        $submit = Submit::find($submit_id)->load("users");
+        foreach ($submit->users as $user) {
+            UserHandler::deleteUserDirs($user->id);
+        }
+        $submit->users()->detach([$user_id]);
+        return $submit;
     }
 }

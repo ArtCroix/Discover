@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\Team;
 use App\User;
 use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\ApplicationHandler;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Builder;
-use App\Src\ApplicationHandlers\ValidationHandler;
+use App\Src\UserHandler;
+use App\Src\TeamHandler;
+use App\Src\ApplicationHandlers\SubmitHandler;
 use App\Models\Application\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Src\ApplicationHandlers\AnswerHandler;
+use App\Models\Application\Question;
 
 class AdminController extends Controller
 {
     public function __construct(Request $request)
     {
-
         $this->request = $request;
         $this->request_all = $request->all();
         $this->request_post = $request->post();
@@ -44,31 +44,10 @@ class AdminController extends Controller
         return view('admin.event')->with(['event' => $event]);
     }
 
-    public function showAppInfo($event_name, $app_id)
+    public function showAppInfo($event_name, $application_id)
     {
-        $application = Application::where("id", $app_id)->first()->load("submits.users")->load("answers")->load("questions");
-        //        $application = Application::find($app_id)->first()->load("submits.users");
-        //        dd($application);
+        $application = Application::where("id", $application_id)->first()->load("submits.users")->load("answers")->load("questions");
         return view('admin.app_info')->with(['application' => $application, 'event_name' => $event_name]);
-    }
-
-    public function editApplicationDataForUser(int $application_id, int $user_id, Request $request)
-    {
-        Auth::onceUsingId($user_id);
-
-        $validator = ValidationHandler::validateAppData($application_id, $this->request_post, $this->request_files);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        session(['locale' => app()->getLocale()]);
-        $this->application = Application::find($application_id)->load('event');
-
-        $this->event = $this->application->event;
-        // dd(Auth::user());
-        $appHandler = new ApplicationHandler($application_id, $request, Auth::user(), $this->event);
-        return  $appHandler->editForUserApplicationSubmit();
     }
 
     public function showUserInfo($user_id)
@@ -104,58 +83,28 @@ class AdminController extends Controller
         ]);
     }
 
-    public function deleteUser($user_id, Request $request)
+    public function doDeleteUser($user_id, Request $request)
     {
-        $directory = Storage::getAdapter()->getPathPrefix() . "events";
-        // dd($user_id);
-        function getUserDirs($dir, $search_dir)
-        {
-            $subDir = array();
+        UserHandler::deleteUser($user_id);
+        return redirect()->route('users');
+    }
 
-            $dirs = [];
-            $directories = array_filter(glob($dir), 'is_dir');
-            $subDir = array_merge($subDir, $directories);
-            foreach ($directories as $directory) {
-                if (preg_match($search_dir, $directory)) {
-                    // dump($directory);
+    public function doDeleteTeam($team_id, Request $request)
+    {
+        TeamHandler::deleteTeam($team_id);
+        return redirect()->route('show_event_info', $request->get('event_name'));
+    }
 
-                    exec("rm -rf " . $directory . "/*");
-                    // $dirs[] = $directory;
-                }
-                $subDir = array_merge($subDir, getUserDirs($directory . '/*', $search_dir));
-            }
-            // dump($subDir);
-            return $dirs;
-        }
+    public function doDeleteSubmit($submit_id)
+    {
+        $submit = SubmitHandler::deleteSubmit($submit_id);
+        return redirect()->route('show_app_answers', $submit->application_id);
+    }
 
-        // $user = User::find($user_id)->delete();
-        /*         $sb = getUserDirs($directory, "/users_data\/{$user_id}$/");
-        dd($sb); */
-        // dd(Storage::getAdapter()->getPathPrefix());
-        $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory));
-        $dirs = array_filter(glob($directory), 'is_dir');
-        /*   print_r($dirs);
-        $dir = new \DirectoryIterator($directory);
-        foreach ($dir as $fileinfo) {
-            if ($fileinfo->isDir() && !$fileinfo->isDot()) {
-                echo $fileinfo->getFilename() . '<br>';
-            }
-        }
-        dd(3); */
-        $it->rewind();
-        while ($it->valid()) {
-
-            if (!$it->isDot()) {
-                /*       echo 'SubPathName: ' . $it->getSubPathName() . "<br>";
-                echo 'SubPath:     ' . $it->getSubPath() . "<br>";
-                echo 'Key:         ' . $it->key() . "<br>"; */
-
-                if (strpos($it->key(), "users_data/{$user_id}/")) {
-                }
-            }
-
-            $it->next();
-        }
+    public function doUnbindUserFromSubmit($user_id, $submit_id)
+    {
+        $submit = SubmitHandler::unbindUserFromSubmit($user_id, $submit_id);
+        return redirect()->route('show_app_answers', $submit->application_id);
     }
 
     protected function validator(array $data, $user_id)
@@ -172,17 +121,23 @@ class AdminController extends Controller
         ]);
     }
 
-
-    public function doShowApplicationFormForUser(string $event_name, int $application_id, $user_id)
+    public function doShowApplicationForm(int $submit_id, string $locale = 'ru')
     {
-        return ApplicationHandler::showApplicationFormForEdit($event_name, $application_id, $user_id);
+        $submit = Submit::find($submit_id)->load(["users", "application.event"]);
+        // dd($submit);
+        $user = $submit->users()->first();
+        $application = $submit->application;
+        $event = $submit->application->event;
+        // dd($application->id);
+        return ApplicationHandler::showApplicationForm($event->event_name, $application->id, $user->id, 'admin.edit_form', $locale);
     }
 
-    public function doShowApplicationFormForSubmit(string $event_name, int $application_id, $submit_id)
+    public function showAppAnswers(int $application_id)
     {
-        $user = Submit::find($submit_id)->users()->first();
-        // $user=User::first()
-        // dd($user);
-        return ApplicationHandler::showApplicationFormForEdit($event_name, $application_id, $user->id);
+        $submits = Submit::with("users")->where("application_id", $application_id)->get();
+        $questions = Question::where("application_id", $application_id)->whereNotNull("name")->orderBy("position")->get();
+        $answers = AnswerHandler::getAnswersForApp($application_id)->sortBy('question.position');
+        $answers = $answers->groupBy('submit_id');
+        return view('admin.app_answers')->with(["answers" => $answers, "submits" => $submits, "questions" => $questions]);
     }
 }

@@ -59,7 +59,8 @@ export default {
     email: "",
     price: "",
     phone: "",
-    event_name: ""
+    event_name: "",
+    team: ""
   },
   computed: {
     ...mapState(["locales", "current_locale"]),
@@ -82,7 +83,7 @@ export default {
     options() {
       return {
         publicId: "pk_fbbc8fbf10a9deafcd574b15bc67f",
-        description: `Организация тренировочного курса ${this.event_name}`,
+        description: `Организация тренировочного курса ${this.event_name}:${this.team}`,
         amount: +this.price,
         currency: "RUB",
         invoiceId: +new Date() + `${this.event_name}`,
@@ -115,7 +116,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.price);
+    console.log(this.event_name);
     const plugin = document.createElement("script");
     plugin.setAttribute(
       "src",

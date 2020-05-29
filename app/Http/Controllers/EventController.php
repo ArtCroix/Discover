@@ -5,26 +5,92 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Team;
 use App\Models\Application\Submit;
-use App\Src\ApplicationHandlers\ApplicationHandler;
+use App\Src\EventHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Src\ApplicationHelpers\ApplicationHelper;
+use App\Src\ApplicationHelpers\TeamHelper;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
-    /*     public function __construct()
-    {
-        $this->middleware('auth');
-    }
- */
-    public function eventStatus(string $event_name)
+    public function eventStatus(string $event_name, string $locale = 'ru')
     {
         $user_id = \Auth::user()->id;
-        $team = ApplicationHandler::getTeamForEvent($event_name, $user_id);
-        $eventApplications = ApplicationHandler::getEventApplicationsForUser($event_name, Auth::user()->id);
+        $team = TeamHelper::getTeamForEvent($event_name, $user_id);
+        $eventApplications = ApplicationHelper::getEventApplicationsForUser($event_name, Auth::user()->id, $locale);
         return view('events.event', [
             'event' => Event::where('event_name', request()->event_name)->first(),
             'eventApplications' => $eventApplications,
             'team' => $team
+        ]);
+    }
+
+    public function showMaterialPage(string $event_name, string $locale = 'ru')
+    {
+
+        $event = Event::where('event_name', request()->event_name)->first();
+        $event_materials_dir = "events/{$event->event_dir_name}/materials";
+        $event_materials_dir_for_locale = "events/{$event->event_dir_name}/materials/{$locale}";
+        $materials = [];
+        $common_materials = Storage::files($event_materials_dir);
+        $locale_materials = Storage::files($event_materials_dir_for_locale);
+        // dump($common_materials);
+        // dd($locale_materials);
+        $materials = [...$common_materials, ...$locale_materials];
+        // dd($materials);
+        $eventApplications = ApplicationHelper::getEventApplicationsForUser($event_name, Auth::user()->id, $locale);
+
+        // dd($eventApplications);
+        return view('events.materials', [
+            'eventApplications' => $eventApplications,
+            'materials' => $materials
+        ]);
+    }
+
+    public function showEventCreateForm()
+    {
+        return view('events.create_event');
+    }
+
+    public function showEventEditForm($event_id)
+    {
+        $event = Event::find($event_id);
+        // dd(json_decode($event->title));
+        return view('events.edit_event')->with(['event' => $event]);
+    }
+
+    public function doCreateEvent(Request $request)
+    {
+        $this->validatorForCreate($request->all())->validate();
+        EventHandler::createEvent($request->all());
+    }
+
+    public function doEditEvent($event_id, Request $request)
+    {
+        $this->validatorForEdit($request->all(), $event_id)->validate();
+        EventHandler::editEvent($request->all(), $event_id);
+    }
+
+    protected function validatorForCreate(array $data)
+    {
+        return Validator::make($data, [
+            'event_name' => ['required', 'regex:/(^([a-zA-Z_]+)(\d+)?$)/u', 'string', 'max:20', 'min:4', 'unique:events'],
+            'full_name_ru' => ['required', 'string', 'max:255'],
+            'full_name_en' => ['string', 'max:255'],
+
+        ]);
+    }
+
+    protected function validatorForEdit(array $data, $event_id)
+    {
+        return Validator::make($data, [
+            'event_name' => ['required', 'regex:/(^([a-zA-Z_]+)(\d+)?$)/u', 'string', 'max:20', 'min:4', 'unique:events,event_name,' .  $event_id],
+            'full_name_ru' => ['required', 'string', 'max:255',],
+            'full_name_en' => ['string', 'max:255',],
+
         ]);
     }
 }

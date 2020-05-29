@@ -4,23 +4,22 @@
 @endsection
 @section('main')
 
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
             Информация по анкете
         </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
 
             <p>Список ответов на анкету:</p>
-
-            <table border="1" cellpadding="10" valign="top">
-
-            </table>
 
 
         </div>
 
     </div>
+    <answers-table questions_json='{!!e(json_encode($questions),true)!!}'
+        answers_json='{!!e(json_encode($answers),true)!!}' submits_json='{!!e(json_encode($submits),true)!!}'>
+    </answers-table>
 </div>
 @endsection
 @section('footer')

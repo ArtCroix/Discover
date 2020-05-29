@@ -31,4 +31,20 @@ class AnswerHandler
             }
         });
     }
+
+    public static function getAnswersForApp($application_id)
+    {
+        /*    $answers = Answer::with(["question" => function ($query) {
+            $query->orderBy('position');
+        }])->where("application_id", $application_id)->get();
+        dd($answers); */
+        $answers = Answer::where("application_id", $application_id)->get()->load("question");
+        return $answers;
+    }
+
+    public static function getAnswersForSubmit($submit_id)
+    {
+        $answers = Answer::where("submit_id", $submit_id)->get()->load("question");
+        return $answers;
+    }
 }

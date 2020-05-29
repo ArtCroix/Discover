@@ -8,35 +8,40 @@ use App\Src\ApplicationHelpers\CreateNewSubmitFromExistingOne;
 use Illuminate\Http\Request;
 use App\Src\ApplicationHandlers\SubmitHandler;
 use App\Src\UserHandler;
+use App\Src\TeamHandler;
 use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\InsertTeam;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Validator;
-use App\Src\ApplicationHelpers\TeamHelper;
+
 
 class TeamController extends Controller
 {
     public function doAddUserToTeam($submit_id_for_copy, Request $request)
     {
-        \Auth::guard()->logout();
-        $user = UserHandler::createUserByEmail($request->query('email'));
-        \Auth::guard()->login($user);
+        try {
+            \Auth::guard()->logout();
+            $user = UserHandler::createUserByEmail($request->query('email'));
+            \Auth::guard()->login($user);
 
-        $submit_for_copy = CreateNewSubmitFromExistingOne::getSubmitForCopy($submit_id_for_copy);
+            $submit_for_copy = CreateNewSubmitFromExistingOne::getSubmitForCopy($submit_id_for_copy);
 
-        CreateNewSubmitFromExistingOne::bindUserToSubmit($submit_for_copy, $user->id);
+            CreateNewSubmitFromExistingOne::bindUserToSubmit($submit_for_copy, $user->id);
 
-        $team = Team::where('submit_id', $submit_for_copy->id)->first();
+            $team = Team::where('submit_id', $submit_for_copy->id)->first();
 
-        TeamHelper::bindUserToTeam(\Auth::user()->id, $team->id);
+            TeamHandler::bindUserToTeam(\Auth::user()->id, $team->id);
 
-        return redirect()->route('home_event_status', ['event_name' => $submit_for_copy->application->event->event_name]);
+            return redirect()->route('home_event_status', ['event_name' => $submit_for_copy->application->event->event_name]);
+        } catch (\Exception $ob) {
+            return abort(404);
+        }
     }
 
     public function doUnbindUserFromTeam($team_id, $user_id)
     {
         $team = Team::find($team_id);
         if ($team) {
-            TeamHelper::unbindUserFromTeam($team_id, $user_id);
+            TeamHandler::unbindUserFromTeam($team_id, $user_id);
         }
     }
 

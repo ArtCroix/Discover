@@ -58,7 +58,5 @@ class InsertTeam extends AbstractPostSubmitHandler
             $this->submitAdditionalData->bound_to_team = $team->id;
             $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
         }
-
-        // TeamHelper::bindUserToTeam(\Auth::user()->id, $team->id);
     }
 }

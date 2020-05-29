@@ -10,20 +10,28 @@
         :class="current_app_id==0 ? 'active':''"
         :href="`/home/event/${event_name}/status/${current_locale}`"
       >{{ current_locale == 'ru' ? 'Общая информация по мероприятию' : current_locale == 'en' ? 'Event general information' : 'Event general information' }}</a>
+
+      <!-- Вкладки для анкеты -->
       <a
         v-for="(tab, key) in tabs_data"
         :key="key"
-        v-if="ifPreviousAppIsSubmitted(tab.depends_on)"
+        v-if="tab.tab_title"
         class="nav-link nav-item"
-        :class="current_app_id==tab.application_id ? 'active':''"
+        :class="{active:isCurrentTabOpen(current_app_id,tab.application_id), disabled:!ifPreviousAppIsSubmitted(tab.depends_on)}"
         :href="`/home/event/${tab.event_name}/app/${tab.application_id}/${current_locale}`"
       >{{JSON.parse(tab.tab_title)[current_locale]}}</a>
-      <span class="nav-link nav-item disabled" v-else>
-        {{ JSON.parse(tab.tab_title)[current_locale] }} {{ JSON.parse(tab.settings)['tab_access_begin'][current_locale] }}
-        <a
-          :href="`/home/event/${tab.event_name}/app/${getNeededApp(tab.depends_on)}/${current_locale}`"
-        >{{ JSON.parse(tab.settings)['tab_access_end'][current_locale] }}</a>
-      </span>
+
+      <a
+        class="nav-link nav-item"
+        :class="{active:current_app_id=='payment_links',disabled:!isNecessaryAppFilled('team_registration')}"
+        :href="`/payment_links/${event_name}/${current_locale}`"
+      >{{ current_locale == 'ru' ? 'Оплата' : current_locale == 'en' ? 'Payment' : 'Payment' }}</a>
+
+      <a
+        class="nav-link nav-item"
+        :class="{active:current_app_id=='materials'}"
+        :href="`/home/event/${event_name}/materials/${current_locale}`"
+      >{{ current_locale == 'ru' ? 'Методические материалы' : current_locale == 'en' ? 'Materials' : 'Materials' }}</a>
     </div>
   </nav>
 </template>
@@ -50,6 +58,25 @@ export default {
     }
   },
   methods: {
+    isCurrentTabOpen(current_app_id, application_id) {
+      if (current_app_id == application_id) {
+        return true;
+      }
+      return false;
+    },
+
+    isNecessaryAppFilled(app_type) {
+      return this.event_applications_data.some(tab_data => {
+        if (
+          tab_data.type == app_type &&
+          tab_data.submitted_application_type == app_type
+        ) {
+          return true;
+        }
+      });
+      return false;
+    },
+
     ifPreviousAppIsSubmitted(depends_on) {
       if (!depends_on) return true;
       let depends_on_arr = depends_on.split(",");
@@ -78,6 +105,8 @@ export default {
   beforeMount() {
     this.$store.dispatch("changeTabsData", this.event_applications_data);
   },
-  mounted() {}
+  mounted() {
+    console.log(this.event_applications_data);
+  }
 };
 </script>

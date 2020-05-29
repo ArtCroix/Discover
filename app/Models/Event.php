@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Event extends Model
 {
+    protected $guarded = [];
+
     public function applications()
     {
         return $this->hasMany('App\Models\Application\Application');

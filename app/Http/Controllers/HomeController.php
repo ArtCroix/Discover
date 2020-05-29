@@ -8,6 +8,8 @@ use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Src\ApplicationHelpers\ApplicationHelper;
+use App\Src\ApplicationHelpers\TeamHelper;
 
 class HomeController extends Controller
 {
@@ -35,20 +37,6 @@ class HomeController extends Controller
         // dd(($events->find(1)->user_team)->isEmpty());
         return view('home', [
             'events' => $events,
-        ]);
-    }
-
-    public function event_status(string $event_name)
-    {
-        $user_id = \Auth::user()->id;
-        $team = ApplicationHandler::getTeamForEvent($event_name, $user_id);
-        $eventApplications = ApplicationHandler::getEventApplicationsForUser($event_name, Auth::user()->id);
-        // dd($team);
-        return view('events.event', [
-            'event' => Event::where('event_name', request()->event_name)->first(),
-            'app_submits' => Submit::where("user_id", Auth::user()->id)->get('application_id'),
-            'eventApplications' => $eventApplications,
-            'team' => $team
         ]);
     }
 }

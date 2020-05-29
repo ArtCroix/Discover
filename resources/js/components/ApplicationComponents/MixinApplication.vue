@@ -46,6 +46,9 @@ export default {
   props: {
     application_data_for_user: "",
     additional_data_for_form: "",
+    app_files_json: {
+      default: []
+    },
     strategies: "",
     is_submitted: {
       default: false
@@ -53,6 +56,11 @@ export default {
   },
   computed: {
     ...mapState(["locales", "current_locale", "tabs_data"]),
+
+    app_files() {
+      return JSON.parse(this.app_files_json);
+    },
+
     slots() {
       return new Set(this.application_data.map(val => val.slot_name));
     },
@@ -96,7 +104,9 @@ export default {
   },
 
   mounted() {
-    console.log(JSON.parse(this.additional_data_for_form));
+    console.log(this.app_files);
+
+    //Выполнить стратегии
     JSON.parse(this.strategies).forEach(strategy_action => {
       this[strategy_action]();
     });

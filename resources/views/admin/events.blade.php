@@ -11,9 +11,12 @@
     </div>
     <ul>
         @foreach ($events as $event)
-        <li><a href="{{route("show_event_info",$event->event_name)}}">{{$event->event_name}}</a></li>
+        <li><a href="{{route("show_event_info",$event->event_name)}}">{{$event->event_name}}</a><br>
+            <a href="{{route("show_event_edit_form",$event->id)}}">Отредактировать мероприятие</a></li>
         @endforeach
     </ul>
+
+    <a href="{{route("show_event_create_form",$event->id)}}">Создать мероприятие</a></li>
 </div>
 @endsection
 @section('footer')

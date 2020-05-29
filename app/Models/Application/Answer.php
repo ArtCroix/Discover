@@ -18,5 +18,4 @@ class Answer extends Model
     {
         return $this->belongsTo('App\Models\Application\Submit');
     }
-
 }

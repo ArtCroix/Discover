@@ -12,9 +12,9 @@
       />
     </div>-->
     <div class="form-group">
-      <label for="name">
-          {{ current_locale == 'ru' ? 'Имя' : current_locale == 'en' ? 'Name' : 'Name' }}
-      </label>
+      <label
+        for="name"
+      >{{ current_locale == 'ru' ? 'Имя' : current_locale == 'en' ? 'Name' : 'Name' }}</label>
       <input
         type="text"
         v-model="user_name"
@@ -24,9 +24,9 @@
       />
     </div>
     <div class="form-group">
-      <label for="phone">
-          {{ current_locale == 'ru' ? 'Телефон' : current_locale == 'en' ? 'Phone' : 'Phone' }}
-      </label>
+      <label
+        for="phone"
+      >{{ current_locale == 'ru' ? 'Телефон' : current_locale == 'en' ? 'Phone' : 'Phone' }}</label>
       <input
         type="text"
         class="form-control"
@@ -36,9 +36,12 @@
       />
     </div>
 
-    <button type="submit" id="pay_button" @click.prevent="pay" class="btn btn-primary">
-        {{ current_locale == 'ru' ? 'Оплатить' : current_locale == 'en' ? 'Pay' : 'Pay' }}
-    </button>
+    <button
+      type="submit"
+      id="pay_button"
+      @click.prevent="pay"
+      class="btn btn-primary"
+    >{{ current_locale == 'ru' ? 'Оплатить' : current_locale == 'en' ? 'Pay' : 'Pay' }}</button>
   </form>
 </template>
 
@@ -56,11 +59,12 @@ export default {
     email: "",
     price: "",
     phone: "",
-    event_name: ""
+    event_name: "",
+    team: ""
   },
   computed: {
-      ...mapState(["locales", "current_locale"]),
-      receipt() {
+    ...mapState(["locales", "current_locale"]),
+    receipt() {
       return {
         Items: [
           {
@@ -82,7 +86,7 @@ export default {
         description: `Payment for the organization of training courses ${this.event_name}`,
         amount: +this.price,
         currency: "USD",
-        invoiceId: +new Date() + `${this.event_name}`,
+        invoiceId: +new Date() + `${this.event_name}:${this.team}`,
         accountId: this.user_email,
         skin: "classic",
         data: {

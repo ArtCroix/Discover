@@ -11,8 +11,8 @@
         </div>
         <application-form application_data_for_user='{!!e(json_encode($applicationDataForUser),true)!!}'
             additional_data_for_form='{!!e(json_encode($additionalDataForForm),true)!!}'
-            strategies='{!!e(json_encode($strategies),true)!!}'
-            is_submitted='{!!e(json_encode($is_submitted),true)!!}' />
+            strategies='{!!e(json_encode($strategies),true)!!}' is_submitted='{!!e(json_encode($is_submitted),true)!!}'
+            app_files_json='{!!e(json_encode($app_files),true)!!}' />
     </div>
 </main>
 @endsection

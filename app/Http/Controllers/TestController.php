@@ -9,11 +9,13 @@ use App\Src\UserHandler;
 use App\Models\Application\Submit;
 use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\InsertTeam;
 use App\Src\ApplicationHandlers\ApplicationHandler;
+use App\Src\ApplicationHelpers\PaymentHelper;
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
+        PaymentHelper::calculatePriceForTeam('example_event', 75);
         // dd(array_merge($request->route()->parameters(), ['locale' => 'ru'], $request->all()));
         // dd($request->route()->parameters());
         $request->route()->setParameter('locale', 'en'); //new parameter value

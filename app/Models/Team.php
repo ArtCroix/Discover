@@ -10,7 +10,12 @@ class Team extends Model
 
     public function application()
     {
-        return $this->belongsTo('App\Models\Application');
+        return $this->belongsTo('App\Models\Application\Application');
+    }
+
+    public function submit()
+    {
+        return $this->belongsTo('App\Models\Application\Submit');
     }
 
     public function questions()
@@ -18,9 +23,9 @@ class Team extends Model
         return $this->hasManyThrough('App\Models\Question', 'App\Models\Application');
     }
 
-    public function events()
+    public function event()
     {
-        return $this->belongsToMany('App\Models\Event', 'event_team')->withTimestamps();
+        return $this->belongsTo('App\Models\Event');
     }
 
     public function users()
