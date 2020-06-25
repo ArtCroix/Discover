@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\PostSubmitHandlers;
+namespace App\Src\ApplicationHandlers\AfterSubmitHandlers;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\DocHandlerTrait;
-use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\DocHandlerTrait;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\AbstractPostSubmitHandler;
 use Illuminate\Support\Facades\Storage;
 
 class DocHandler extends AbstractPostSubmitHandler

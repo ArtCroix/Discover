@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationStrategies\AfterSubmitStrategies;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\SendEmailToTeamMembers;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers\SendEmailToTeamMembers;
 use App\Src\ApplicationStrategies\AfterSubmitStrategies\AfterSubmitInterfaceStrategy;
 
 

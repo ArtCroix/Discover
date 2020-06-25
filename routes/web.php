@@ -76,7 +76,7 @@ Route::get('/home/event/{event_name}/status/{locale?}', 'EventController@eventSt
     ->where('locale', 'en|ru|cn')
     ->name('home_event_status');
 
-Route::get('/home/event/{event_name}/materials/{locale?}', 'EventController@showMaterialPage')
+Route::get('/home/event/{event_name}/materials/{locale?}', 'EventController@showMaterialsPage')
     ->middleware('auth')
     ->middleware('verified')
     ->where('locale', 'en|ru|cn')
@@ -97,6 +97,10 @@ Route::middleware(['auth', 'verified', 'admin_only'])->prefix('admin')->group(fu
     Route::get('/events/{event_name}/', 'AdminController@showEventInfo')->name('show_event_info');
     Route::get('/events/{event_name}/apps/{application_id}', 'AdminController@showAppInfo')->name('app_info');
     Route::get('/events/{event_name}/users', 'AdminController@showUsersInEvent')->name('users_in_event');
+    Route::get('/events/{event_name}/upload_materials/{locale?}', 'AdminController@showUploadMaterialsPage')->name('upload_materials_page');
+
+    Route::post('/events/{event_name}/upload_materials/{locale?}', 'AdminController@uploadMaterials')->name('upload_materials');
+    Route::delete('/events/delete_materials', 'AdminController@deleteMaterials')->name('delete_materials');
 
     Route::get('/applications/{application_id}', 'AdminController@showAppAnswers')->name('show_app_answers');
 

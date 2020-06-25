@@ -12,7 +12,9 @@
     <ul>
         @foreach ($events as $event)
         <li><a href="{{route("show_event_info",$event->event_name)}}">{{$event->event_name}}</a><br>
-            <a href="{{route("show_event_edit_form",$event->id)}}">Отредактировать мероприятие</a></li>
+            <a href="{{route("show_event_edit_form",$event->id)}}">Отредактировать мероприятие</a>
+            <br>
+            <a href="{{route("upload_materials_page",$event->event_name)}}">Добавить материалы</a></li>
         @endforeach
     </ul>
 

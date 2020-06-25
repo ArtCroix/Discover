@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\PostSubmitHandlers;
+namespace App\Src\ApplicationHandlers\AfterSubmitHandlers;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\DocHandlerTrait;
-use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
-use App\Src\ApplicationHelpers\PaymentHelper;
-use App\Src\ApplicationHelpers\TeamHelper;
-use App\Src\ApplicationHelpers\Num2String;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\DocHandlerTrait;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\AbstractPostSubmitHandler;
 use Illuminate\Support\Facades\Storage;
 
-class DocHandlerPaidContract extends AbstractPostSubmitHandler
+class DocHandlerInvitation extends AbstractPostSubmitHandler
 {
     use DocHandlerTrait;
 
@@ -20,6 +17,7 @@ class DocHandlerPaidContract extends AbstractPostSubmitHandler
         $templatesDirectory = "events/{$event_dir_name}/applications/{$this->submit->application_id}/templates/{$this->locale}";
         $this->submitAdditionalData = $this->getSubmitAdditionalData(['created_docs' => []]);
         $this->submitAdditionalData->created_docs = $this->submitAdditionalData->created_docs ?? [];
+
         $this->resultsDirectory = "events/{$event_dir_name}/applications/{$this->submit->application_id}/users_data/{$this->user->id}/created_files";
         $this->resultsDirectoryFullPath = public_path() . "/storage/events/{$event_dir_name}/applications/{$this->submit->application_id}/users_data/{$this->user->id}/created_files";
         $this->templateFilesList = Storage::files($templatesDirectory);
@@ -32,14 +30,22 @@ class DocHandlerPaidContract extends AbstractPostSubmitHandler
 
     public function modifyReplaceData()
     {
-        $team = TeamHelper::getTeamForEvent($this->applicationDataForUser[0]->event_name, \Auth::user()->id);
-        $total_price = PaymentHelper::calculatePriceForTeam($this->applicationDataForUser[0]->event_name, $team[0]->team_id);
         extract($this->replaceArray);
+        $fio_1 = "";
+        $fio_2 = "";
+        $fio_3 = "";
+        $coach_fio = "";
+        $fio_1 = $firstname_1 . " " . $lastname_1 . " " . $middlename_1;
+        $fio_2 = $firstname_2 . " " . $lastname_2 . " " . $middlename_2;
+        $fio_3 = $firstname_3 . " " . $lastname_3 . " " . $middlename_3;
+        $fio_1 = $fio_1 !== "  " ? trim($fio_1) . "," : "";
+        $fio_2 = $fio_2 !== "  " ? trim($fio_2) . "," : "";
+        $fio_3 = $fio_3 !== "  " ? trim($fio_3) . "," : "";
+        $coach_fio = $coach_firstname . " " . $coach_lastname . " " . $coach_middlename;
 
-        $customer_initials = $customerlastname . ". " . mb_substr($customerfirstname, 0, 1) . ". " . (mb_substr($customermiddlename, 0, 1) != "" ? mb_substr($customermiddlename, 0, 1) . "." : "");
-
-        $this->replaceArray["customerinitials"] = $customer_initials;
-        $this->replaceArray["totalprice"] = $total_price;
-        $this->replaceArray["paymentinwords"] = mb_convert_encoding(Num2String::num2String($total_price), 'Windows-1251', 'utf-8');
+        $this->replaceArray["firstparticipant"] = $fio_1;
+        $this->replaceArray["secondparticipant"] = $fio_2;
+        $this->replaceArray["thirdparticipant"] = $fio_3;
+        $this->replaceArray["coachfio"] = $coach_fio;
     }
 }

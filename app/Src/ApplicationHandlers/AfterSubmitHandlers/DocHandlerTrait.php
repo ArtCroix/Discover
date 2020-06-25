@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\PostSubmitHandlers;
+namespace App\Src\ApplicationHandlers\AfterSubmitHandlers;
 
 use Illuminate\Support\Facades\Storage;
 

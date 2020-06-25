@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers;
+namespace App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers;
 
 use App\Models\Team;
 use App\User;
-use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\AbstractPostSubmitHandler;
 use App\Src\ApplicationHelpers\TeamHelper;
 
 class InsertTeam extends AbstractPostSubmitHandler

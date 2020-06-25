@@ -8,6 +8,8 @@ class Question extends Model
 {
     protected $appends = ['input_name'];
 
+    protected $guarded = ['input_name'];
+
     public function answers()
     {
         return $this->hasMany('App\Models\Application\Answer');

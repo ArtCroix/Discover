@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers;
+namespace App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers;
 
 use App\Mail\TeamRegistered;
 use App\Models\Application\Submit;
-use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\AbstractPostSubmitHandler;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 

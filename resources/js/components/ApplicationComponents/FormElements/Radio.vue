@@ -1,9 +1,7 @@
 <template>
   <div class="mt-4">
-    <!--    <p class="mb-1">{{label}}</p>-->
     <p v-html="label" class="mb-1" v-if="locales.ru" :for="question_id"></p>
     <p v-html="label_en" class="mb-1" v-if="locales.en" :for="question_id"></p>
-    <p v-html="label_en" class="mb-1" v-if="locales.cn" :for="question_id"></p>
     <input hidden :checked="!answer" type="radio" :name="question_id+'#'+name" value />
     <div
       class="form-check"
@@ -34,8 +32,7 @@ export default {
       question_value: this.question_item.value,
       question_value_en: this.question_item.value_en,
       name: this.question_item.name,
-      answer: this.question_item.answer,
-      rules: this.question_item.rule
+      answer: this.question_item.answer
     };
   },
   props: {
@@ -105,11 +102,6 @@ export default {
       return question_data;
     }
   },
-  mounted() {
-    // console.log(this.rules);
-    // console.log(this.answer);
-    /*             console.log(this.value);
-                        console.log(this.old_input_value); */
-  }
+  mounted() {}
 };
 </script>

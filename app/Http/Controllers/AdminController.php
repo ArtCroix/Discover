@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Src\ApplicationHandlers\AnswerHandler;
 use App\Models\Application\Question;
+use App\Src\EventHandler;
 
 class AdminController extends Controller
 {
@@ -93,6 +94,53 @@ class AdminController extends Controller
     {
         TeamHandler::deleteTeam($team_id);
         return redirect()->route('show_event_info', $request->get('event_name'));
+    }
+
+    public function showUploadMaterialsPage(string $event_name)
+    {
+        $event = Event::where('event_name', $event_name)->first();
+        $event_materials_dir = "events/{$event->event_dir_name}/materials";
+        $event_materials_dir_for_ru = "events/{$event->event_dir_name}/materials/ru";
+        $event_materials_dir_for_en = "events/{$event->event_dir_name}/materials/en";
+        $common_materials = Storage::files($event_materials_dir);
+        $ru_materials = Storage::files($event_materials_dir_for_ru);
+        $en_materials = Storage::files($event_materials_dir_for_en);
+
+        return view('events.upload_materials', [
+            'common_materials' => $common_materials,
+            'ru_materials' => $ru_materials,
+            'en_materials' => $en_materials,
+            'event_name' => $event_name,
+        ]);
+    }
+
+    public function uploadMaterials(Request $request, string $event_name, string $locale = "")
+    {
+        $file = $request->allFiles()['file'];
+        $event = Event::where("event_name", $event_name)->first();
+        $filename = trim(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . "." . $file->getClientOriginalExtension());
+        try {
+            $uploaded_file = Storage::putFileAs(
+                "events/{$event->event_dir_name}/materials/{$locale}",
+                $file,
+                $filename
+            );
+        } catch (\Exception $ob) {
+            return response()->json(['errors' => $ob->getMessage()], 422);
+        }
+        return response()->json(['$uploaded_file' => str_replace("//", "/", $uploaded_file)], 200);
+    }
+
+
+    public function deleteMaterials(Request $request)
+    {
+        // dump($request->file_path);
+        try {
+            Storage::delete($request->file_path);
+        } catch (\Exception $ob) {
+            return response()->json(['errors' => $ob->getMessage()], 422);
+        }
+        return response()->json(['$success' => "success"], 200);
     }
 
     public function doDeleteSubmit($submit_id)

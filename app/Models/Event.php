@@ -42,10 +42,6 @@ class Event extends Model
             $query->where('user_id', \Auth::user()->id);
         });
     }
-    /*     public function teams()
-    {
-        return $this->belongsToMany('App\Models\Team', 'event_team')->withTimestamps();
-    } */
 
     public function submits()
     {

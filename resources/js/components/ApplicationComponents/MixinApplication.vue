@@ -3,7 +3,9 @@ import { mapState } from "vuex";
 import input_text from "./FormElements/Text";
 import email from "./FormElements/Email";
 import radio from "./FormElements/Radio";
+import radio_price_coach from "./FormElements/RadioDynamicPriceForCoach";
 import radio_coach from "./FormElements/RadioCoach";
+import radio_price from "./FormElements/RadioDynamicPrice";
 import is_coach_in from "./FormElements/CheckCoachParticipation";
 import text_coach from "./FormElements/TextCoach";
 import email_coach from "./FormElements/EmailCoach";
@@ -104,8 +106,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.app_files);
-
     //Выполнить стратегии
     JSON.parse(this.strategies).forEach(strategy_action => {
       this[strategy_action]();
@@ -121,6 +121,8 @@ export default {
     file_upload,
     info,
     radio_coach,
+    radio_price_coach,
+    radio_price,
     is_coach_in,
     email_coach,
     text_coach,

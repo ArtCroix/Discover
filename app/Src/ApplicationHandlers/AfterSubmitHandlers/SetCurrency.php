@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Src\ApplicationHandlers\PostSubmitHandlers;
+namespace App\Src\ApplicationHandlers\AfterSubmitHandlers;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\AbstractPostSubmitHandler;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\AbstractPostSubmitHandler;
 
 class SetCurrency extends AbstractPostSubmitHandler
 {

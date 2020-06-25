@@ -33,12 +33,13 @@
                                 <thead>
                                     <th>{{ __('Мероприятие') }}</th>
                                     <th>{{ __('Команда / Регистрация') }}</th>
+                                    <th>{{ __('Описание') }}</th>
+                                    <th>{{ __('Даты проведения') }}</th>
                                 </thead>
 
                                 <tbody>
                                     @forelse ($events->where('active', 1) as $event)
-                                    @if ($event->admin_only==1)
-                                    @if (Auth::user()->role=="admin")
+                                    @can('viewAdminOnly', $event)
                                     <tr>
                                         <td class="table-text">
                                             <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
@@ -63,43 +64,20 @@
                                                 <div>{{ __('регистрация не началась') }}</div>
                                                 @endforelse
                                                 @endif
-
                                             </div>
-
                                         </td>
-                                    </tr>
-                                    @endif
-                                    @else
-                                    <tr>
-                                        <td class="table-text">
-                                            <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
-                                                    title="{{ __('Перейти к мероприятию') }}">
-                                                    {{ json_decode($event->title, true)[app()->getLocale()] }}
-                                                </a></div>
-                                        </td>
-
                                         <td class="table-text">
                                             <div>
-                                                @if (!$event->user_team->isEmpty())
-                                                {{ $event->user_team->first()->team_name }}
-
-                                                @else
-                                                @forelse ($event->applications as $app)
-                                                @if ($app->type == "thematic")
-                                                <div><a href="{{ url ('/home/event/' . $event->event_name . '/app/' . $app->id . '/' . app()->getLocale()) }}"
-                                                        title="{{ json_decode($app->title, true)[app()->getLocale()] }}">{{ __('регистрация') }}</a>
-                                                </div>
-                                                @endif
-                                                @empty
-                                                <div>{{ __('регистрация не началась') }}</div>
-                                                @endforelse
-                                                @endif
-
+                                                {{$event->description}}
                                             </div>
-
+                                        </td>
+                                        <td class="table-text">
+                                            <div>
+                                                {{$event->dates}}
+                                            </div>
                                         </td>
                                     </tr>
-                                    @endif
+                                    @endcan
                                     @empty
                                     <tr>
                                         <td class="table-text" colspan="2">
@@ -139,10 +117,13 @@
                                 <thead>
                                     <th>{{ __('Мероприятие') }}</th>
                                     <th>{{ __('Регистрация') }}</th>
+                                    <th>{{ __('Описание') }}</th>
+                                    <th>{{ __('Даты проведения') }}</th>
                                 </thead>
 
                                 <tbody>
                                     @forelse ($events->where('active', 0) as $event)
+                                    @can('viewAdminOnly', $event)
                                     <tr>
                                         <td class="table-text">
                                             <div><a href="{{ url('/home/event/' . $event->event_name . '/status/' . app()->getLocale()) }}"
@@ -153,7 +134,18 @@
                                         <td class="table-text">
                                             <div>регистрация завершена</div>
                                         </td>
+                                        <td class="table-text">
+                                            <div>
+                                                {{$event->description}}
+                                            </div>
+                                        </td>
+                                        <td class="table-text">
+                                            <div>
+                                                {{$event->dates}}
+                                            </div>
+                                        </td>
                                     </tr>
+                                    @endcan
                                     @empty
                                     <tr>
                                         <td class="table-text" colspan="2">

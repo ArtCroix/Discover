@@ -25,28 +25,9 @@
 
 <script>
 import { mapState } from "vuex";
-
+import Radio from "./Radio";
 export default {
-  data() {
-    return {
-      coach_participate_status: "",
-      question_id: this.question_item.question_id,
-      question_value: this.question_item.value,
-      question_value_en: this.question_item.value_en,
-      name: this.question_item.name,
-      answer: this.question_item.answer,
-      rules: this.question_item.rule
-    };
-  },
-  props: {
-    question_item: "",
-
-    errors: {
-      default() {
-        return {};
-      }
-    }
-  },
+  mixins: [Radio],
   methods: {
     change_coach_participate_status(e) {
       if (e.target.value == "Да") {
@@ -57,74 +38,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(["locales", "current_locale", "is_coach_participated"]),
-    label() {
-      return (
-        this.question_item.label +
-        (/^required(?=$|\|)/.test(this.question_item.rule)
-          ? '<span class="text-danger">*</span>'
-          : "")
-      );
-    },
-    label_en() {
-      return (
-        this.question_item.label_en +
-        (/^required(?=$|\|)/.test(this.question_item.rule)
-          ? '<span class="text-danger">*</span>'
-          : "")
-      );
-    },
-    current_error() {
-      let error = this.errors[this.name] || [];
-      return error[0];
-    },
-    presentations_values() {
-      let question_data = { en: {}, ru: {} };
-
-      let question_values = this.question_item.value
-        .split("\n")
-        .map(value => value.trim());
-
-      let question_values_en = this.question_item.value_en
-        .split("\n")
-        .map(value => value.trim());
-
-      let question_presentations = this.question_item.presentation
-        .split("\n")
-        .map(value => value.trim());
-
-      let question_presentations_en = this.question_item.presentation_en
-        .split("\n")
-        .map(value => value.trim());
-
-      question_data.ru = Object.fromEntries(
-        question_presentations.map((_, i) => [
-          question_presentations[i],
-          question_values[i]
-        ])
-      );
-
-      question_data.en = Object.fromEntries(
-        question_presentations_en.map((_, i) => [
-          question_presentations_en[i],
-          question_values_en[i]
-        ])
-      );
-
-      return question_data;
-    }
+    ...mapState(["locales", "current_locale", "is_coach_participated"])
   },
   beforeMount() {
     if (this.answer == "Да") {
       this.$store.dispatch("changeCoachParticipateStatus", true);
     }
-  },
-  mounted() {
-    // console.log(this.is_coach_participated);
-    // console.log(this.is_coach_participated);
-    // console.log(this.answer);
-    /*             console.log(this.value);
-                        console.log(this.old_input_value); */
   }
 };
 </script>

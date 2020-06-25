@@ -8,7 +8,7 @@ use App\Events\AutoUserRegistered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Src\ApplicationHandlers\ApplicationHandler;
-use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\InsertTeam;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers\InsertTeam;
 
 class ApplicationHelper
 {
@@ -33,12 +33,13 @@ class ApplicationHelper
             submit_id,
             questions.id as question_id,
             application_id,
-            description,
+            applications.description,
             ifnull(additional_data,"[]") additional_data,
             label,
             label_en,
             user_id,
             event_id,
+            price,
             `name`,
             event_dir_name,
             event_name,

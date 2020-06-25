@@ -21,13 +21,12 @@ export default {
       question_id: this.question_item.question_id,
       question_value: this.question_item.value,
       name: this.question_item.name,
-      answer: this.question_item.answer || this.question_item.value,
-      rules: this.question_item.rule
+      answer: this.question_item.answer || this.question_item.value
     };
   },
 
   computed: {
-    ...mapState(["locales", "is_coach_participated"]),
+    ...mapState(["locales"]),
     current_error() {
       let error = this.errors[this.name] || [];
       return error[0];
@@ -57,10 +56,6 @@ export default {
         return {};
       }
     }
-  },
-
-  mounted() {
-    // console.log(this.rules);
   }
 };
 </script>

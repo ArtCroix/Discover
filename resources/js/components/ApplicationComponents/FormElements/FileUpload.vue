@@ -5,9 +5,7 @@
     <label v-if="locales.cn" :for="question_id">{{label_cn}}</label>
     <div class="uploaded_files" v-if="uploaded_files.length">
       <p class="mb-1">
-        <strong>
-		{{ locales.ru ? "Загруженные файлы" : locales.en ? "Uploaded files" : "Uploaded files" }}
-		</strong>
+        <strong>{{ locales.ru ? "Загруженные файлы" : locales.en ? "Uploaded files" : "Uploaded files" }}</strong>
       </p>
       <table>
         <tbody>
@@ -18,9 +16,7 @@
                 type="button"
                 @click="deleteFileFromAppSubmit(file_path, index)"
                 class="btn btn-danger"
-              >
-			{{ locales.ru ? "Удалить" : locales.en ? "Delete" : "Delete" }}
-   		      </button>
+              >{{ locales.ru ? "Удалить" : locales.en ? "Delete" : "Delete" }}</button>
             </td>
           </tr>
         </tbody>
@@ -40,9 +36,7 @@
             @click.prevent="$refs.upload.remove(file)"
             type="button"
             class="btn btn-warning"
-          >
-			{{ locales.ru ? "Отменить загрузку" : locales.en ? "Cancel load" : "Cancel load" }}
-		   </button>
+          >{{ locales.ru ? "Отменить загрузку" : locales.en ? "Cancel load" : "Cancel load" }}</button>
         </li>
       </ul>
       <div class="example-btn">
@@ -59,10 +53,10 @@
           ref="upload"
         >
           <i class="fa fa-plus"></i>
-		    {{ locales.ru ? "Выбрать файлы" : locales.en ? "Select files" : "Select files" }}
+          {{ locales.ru ? "Выбрать файлы" : locales.en ? "Select files" : "Select files" }}
         </file-upload>
-		<br/>
-		{{ locales.ru ? "Ограничения по количеству загружаемых файлов - 5, ограничение по размеру одного загружаемого файла - 2 МБ, доступные форматы загружаемых файлов: JPG, JPEG, BMP, PNG" : locales.en ? "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" : "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" }}
+        <br />
+        {{ locales.ru ? "Ограничения по количеству загружаемых файлов - 5, ограничение по размеру одного загружаемого файла - 2 МБ, доступные форматы загружаемых файлов: JPG, JPEG, BMP, PNG" : locales.en ? "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" : "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" }}
       </div>
     </div>
     <div class="invalid_form error" :class="name">{{current_error}}</div>
@@ -86,8 +80,8 @@ export default {
       question_value: this.question_item.value,
       name: this.question_item.name,
       label: this.question_item.label,
-	  label_en: this.question_item.label_en,
-	  label_cn: this.question_item.label_cn
+      label_en: this.question_item.label_en,
+      label_cn: this.question_item.label_cn
       //   answer: this.question_item.answer
     };
   },

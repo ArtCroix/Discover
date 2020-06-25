@@ -86,17 +86,33 @@
                     </div>
                 </fieldset>
 
-                <div class="form-group">
+                {{--           <div class="form-group">
                     <label for="price">Цены</label>
                     <p class="mb-1">Образец заполнения:</p>
                     <code>{"rub":{"full":{"2020-04-20":"50000","2020-04-25":"60000","2020-04-30":"140000"},"partial":{"2020-04-20":"50000","2020-04-25":"60000","2020-04-30":"70000"}},"usd":{"full":{"2020-04-20":"1000","2020-04-25":"1200","2020-04-30":"1400"},"partial":{"2020-04-20":"1000","2020-04-25":"1200","2020-04-30":"1400"}}}</code>
-                    <textarea name="price" class="form-control" id="price" rows="5">{{$event->price}}</textarea>
-                </div>
-
-                <event-edit-button event_id='{!!$event->id!!}'></event-edit-button>
-            </form>
+                <textarea name="price" class="form-control" id="price" rows="5">{{$event->price}}</textarea>
+        </div> --}}
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea id="description" type="description"
+                class="form-control @error('description') is-invalid @enderror" name="description"
+                value="{{ old('description') }}" required autocomplete="description" class="form-control"
+                rows="3">{{ $event->description }}</textarea>
         </div>
+        <div class="form-group row">
+            <label for="dates" class="col-md-4 col-form-label text-md-right">Даты проведения<span
+                    class="text-danger">*</span></label>
+            <div class="col-md-6">
+                <input id="dates" type="dates" class="form-control @error('dates') is-invalid @enderror" name="dates"
+                    value="{{ $event->dates }}" required autocomplete="dates">
+                <div class="d-block invalid-feedback dates"></div>
+            </div>
+        </div>
+        <set-price-for-event prices_json='{!!$event->price!!}'>></set-price-for-event>
+        <event-edit-button event_id='{!!$event->id!!}'></event-edit-button>
+        </form>
     </div>
+</div>
 </div>
 @endsection
 @section('footer')

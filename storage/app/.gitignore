@@ -1,2 +1,4 @@
-!public/
+/public/**
+/public/**.*.pdf
+/public/**.*.rtf
 !.gitignore

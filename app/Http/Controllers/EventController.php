@@ -28,22 +28,16 @@ class EventController extends Controller
         ]);
     }
 
-    public function showMaterialPage(string $event_name, string $locale = 'ru')
+    public function showMaterialsPage(string $event_name, string $locale = 'ru')
     {
-
-        $event = Event::where('event_name', request()->event_name)->first();
+        $event = Event::where('event_name', $event_name)->first();
         $event_materials_dir = "events/{$event->event_dir_name}/materials";
         $event_materials_dir_for_locale = "events/{$event->event_dir_name}/materials/{$locale}";
         $materials = [];
         $common_materials = Storage::files($event_materials_dir);
         $locale_materials = Storage::files($event_materials_dir_for_locale);
-        // dump($common_materials);
-        // dd($locale_materials);
         $materials = [...$common_materials, ...$locale_materials];
-        // dd($materials);
         $eventApplications = ApplicationHelper::getEventApplicationsForUser($event_name, Auth::user()->id, $locale);
-
-        // dd($eventApplications);
         return view('events.materials', [
             'eventApplications' => $eventApplications,
             'materials' => $materials
@@ -58,14 +52,14 @@ class EventController extends Controller
     public function showEventEditForm($event_id)
     {
         $event = Event::find($event_id);
-        // dd(json_decode($event->title));
         return view('events.edit_event')->with(['event' => $event]);
     }
 
     public function doCreateEvent(Request $request)
     {
         $this->validatorForCreate($request->all())->validate();
-        EventHandler::createEvent($request->all());
+        $event = EventHandler::createEvent($request->all());
+        EventHandler::copyApplicationsToNewEvent($event->id);
     }
 
     public function doEditEvent($event_id, Request $request)
@@ -80,7 +74,6 @@ class EventController extends Controller
             'event_name' => ['required', 'regex:/(^([a-zA-Z_]+)(\d+)?$)/u', 'string', 'max:20', 'min:4', 'unique:events'],
             'full_name_ru' => ['required', 'string', 'max:255'],
             'full_name_en' => ['string', 'max:255'],
-
         ]);
     }
 

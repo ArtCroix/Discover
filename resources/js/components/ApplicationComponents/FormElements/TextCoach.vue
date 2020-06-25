@@ -17,52 +17,11 @@
 
 <script>
 import { mapState } from "vuex";
+import Text from "./Text";
 export default {
-  data() {
-    return {
-      question_id: this.question_item.question_id,
-      question_value: this.question_item.value,
-      name: this.question_item.name,
-      answer: this.question_item.answer || this.question_item.value,
-      rules: this.question_item.rule
-    };
-  },
-
+  mixins: [Text],
   computed: {
-    ...mapState(["locales", "is_coach_participated"]),
-    label() {
-      return (
-        this.question_item.label +
-        (/^required(?=$|\|)/.test(this.question_item.rule)
-          ? '<span class="text-danger">*</span>'
-          : "")
-      );
-    },
-    label_en() {
-      return (
-        this.question_item.label_en +
-        (/^required(?=$|\|)/.test(this.question_item.rule)
-          ? '<span class="text-danger">*</span>'
-          : "")
-      );
-    },
-    current_error() {
-      let error = this.errors[this.name] || [];
-      return error[0];
-    }
-  },
-
-  props: {
-    question_item: "",
-    errors: {
-      default() {
-        return {};
-      }
-    }
-  },
-
-  mounted() {
-    // console.log(this.rules);
+    ...mapState(["locales", "is_coach_participated"])
   }
 };
 </script>

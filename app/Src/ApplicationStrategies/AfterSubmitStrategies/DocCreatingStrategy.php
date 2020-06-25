@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationStrategies\AfterSubmitStrategies;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\DocHandler;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\DocHandler;
 use App\Src\ApplicationStrategies\AfterSubmitStrategies\AfterSubmitInterfaceStrategy;
 
 class DocCreatingStrategy implements AfterSubmitInterfaceStrategy

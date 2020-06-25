@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationStrategies\AfterSubmitStrategies;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\InsertTeam;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers\InsertTeam;
 use App\Src\ApplicationStrategies\AfterSubmitStrategies\AfterSubmitInterfaceStrategy;
 
 

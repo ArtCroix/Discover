@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Src\ApplicationHandlers\SubmitHandler;
 use App\Src\UserHandler;
 use App\Src\TeamHandler;
-use App\Src\ApplicationHandlers\PostSubmitHandlers\TeamHandlers\InsertTeam;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers\InsertTeam;
 use App\Src\ApplicationHandlers\ApplicationHandler;
 use Illuminate\Support\Facades\Validator;
 

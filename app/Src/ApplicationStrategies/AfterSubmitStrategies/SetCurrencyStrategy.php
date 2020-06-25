@@ -2,7 +2,7 @@
 
 namespace App\Src\ApplicationStrategies\AfterSubmitStrategies;
 
-use App\Src\ApplicationHandlers\PostSubmitHandlers\SetCurrency;
+use App\Src\ApplicationHandlers\AfterSubmitHandlers\SetCurrency;
 use App\Src\ApplicationStrategies\AfterSubmitStrategies\AfterSubmitInterfaceStrategy;
 
 
