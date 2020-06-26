@@ -2,7 +2,7 @@
   <div class="mt-4">
     <p v-html="label" class="mb-1" v-if="locales.ru" :for="question_id"></p>
     <p v-html="label_en" class="mb-1" v-if="locales.en" :for="question_id"></p>
-    <input hidden :checked="!answer" type="radio" :name="question_id+'#'+name" value />
+    <input hidden :checked="!answer" type="radio" :name="question_id+'#'+name" />
     <div
       class="form-check"
       v-for="(value, presentation) in presentations_values[current_locale]"

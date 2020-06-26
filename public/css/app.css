@@ -6132,6 +6132,10 @@ readers do not read off random characters that represent icons */
   background: #006699;
 }
 
+.mx-datepicker {
+  width: auto !important;
+}
+
 .invalid_form {
   width: 100%;
   margin-top: 0.25rem;

@@ -7,6 +7,7 @@
 @import '~@fortawesome/fontawesome-free/scss/brands';
 
 @import "jquery.alerts";
+@import "vue_datepicker";
 
 @import "form";
 // Variables
@@ -19,6 +20,7 @@
 @import "main";
 @import "footer";
 
+//Предотвращает отображение компонентов до их полной загрузки 
 [v-cloak] {
     display: none !important;
 }

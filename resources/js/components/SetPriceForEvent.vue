@@ -17,16 +17,9 @@
           <option value="partial">Частичная</option>
         </select>
       </div>
-      <div class="form-group col-md-3">
+      <div class="col-md-3">
         <label for="date">Дата</label>
-        <input
-          v-model="date"
-          name="date"
-          type="text"
-          placeholder="Образец: 2020-12-31"
-          class="form-control"
-          id="date"
-        />
+        <date-picker input-class="form-control" v-model="date" type="date" value-type="YYYY-MM-DD"></date-picker>
       </div>
       <div class="form-group col-md-3">
         <label for="price">Сумма</label>
@@ -64,7 +57,11 @@
 
 <script>
 import { mapState } from "vuex";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+import "vue2-datepicker/locale/ru";
 export default {
+  components: { DatePicker },
   data() {
     return {
       prices: JSON.parse(this.prices_json),
