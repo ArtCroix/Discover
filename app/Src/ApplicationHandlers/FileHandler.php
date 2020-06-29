@@ -4,6 +4,8 @@ namespace App\Src\ApplicationHandlers;
 
 use App\Models\Application\Answer;
 use Illuminate\Support\Facades\Storage;
+use File;
+use ZipArchive;
 
 class FileHandler
 {
@@ -43,9 +45,25 @@ class FileHandler
                 // dd($pathes);
                 $files_pathes[$field_name] = $pathes;
             }
-
+            self::archiveFiles($store_path);
         }
+        // 
         // dd($files_pathes);
         return $files_pathes;
+    }
+
+    public static function archiveFiles($store_path)
+    {
+        $zip = new ZipArchive();
+        $zip_name = \Auth::user()->lastname . "_" . \Auth::user()->firstname . "_" . \Auth::user()->middlename . ".zip";
+        $store_path = storage_path("app/public/" . $store_path);
+        $files = File::files($store_path);
+        array_map('unlink', glob("$store_path*.zip"));
+        $zip->open($store_path . "/" . $zip_name, \ZIPARCHIVE::CREATE);
+        foreach ($files as $file) {
+            $relativeNameInZipFile = basename($file);
+            $zip->addFile($file, $relativeNameInZipFile);
+        }
+        $zip->close();
     }
 }

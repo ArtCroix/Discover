@@ -32,6 +32,11 @@
         <slot name="chief_aside"></slot>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12 mt-4">
+        <slot name="submit_button"></slot>
+      </div>
+    </div>
   </div>
 </template>
 <script>

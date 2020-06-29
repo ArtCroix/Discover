@@ -55,9 +55,6 @@ class TeamController extends Controller
 
     public function editTeam($id, Request $request)
     {
-
-        // $this->validatorForEditing($request->all())->validate();
-
         $team = Team::find($id);
         $team->update([
             'team_name' => $request->team_name,
