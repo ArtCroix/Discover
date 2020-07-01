@@ -2,6 +2,7 @@
 
 namespace App\Src\ApplicationHandlers\AfterSubmitHandlers;
 
+use App\Src\ApplicationHandlers\FileHandler;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -33,6 +34,7 @@ trait  DocHandlerTrait
 
         $this->submitAdditionalData->created_docs = $this->createdFilesList;
         $this->submit->update(['additional_data' => json_encode($this->submitAdditionalData)]);
+        FileHandler::archiveFiles($this->resultsDirectory);
         return $this->createdFilesList;
     }
 

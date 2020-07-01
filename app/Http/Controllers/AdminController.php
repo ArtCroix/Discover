@@ -184,8 +184,10 @@ class AdminController extends Controller
     {
         $submits = Submit::with("users")->where("application_id", $application_id)->get();
         $questions = Question::where("application_id", $application_id)->whereNotNull("name")->orderBy("position")->get();
+        $application = Application::with("event")->where("id", $application_id)->first();
+        // dd($questions);
         $answers = AnswerHandler::getAnswersForApp($application_id)->sortBy('question.position');
         $answers = $answers->groupBy('submit_id');
-        return view('admin.app_answers')->with(["answers" => $answers, "submits" => $submits, "questions" => $questions]);
+        return view('admin.app_answers')->with(["answers" => $answers, "submits" => $submits, "questions" => $questions, "application" => $application]);
     }
 }

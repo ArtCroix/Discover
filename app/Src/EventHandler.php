@@ -42,8 +42,8 @@ class EventHandler
         $event = Event::find($event_id);
         $title = self::createTitle($data);
         $event->update([
-            'event_name' => $data['event_name'],
-            'event_dir_name' => $data['event_name'],
+            /*             'event_name' => $data['event_name'],
+            'event_dir_name' => $data['event_name'], */
             'title' => $title,
             'active' => $data['active'],
             'admin_only' => $data['admin_only'],

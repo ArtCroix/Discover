@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\Team;
-use App\Models\Application\Submit;
 use App\Src\EventHandler;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Builder;
 use App\Src\ApplicationHelpers\ApplicationHelper;
 use App\Src\ApplicationHelpers\TeamHelper;
 use Illuminate\Http\Request;
@@ -80,7 +77,7 @@ class EventController extends Controller
     protected function validatorForEdit(array $data, $event_id)
     {
         return Validator::make($data, [
-            'event_name' => ['required', 'regex:/(^([a-zA-Z_]+)(\d+)?$)/u', 'string', 'max:20', 'min:4', 'unique:events,event_name,' .  $event_id],
+            // 'event_name' => ['required', 'regex:/(^([a-zA-Z_]+)(\d+)?$)/u', 'string', 'max:20', 'min:4', 'unique:events,event_name,' .  $event_id],
             'full_name_ru' => ['required', 'string', 'max:255',],
             'full_name_en' => ['string', 'max:255',],
 

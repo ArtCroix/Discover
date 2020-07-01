@@ -18,7 +18,8 @@
 
     </div>
     <answers-table questions_json='{!!e(json_encode($questions),true)!!}'
-        answers_json='{!!e(json_encode($answers),true)!!}' submits_json='{!!e(json_encode($submits),true)!!}'>
+        application_json='{!!e(json_encode($application),true)!!}' answers_json='{!!e(json_encode($answers),true)!!}'
+        submits_json='{!!e(json_encode($submits),true)!!}'>
     </answers-table>
 </div>
 @endsection

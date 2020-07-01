@@ -15,9 +15,8 @@
                     <label for="event_name" class="col-md-4 col-form-label text-md-right">Название (латинскими буквами
                         без пробелов)<span class="text-danger">*</span></label>
                     <div class="col-md-6">
-                        <input id="event_name" type="event_name"
-                            class="form-control @error('event_name') is-invalid @enderror" name="event_name"
-                            value="{{ old('event_name') }}" required autocomplete="event_name">
+                        <input id="event_name" type="event_name" class="form-control" name="event_name" required
+                            autocomplete="event_name">
                         <div class="d-block invalid-feedback event_name"></div>
                     </div>
                 </div>
@@ -25,9 +24,8 @@
                     <label for="full_name_ru" class="col-md-4 col-form-label text-md-right">Полное название на
                         русском<span class="text-danger">*</span></label>
                     <div class="col-md-6">
-                        <input id="full_name_ru" type="full_name_ru"
-                            class="form-control @error('full_name_ru') is-invalid @enderror" name="full_name_ru"
-                            value="{{ old('full_name_ru') }}" required autocomplete="full_name_ru">
+                        <input id="full_name_ru" type="full_name_ru" class="form-control" name="full_name_ru" required
+                            autocomplete="full_name_ru">
                         <div class="d-block invalid-feedback full_name_ru"></div>
                     </div>
                 </div>
@@ -35,24 +33,21 @@
                     <label for="full_name_en" class="col-md-4 col-form-label text-md-right">Полное название на
                         английском<span class="text-danger">*</span></label>
                     <div class="col-md-6">
-                        <input id="full_name_en" type="full_name_en"
-                            class="form-control @error('full_name_en') is-invalid @enderror" name="full_name_en"
-                            value="{{ old('full_name_en') }}" required autocomplete="full_name_en">
+                        <input id="full_name_en" type="full_name_en" class="form-control" name="full_name_en" required
+                            autocomplete="full_name_en">
                         <div class="d-block invalid-feedback full_name_en"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="description">Описание</label>
-                    <textarea id="description" type="description"
-                        class="form-control @error('description') is-invalid @enderror" name="description" required
-                        autocomplete="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                    <textarea id="description" type="description" class="form-control" name="description" required
+                        autocomplete="description" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="form-group row">
                     <label for="dates" class="col-md-4 col-form-label text-md-right">Даты проведения<span
                             class="text-danger">*</span></label>
                     <div class="col-md-6">
-                        <input id="dates" type="dates" class="form-control @error('dates') is-invalid @enderror"
-                            name="dates" value="{{ old('dates') }}" required autocomplete="dates">
+                        <input id="dates" type="dates" class="form-control" name="dates" required autocomplete="dates">
                         <div class="d-block invalid-feedback dates"></div>
                     </div>
                 </div>

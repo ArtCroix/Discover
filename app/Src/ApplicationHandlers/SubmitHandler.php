@@ -59,7 +59,7 @@ class SubmitHandler
         return $submit;
     }
 
-    public static function deleteFileFromApplicationSubmit(Request $request)
+    public static function deleteFileFromApplicationSubmit(Request $request, $store_path)
     {
         $files = FileHandler::getListOfUploadedFiles($request->question_id, $request->submit_id);
 
@@ -69,8 +69,8 @@ class SubmitHandler
         Answer::where('submit_id', $request->submit_id)
             ->where('question_id', $request->question_id)
             ->update(['value' => $files]);
-
         Storage::delete($request->file_path);
+        FileHandler::archiveFiles($store_path);
     }
 
     public static function deleteSubmit($submit_id)

@@ -3,6 +3,7 @@
 namespace App\Src\ApplicationHandlers;
 
 use App\Models\Application\Application;
+use App\Models\Application\Question;
 use App\Models\Event;
 use App\Src\ApplicationHandlers\AnswerHandler;
 use App\Src\ApplicationHelpers\ApplicationHelper;
@@ -40,7 +41,7 @@ class ApplicationHandler
 
     public function createApplicationSubmit()
     {
-        $this->application = Application::find($this->application_id)->load('event');
+        $this->application = Application::find($this->application_id)->load(['questions']);
 
         $applicationAfterStrategies = self::getAfterStrategies($this->application);
 
@@ -51,6 +52,8 @@ class ApplicationHandler
         $this->request_post += $files_pathes;
 
         AnswerHandler::addAnswers($submit, $this->request_post);
+
+        ApplicationHelper::addMissingQuestions($this->application_id, $submit->id);
 
         $applicationDataForUser = ApplicationHelper::getApplicationDataForUser($this->application_id, $this->user->id, app()->getLocale());
 
@@ -66,7 +69,6 @@ class ApplicationHandler
     public static function showApplicationForm(string $event_name, int $application_id, int $user_id, string $view, string $locale)
     {
         $dataForApplicationForm = self::getDataForApplicationForm($event_name, $application_id, $user_id, $locale);
-        // dd($dataForApplicationForm['app_files']);
 
         return view($view)->with(['applicationDataForUser' => $dataForApplicationForm['applicationDataForUser'], 'eventApplications' => $dataForApplicationForm['eventApplications'], 'application_id' => $application_id, 'strategies' => array_values(
             $dataForApplicationForm['applicationBeforeStrategies']
@@ -98,7 +100,7 @@ class ApplicationHandler
                 $additionalDataForForm[$key] = $beforeStrategy::execute($applicationDataForUser);
             }
         }
-
+        // dd($additionalDataForForm);
         return ['applicationDataForUser' => $applicationDataForUser, 'eventApplications' => $eventApplications, 'application_id' => $application_id, 'applicationBeforeStrategies' => array_keys($applicationBeforeStrategies), 'additionalDataForForm' => $additionalDataForForm ?? [], 'is_submitted' => $is_submitted, 'app_files' => $app_files];
     }
 

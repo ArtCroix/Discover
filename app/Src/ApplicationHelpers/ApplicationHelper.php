@@ -2,14 +2,6 @@
 
 namespace App\Src\ApplicationHelpers;
 
-use App\Models\Application\Submit;
-use App\User;
-use App\Events\AutoUserRegistered;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use App\Src\ApplicationHandlers\ApplicationHandler;
-use App\Src\ApplicationHandlers\AfterSubmitHandlers\TeamHandlers\InsertTeam;
-
 class ApplicationHelper
 {
     public static function getApplicationDataForUser(int $application_id, int $user_id, string $locale): array
@@ -37,6 +29,7 @@ class ApplicationHelper
             ifnull(additional_data,"[]") additional_data,
             label,
             label_en,
+            default_value,
             user_id,
             event_id,
             price,
@@ -94,5 +87,41 @@ class ApplicationHelper
             ['user_id' => $user_id, 'event_name' => $event_name, 'locale' => $locale]
         );
         return $applications;
+    }
+
+    public static function addMissingQuestions(int $application_id, int $submit_id)
+    {
+        \DB::insert(
+            "
+            INSERT INTO answers (submit_id, question_id, value, application_id, created_at, updated_at) 
+            SELECT
+            avi.submit_id,
+            avi.question_id,
+            avi.default_value,
+            avi.application_id,
+            FROM_UNIXTIME(UNIX_TIMESTAMP(), '%Y-%m-%d %H:%i:%s') as created_at,
+            FROM_UNIXTIME(UNIX_TIMESTAMP(), '%Y-%m-%d %H:%i:%s') as updated_at
+FROM
+	(
+	SELECT DISTINCT
+		answers.submit_id,
+		questions.id AS question_id,
+		questions.NAME,
+		default_value,
+		questions.application_id 
+	FROM
+		answers,
+		questions 
+	WHERE
+		submit_id = :submit_id
+		AND questions.application_id = :application_id 
+	) avi
+	LEFT JOIN answers a_v ON ( avi.submit_id = a_v.submit_id AND avi.question_id = a_v.question_id ) 
+WHERE
+	a_v.submit_id IS NULL 
+AND NAME IS NOT NULL",
+            ['application_id' => $application_id, 'submit_id' => $submit_id]
+
+        );
     }
 }

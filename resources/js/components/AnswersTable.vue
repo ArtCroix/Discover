@@ -1,4 +1,5 @@
 <template>
+  <!-- events/{$this->event->event_dir_name}/applications/{$this->application_id}/users_data/{$this->user->id}/uploaded -->
   <table class="table table-bordered table-responsive">
     <thead>
       <tr>
@@ -7,7 +8,7 @@
         <th scope="col">Фамилия</th>
         <th scope="col">Имя</th>
         <th scope="col">Отчество</th>
-        <th v-for="(question)  in questions" :key="question.id" scope="col">{{question.label}}</th>
+        <th v-for="(question) in questions" :key="question.id" scope="col">{{question.label}}</th>
         <th>Удалить сабмит</th>
         <th>Открепить от сабмита</th>
       </tr>
@@ -25,11 +26,19 @@
           <td>{{user.lastname}}</td>
           <td>{{user.middlename}}</td>
           <template v-for="(answer) in answers[submit.id]">
-            <td
+            <td v-if="answer.question.type=='file_upload'" :key="answer.id">
+              <p>
+                <a
+                  download
+                  :href="`/storage/events/${application.event.event_dir_name}/applications/${application.id}/users_data/${user.id}/uploaded/${user.id}.zip`"
+                >Скачать</a>
+              </p>
+            </td>
+            <!--         <td
               v-if="answer.question.type=='file_upload'"
               :key="answer.id"
               v-html="parseFilesField(answer.value)"
-            ></td>
+            ></td>-->
             <td v-else :key="answer.id">{{answer.value}}</td>
           </template>
           <td>
@@ -59,7 +68,8 @@ export default {
   props: {
     answers_json: "",
     submits_json: "",
-    questions_json: ""
+    questions_json: "",
+    application_json: ""
   },
   computed: {
     ...mapState(["locales", "current_locale"]),
@@ -76,6 +86,9 @@ export default {
     },
     questions() {
       return JSON.parse(this.questions_json);
+    },
+    application() {
+      return JSON.parse(this.application_json);
     }
   },
   methods: {
@@ -95,6 +108,7 @@ export default {
     console.log(this.answers);
     console.log(this.submits);
     console.log(this.questions);
+    console.log(this.application);
   }
 };
 </script>

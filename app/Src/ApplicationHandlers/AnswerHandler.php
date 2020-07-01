@@ -14,11 +14,12 @@ class AnswerHandler
 
         foreach ($request_post as $key => $value) {
             if (strpos($key, '#')) {
+                $question_id = strtok($key, '#');
                 $value = is_array($value) ? json_encode($value) : $value;
-                array_push($answers, ['submit_id' => $submit->id, 'application_id' => $submit->application_id, 'value' => $value, 'question_id' => strtok($key, '#')]);
+                array_push($answers, ['submit_id' => $submit->id, 'application_id' => $submit->application_id, 'value' => $value, 'question_id' => $question_id]);
             }
         }
-        // dd($answers);
+
         DB::transaction(function () use ($answers) {
 
             $answers_length = count($answers);
@@ -34,10 +35,6 @@ class AnswerHandler
 
     public static function getAnswersForApp($application_id)
     {
-        /*    $answers = Answer::with(["question" => function ($query) {
-            $query->orderBy('position');
-        }])->where("application_id", $application_id)->get();
-        dd($answers); */
         $answers = Answer::where("application_id", $application_id)->get()->load("question");
         return $answers;
     }
