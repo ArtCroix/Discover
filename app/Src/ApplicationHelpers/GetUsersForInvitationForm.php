@@ -34,7 +34,7 @@ class GetUsersForInvitationForm
             user_id,
             event_id,
             `name`,
-            event_dir_name,
+            event_name,
             questions.type,
             applications.type as application_type,
             applications.strategies,

@@ -98,10 +98,9 @@ class AdminController extends Controller
 
     public function showUploadMaterialsPage(string $event_name)
     {
-        $event = Event::where('event_name', $event_name)->first();
-        $event_materials_dir = "events/{$event->event_dir_name}/materials";
-        $event_materials_dir_for_ru = "events/{$event->event_dir_name}/materials/ru";
-        $event_materials_dir_for_en = "events/{$event->event_dir_name}/materials/en";
+        $event_materials_dir = "events/{$event_name}/materials";
+        $event_materials_dir_for_ru = "events/{$event_name}/materials/ru";
+        $event_materials_dir_for_en = "events/{$event_name}/materials/en";
         $common_materials = Storage::files($event_materials_dir);
         $ru_materials = Storage::files($event_materials_dir_for_ru);
         $en_materials = Storage::files($event_materials_dir_for_en);
@@ -117,11 +116,10 @@ class AdminController extends Controller
     public function uploadMaterials(Request $request, string $event_name, string $locale = "")
     {
         $file = $request->allFiles()['file'];
-        $event = Event::where("event_name", $event_name)->first();
         $filename = trim(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . "." . $file->getClientOriginalExtension());
         try {
             $uploaded_file = Storage::putFileAs(
-                "events/{$event->event_dir_name}/materials/{$locale}",
+                "events/{$event_name}/materials/{$locale}",
                 $file,
                 $filename
             );

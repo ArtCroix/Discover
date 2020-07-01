@@ -34,7 +34,6 @@ class ApplicationHelper
             event_id,
             price,
             `name`,
-            event_dir_name,
             event_name,
             questions.type,
             display,

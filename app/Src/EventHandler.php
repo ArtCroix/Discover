@@ -10,13 +10,12 @@ use Illuminate\Support\Facades\Storage;
 class EventHandler
 {
 
-    public static function createEvent($data)
+    public static function createEvent(array $data)
     {
         $title = self::createTitle($data);
         self::makeEventDir($data);
         return Event::create([
             'event_name' => $data['event_name'],
-            'event_dir_name' => $data['event_name'],
             'title' => $title,
             'active' => 1,
             'description' => $data['description'],
@@ -25,11 +24,10 @@ class EventHandler
         ]);
     }
 
-    public static function getMaterials($event_name, $locale)
+    public static function getMaterials(string $event_name, string $locale)
     {
-        $event = Event::where('event_name', $event_name)->first();
-        $event_materials_dir = "events/{$event->event_dir_name}/materials";
-        $event_materials_dir_for_locale = "events/{$event->event_dir_name}/materials/{$locale}";
+        $event_materials_dir = "events/{$event_name}/materials";
+        $event_materials_dir_for_locale = "events/{$event_name}/materials/{$locale}";
         $materials = [];
         $common_materials = Storage::files($event_materials_dir);
         $locale_materials = Storage::files($event_materials_dir_for_locale);
@@ -37,13 +35,11 @@ class EventHandler
         return $materials;
     }
 
-    public static function editEvent($data, $event_id)
+    public static function editEvent(array $data, int $event_id)
     {
         $event = Event::find($event_id);
         $title = self::createTitle($data);
         $event->update([
-            /*             'event_name' => $data['event_name'],
-            'event_dir_name' => $data['event_name'], */
             'title' => $title,
             'active' => $data['active'],
             'admin_only' => $data['admin_only'],
@@ -52,7 +48,7 @@ class EventHandler
         ]);
     }
 
-    public static function makeEventDir($data)
+    public static function makeEventDir(array $data)
     {
         Storage::makeDirectory("events/{$data['event_name']}");
         Storage::makeDirectory("events/{$data['event_name']}/applications");
@@ -81,7 +77,7 @@ class EventHandler
         }
     }
 
-    public static function createTitle($data)
+    public static function createTitle(array $data)
     {
         return json_encode(["ru" => $data['full_name_ru'], "en" => $data['full_name_en']]);
     }

@@ -47,7 +47,7 @@ class ApplicationHandler
 
         $submit = SubmitHandler::addSubmit($this->application_id, $this->user);
 
-        $files_pathes = FileHandler::uploadFiles("events/{$this->event->event_dir_name}/applications/{$this->application_id}/users_data/{$this->user->id}/uploaded", $submit->id, $this->request_files);
+        $files_pathes = FileHandler::uploadFiles("events/{$this->event->event_name}/applications/{$this->application_id}/users_data/{$this->user->id}/uploaded", $submit->id, $this->request_files);
 
         $this->request_post += $files_pathes;
 
@@ -81,9 +81,8 @@ class ApplicationHandler
             $q->where('user_id', $user_id);
         })->exists();
 
-        $event = Event::where("event_name", $event_name)->first();
-        $app_files_dir = "events/{$event->event_dir_name}/applications/{$application_id}/files_for_download";
-        $app_files_dir_for_locale = "events/{$event->event_dir_name}/applications/{$application_id}/files_for_download/{$locale}";
+        $app_files_dir = "events/{$event_name}/applications/{$application_id}/files_for_download";
+        $app_files_dir_for_locale = "events/{$event_name}/applications/{$application_id}/files_for_download/{$locale}";
         $app_files = [];
         $common_files = Storage::files($app_files_dir);
         $locale_files = Storage::files($app_files_dir_for_locale);

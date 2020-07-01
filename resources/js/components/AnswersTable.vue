@@ -1,5 +1,4 @@
 <template>
-  <!-- events/{$this->event->event_dir_name}/applications/{$this->application_id}/users_data/{$this->user->id}/uploaded -->
   <table class="table table-bordered table-responsive">
     <thead>
       <tr>
@@ -30,7 +29,7 @@
               <p>
                 <a
                   download
-                  :href="`/storage/events/${application.event.event_dir_name}/applications/${application.id}/users_data/${user.id}/uploaded/${user.id}.zip`"
+                  :href="`/storage/events/${application.event.event_name}/applications/${application.id}/users_data/${user.id}/uploaded/${user.id}.zip`"
                 >Скачать</a>
               </p>
             </td>

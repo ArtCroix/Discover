@@ -12,7 +12,7 @@ class SubmitController extends Controller
     {
         $event = Application::find($application_id)->event;
         $user_id = \Auth::user()->id;
-        $store_path = "events/{$event->event_dir_name}/applications/{$application_id}/users_data/{$user_id}/uploaded";
+        $store_path = "events/{$event->event_name}/applications/{$application_id}/users_data/{$user_id}/uploaded";
         SubmitHandler::deleteFileFromApplicationSubmit($request, $store_path);
     }
 }

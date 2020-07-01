@@ -27,9 +27,8 @@ class EventController extends Controller
 
     public function showMaterialsPage(string $event_name, string $locale = 'ru')
     {
-        $event = Event::where('event_name', $event_name)->first();
-        $event_materials_dir = "events/{$event->event_dir_name}/materials";
-        $event_materials_dir_for_locale = "events/{$event->event_dir_name}/materials/{$locale}";
+        $event_materials_dir = "events/{$event_name}/materials";
+        $event_materials_dir_for_locale = "events/{$event_name}/materials/{$locale}";
         $materials = [];
         $common_materials = Storage::files($event_materials_dir);
         $locale_materials = Storage::files($event_materials_dir_for_locale);
