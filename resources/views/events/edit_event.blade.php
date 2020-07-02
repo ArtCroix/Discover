@@ -97,7 +97,12 @@
         </div>
     </div>
     <set-price-for-event prices_json='{!!$event->price!!}'>></set-price-for-event>
-    <event-edit-button event_id='{!!$event->id!!}'></event-edit-button>
+    @php
+    $post_action=route('edit_event', $event->id);
+    @endphp
+    <send-form-data-button form_name='edit_event' post_action='{!! $post_action !!}'
+        success_message='Мероприятие отредактировано' submit_button_text='Отредактировать мероприятие'>
+    </send-form-data-button>
     </form>
 </div>
 </div>

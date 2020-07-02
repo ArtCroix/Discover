@@ -8,7 +8,7 @@ use App\Src\ApplicationHandlers\SubmitHandler;
 
 class SubmitController extends Controller
 {
-    public static function doDeleteFileFromApplicationSubmit(Request $request, $application_id)
+    public static function doDeleteFileFromApplicationSubmit(Request $request, int $application_id)
     {
         $event = Application::find($application_id)->event;
         $user_id = \Auth::user()->id;

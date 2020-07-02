@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <p><span class="text-danger">*</span> - {{ __('поля, обязательные к заполнению') }}</p>
-                    <form method="POST" name="user_reg" action="{{ route('register') }}">
+                    <form method="POST" name="edit_password">
                         @csrf
                         <div class="form-group row">
                             <label for="password"
@@ -36,8 +36,13 @@
                             </div>
                         </div>
                         <div class="form-group row mb-0">
-                            <user-edit-password-button></user-edit-password-button>
-
+                            {{-- <user-edit-password-button></user-edit-password-button> --}}
+                            @php
+                            $post_action=route('edit_password',app()->getLocale());
+                            @endphp
+                            <send-form-data-button form_name='edit_password' post_action='{!! $post_action !!}'
+                                success_message='' submit_button_text='Отредактировать данные'>
+                            </send-form-data-button>
                         </div>
                     </form>
                 </div>

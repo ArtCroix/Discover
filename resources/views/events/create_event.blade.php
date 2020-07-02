@@ -58,7 +58,13 @@
                     <code>{"rub":{"full":{"2020-04-20":"50000","2020-04-25":"60000","2020-04-30":"140000"},"partial":{"2020-04-20":"50000","2020-04-25":"60000","2020-04-30":"70000"}},"usd":{"full":{"2020-04-20":"1000","2020-04-25":"1200","2020-04-30":"1400"},"partial":{"2020-04-20":"1000","2020-04-25":"1200","2020-04-30":"1400"}}}</code>
                 <textarea name="price" class="form-control" id="price" rows="5"></textarea>
         </div> --}}
-        <event-create-button></event-create-button>
+        {{-- <event-create-button></event-create-button> --}}
+        @php
+        $post_action=route('create_event');
+        @endphp
+        <send-form-data-button form_name='create_event' post_action='{!! $post_action !!}'
+            success_message='Мероприятие создано' submit_button_text='Создать мероприятие'>
+        </send-form-data-button>
         </form>
     </div>
 </div>

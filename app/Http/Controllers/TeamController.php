@@ -51,23 +51,4 @@ class TeamController extends Controller
             'team_name' => ['required', 'string', 'max:255', 'min:2', 'unique:teams,team_name,' . \Auth::user()->id],
         ]);
     }
-
-
-    public function editTeam($id, Request $request)
-    {
-        $team = Team::find($id);
-        $team->update([
-            'team_name' => $request->team_name,
-            'country' => $request->country,
-            'city' => $request->city,
-            'university' => $request->university,
-        ]);
-    }
-
-
-    public function showEditTeamForm($id, Request $request)
-    {
-        $team = Team::find($id)->load("users");
-        return view('admin.edit_team', ["team" => $team]);
-    }
 }

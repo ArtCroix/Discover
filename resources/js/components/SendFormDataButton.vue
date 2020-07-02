@@ -1,8 +1,10 @@
 <template>
   <div class="col-md-6 offset-md-4">
-    <button type="submit" class="btn btn-primary" @click.prevent="submit">
-        {{ current_locale == 'ru' ? 'Сохранить' : current_locale == 'en' ? 'Save' : 'Save' }}
-    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      @click.prevent="submit"
+    >{{ current_locale == 'ru' ? 'Сохранить' : current_locale == 'en' ? 'Save' : 'Save' }}</button>
   </div>
 </template>
 
@@ -14,6 +16,12 @@ export default {
       errors: {}
     };
   },
+  props: {
+    form_name: "",
+    post_action: "",
+    success_message: "",
+    submit_button_text: ""
+  },
   computed: {
     ...mapState(["locales", "current_locale"]),
     csrf_token() {
@@ -24,7 +32,7 @@ export default {
   },
   methods: {
     createFormData() {
-      let form = document.querySelector('form[name="user_reg"]');
+      let form = document.querySelector(`form[name="${this.form_name}"]`);
       let formData = new FormData(form);
       return formData;
     },
@@ -42,7 +50,7 @@ export default {
     submit() {
       this.clearErrorsObject();
       axios
-        .post(`/edit_password/${this.current_locale}`, this.createFormData(), {
+        .post(`${this.post_action}`, this.createFormData(), {
           headers: {
             "Content-Type": "multipart/form-data",
             "X-CSRF-TOKEN": this.csrf_token
@@ -50,8 +58,8 @@ export default {
         })
         .then(data => {
           let message_arr = new Map([
-            ["en", "Data was changed"],
-            ["ru", "Данные успешно изменены"],
+            ["en", "Data was saved"],
+            ["ru", "Данные успешно сохранены"],
             ["cn", "数据发送"]
           ]);
           jAlert(message_arr.get(this.current_locale), "");

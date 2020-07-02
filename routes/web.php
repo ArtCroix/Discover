@@ -112,11 +112,8 @@ Route::middleware(['auth', 'verified', 'admin_only'])->prefix('admin')->group(fu
     Route::get('/submits/delete/{submits_id}', 'AdminController@doDeleteSubmit')->name('delete_submit');
     Route::get('/submits/unbind/{user_id}/{submits_id}', 'AdminController@doUnbindUserFromSubmit')->name('unbind_from_submit');
 
-    Route::post('/teams/edit/{team_id}', 'TeamController@editTeam')->name('edit_team');
     Route::post('/teams/delete/{team_id}', 'AdminController@doDeleteTeam')->name('delete_team');
     Route::post('/teams/users/unbind/{team_id}/{user_id}', 'TeamController@doUnbindUserFromTeam')->name('unbind_user');
-    Route::get('/teams/{team_id}', 'TeamController@showEditTeamForm')->name('team_info');
-    Route::get('/teams/edit/{team_id}', 'TeamController@showEditTeamForm')->name('show_edit_team_form');
 
     Route::get('/event_create_form', 'EventController@showEventCreateForm')->name('show_event_create_form');
     Route::get('/event_edit_form/{event_id}', 'EventController@showEventEditForm')->name('show_event_edit_form');

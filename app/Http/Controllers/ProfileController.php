@@ -13,8 +13,6 @@ use \Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-
-
     /**
      * Get a validator for an incoming registration request.
      *
@@ -37,12 +35,12 @@ class ProfileController extends Controller
 
     protected function editProfile(Request $request)
     {
-        $this->validator($request->all())->validate();
+        // $this->validator($request->all())->validate();
 
         $user = \Auth::user();
 
         $user->update([
-            'login' => $request->login,
+            // 'login' => $request->login,
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'middlename' => $request->middlename,
