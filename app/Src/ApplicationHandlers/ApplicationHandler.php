@@ -15,7 +15,9 @@ use Illuminate\Http\Request;
 use App\Models\Application\Submit;
 use App\Src\ApplicationStrategies\ApplicationBeforeSubmitStrategyFactory;
 use App\Src\ApplicationStrategies\ApplicationAfterSubmitStrategyFactory;
+use App\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ApplicationHandler
 {
@@ -112,5 +114,27 @@ class ApplicationHandler
     {
         $applicationAfterStrategies = explode(",", $application->after_strategies);
         return ApplicationAfterSubmitStrategyFactory::createApplicationStrategy($applicationAfterStrategies);
+    }
+
+    public static function deleteUserDataFromTeamApplication(string $email, int $submit_id)
+    {
+        $submit = Submit::find($submit_id)->load("answers.question");
+        $answers = Submit::find($submit_id)->load("answers.question")->answers()->get();
+
+        foreach ($answers as $key => $answer) {
+            if ($answer->value === $email) {
+                $index = Str::afterLast($answer->question->name, "_");
+                \DB::update(
+                    'UPDATE answers inner join questions on answers.question_id=questions.id 
+                    set answers.value="" where submit_id= :submit_id and questions.class= :class',
+                    ['class' => "user_" . $index, 'submit_id' => $submit_id]
+                );
+            }
+        }
+        $submitAdditionalData = json_decode($submit->additional_data);
+        $processed_emails = $submitAdditionalData->processed_emails;
+        $processed_emails = array_diff($processed_emails, [$email]);
+        $submitAdditionalData->processed_emails = $processed_emails;
+        $submit->update(['additional_data' => json_encode($submitAdditionalData)]);
     }
 }

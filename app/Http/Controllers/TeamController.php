@@ -40,6 +40,11 @@ class TeamController extends Controller
     public function doUnbindUserFromTeam($team_id, $user_id)
     {
         $team = Team::find($team_id);
+
+        $email = User::find($user_id)->email;
+
+        ApplicationHandler::deleteUserDataFromTeamApplication($email, $team->submit_id);
+
         if ($team) {
             TeamHandler::unbindUserFromTeam($team_id, $user_id);
         }

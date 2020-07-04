@@ -16,6 +16,6 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        EventHandler::copyApplicationsToNewEvent(18);
+        ApplicationHandler::deleteUserDataFromTeamApplication("czaa1662@gmail.com", 335);
     }
 }
