@@ -89,11 +89,8 @@ class ApplicationHandler
         $common_files = Storage::files($app_files_dir);
         $locale_files = Storage::files($app_files_dir_for_locale);
         $app_files = [...$common_files, ...$locale_files];
-        // dd($common_files);
-
         $eventApplications = ApplicationHelper::getEventApplicationsForUser($event_name, $user_id, $locale);
         $applicationDataForUser = ApplicationHelper::getApplicationDataForUser($application_id, $user_id, $locale);
-        // dd($applicationDataForUser);
         $applicationBeforeStrategies = self::getBeforeStrategies(explode(",", $applicationDataForUser[0]->before_strategies));
 
         foreach ($applicationBeforeStrategies as $beforeStrategies) {

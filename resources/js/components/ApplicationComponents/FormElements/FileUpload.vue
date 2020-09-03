@@ -56,7 +56,7 @@
           {{ locales.ru ? "Выбрать файлы" : locales.en ? "Select files" : "Select files" }}
         </file-upload>
         <br />
-        {{ locales.ru ? "Ограничения по количеству загружаемых файлов - 5, ограничение по размеру одного загружаемого файла - 2 МБ, доступные форматы загружаемых файлов: JPG, JPEG, BMP, PNG" : locales.en ? "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" : "Restrictions on the number of downloaded files - 5, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG" }}
+        {{ locales.ru ? `Ограничения по количеству загружаемых файлов - ${this.max_files}, ограничение по размеру одного загружаемого файла - 2 МБ, доступные форматы загружаемых файлов: JPG, JPEG, BMP, PNG` : locales.en ? `Restrictions on the number of downloaded files - ${this.max_files}, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG` : `Restrictions on the number of downloaded files - ${this.max_files}, the size limit of one downloaded file - 2 MB, available file formats: JPG, JPEG, BMP, PNG` }}
       </div>
     </div>
     <div class="invalid_form error" :class="name">{{current_error}}</div>
@@ -81,7 +81,8 @@ export default {
       name: this.question_item.name,
       label: this.question_item.label,
       label_en: this.question_item.label_en,
-      label_cn: this.question_item.label_cn
+      label_cn: this.question_item.label_cn,
+      rule: this.question_item.rule
       //   answer: this.question_item.answer
     };
   },
@@ -101,6 +102,7 @@ export default {
       let error = this.errors[this.name] || [];
       return error[0];
     },
+
     answer() {
       return this.question_item.answer || JSON.stringify([]);
     },
@@ -108,6 +110,10 @@ export default {
     uploaded_files() {
       this.files = [];
       return JSON.parse(this.answer);
+    },
+
+    max_files() {
+      return this.rule.match(/max_files_in_dir:[0-9]{1,}/gi)[0].split(":")[1];
     }
   },
 
@@ -176,8 +182,6 @@ export default {
         });
     }
   },
-  mounted() {
-    // console.log(this.question_item);
-  }
+  mounted() {}
 };
 </script>
